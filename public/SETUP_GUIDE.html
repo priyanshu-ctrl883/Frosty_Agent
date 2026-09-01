@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frosty AI Chatbot — Setup Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#d4d4d8;line-height:1.7;padding:40px 20px}
+  .container{max-width:760px;margin:0 auto}
+
+  /* Header */
+  .header{text-align:center;margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid #1e1e2a}
+  .header h1{font-size:30px;font-weight:800;color:#fff;margin-bottom:6px;letter-spacing:-.5px}
+  .header p{font-size:14px;color:#71717a;max-width:520px;margin:0 auto}
+  .badge{display:inline-block;background:linear-gradient(135deg,#B07552,#D4BB75);color:#fff;font-size:10px;font-weight:700;padding:4px 14px;border-radius:999px;margin-bottom:14px;letter-spacing:1px;text-transform:uppercase}
+
+  /* Tabs */
+  .tabs{display:flex;gap:4px;background:#18181b;border:1px solid #27272a;border-radius:14px;padding:4px;margin-bottom:36px}
+  .tab{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:700;color:#71717a;border-radius:10px;cursor:pointer;transition:all .2s;border:none;background:none;letter-spacing:.3px}
+  .tab.active{background:linear-gradient(135deg,#B07552,#D4BB75);color:#fff;box-shadow:0 4px 20px rgba(176,117,82,.3)}
+  .tab:hover:not(.active){color:#d4d4d8;background:#27272a}
+  .tab-content{display:none}.tab-content.active{display:block}
+
+  /* Steps */
+  .step{margin-bottom:32px;position:relative;padding-left:56px}
+  .step-num{position:absolute;left:0;top:0;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;transition:all .3s}
+  .step-num.pending{background:#27272a;color:#52525b}
+  .step-num.done{background:linear-gradient(135deg,#22c55e,#16a34a);box-shadow:0 4px 16px rgba(34,197,94,.3)}
+  .step-num.current{background:linear-gradient(135deg,#B07552,#D4BB75);box-shadow:0 4px 16px rgba(176,117,82,.3)}
+  .step h2{font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}
+  .step p{font-size:13px;color:#a1a1aa;margin-bottom:10px}
+  .step.completed h2{color:#4ade80}
+
+  /* Code blocks */
+  .code-wrap{position:relative;margin:10px 0}
+  .code-block{background:#111114;border:1px solid #27272a;border-radius:10px;padding:14px 48px 14px 16px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#60a5fa;overflow-x:auto;line-height:1.6;white-space:pre}
+  .copy-btn{position:absolute;top:8px;right:8px;background:#27272a;border:1px solid #3f3f46;color:#a1a1aa;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+  .copy-btn:hover{background:#3f3f46;color:#fff}
+  .copy-btn.copied{background:#166534;border-color:#22c55e;color:#4ade80}
+
+  /* Checkbox steps */
+  .step-check{width:16px;height:16px;border-radius:4px;border:2px solid #3f3f46;cursor:pointer;appearance:none;-webkit-appearance:none;margin-right:8px;vertical-align:middle;position:relative;transition:all .2s}
+  .step-check:checked{background:linear-gradient(135deg,#22c55e,#16a34a);border-color:#22c55e}
+  .step-check:checked::after{content:'✓';position:absolute;top:-2px;left:1px;font-size:11px;color:#fff;font-weight:800}
+
+  /* Info boxes */
+  .info{border-radius:10px;padding:12px 14px;margin:10px 0;font-size:12px;display:flex;align-items:flex-start;gap:8px}
+  .info.tip{background:#14532d18;border:1px solid #16a34a30;color:#4ade80}
+  .info.warn{background:#78350f18;border:1px solid #f59e0b30;color:#fbbf24}
+  .info.blue{background:#1e3a5f18;border:1px solid #3b82f630;color:#60a5fa}
+
+  /* AI Prompt section */
+  .ai-prompt-box{background:linear-gradient(135deg,#18181b,#1a1525);border:1px solid #7c3aed33;border-radius:16px;padding:24px;margin:16px 0}
+  .ai-prompt-box h3{font-size:15px;font-weight:700;color:#a78bfa;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .ai-prompt-box p{font-size:12px;color:#71717a;margin-bottom:12px}
+  .ai-prompt-text{background:#0f0f14;border:1px solid #27272a;border-radius:10px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#c4b5fd;line-height:1.7;max-height:300px;overflow-y:auto;white-space:pre-wrap;word-break:break-word}
+  .ai-prompt-text::-webkit-scrollbar{width:4px}
+  .ai-prompt-text::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:4px}
+  .copy-prompt-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:12px;padding:12px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+  .copy-prompt-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(124,58,237,.4)}
+  .copy-prompt-btn.copied{background:linear-gradient(135deg,#22c55e,#16a34a)}
+
+  /* Progress bar */
+  .progress-bar{background:#18181b;border:1px solid #27272a;border-radius:999px;height:6px;margin-bottom:32px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#B07552,#D4BB75);border-radius:999px;transition:width .5s ease;width:0}
+  .progress-label{font-size:11px;color:#52525b;text-align:right;margin-bottom:6px;font-weight:600}
+
+  /* File tree */
+  .file-tree{background:#111114;border:1px solid #27272a;border-radius:10px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#71717a;margin:10px 0;line-height:1.8}
+  .file-tree .hl{color:#4ade80;font-weight:600}
+
+  /* Divider */
+  hr{border:none;border-top:1px solid #1e1e2a;margin:36px 0}
+
+  /* Trouble */
+  .trouble{margin-bottom:14px}
+  .trouble .q{font-size:13px;font-weight:600;color:#f87171;margin-bottom:2px}
+  .trouble .a{font-size:12px;color:#a1a1aa;padding-left:14px;border-left:2px solid #27272a}
+
+  /* Footer */
+  .footer{text-align:center;margin-top:48px;padding-top:20px;border-top:1px solid #1e1e2a;color:#3f3f46;font-size:11px}
+  .footer a{color:#B07552;text-decoration:none}
+
+  .code-inline{background:#27272a;color:#fbbf24;padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px}
+
+  /* Checklist */
+  .done-list{list-style:none;padding:0;margin:10px 0}
+  .done-list li{padding:6px 0;font-size:13px;color:#d4d4d8;display:flex;align-items:center;gap:8px}
+  .done-list li::before{content:'✅';font-size:13px}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="badge">Setup Guide v2</div>
+    <h1>🚀 Frosty AI Chatbot</h1>
+    <p>Choose your setup method below. The AI-assisted path takes under 60 seconds — just paste a prompt into your IDE.</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('auto')">⚡ AI-Assisted (Recommended)</button>
+    <button class="tab" onclick="switchTab('manual')">🔧 Manual Setup</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       TAB 1: AI-ASSISTED
+  ═══════════════════════════════════════════════════ -->
+  <div id="tab-auto" class="tab-content active">
+
+    <div class="step" style="padding-left:0">
+      <h2>Zero-Effort Installation</h2>
+      <p>Copy the prompt below and paste it into your AI coding assistant (Cursor, GitHub Copilot, Antigravity, Windsurf, or any IDE with an AI agent). It will handle everything — dependency installation, file placement, layout wiring, and validation.</p>
+    </div>
+
+    <div class="ai-prompt-box">
+      <h3>🤖 AI IDE Installation Prompt</h3>
+      <p>Works with any AI coding assistant. Copy → Paste into your IDE's AI chat → Let it run.</p>
+      <div class="ai-prompt-text" id="ai-prompt">I need you to integrate the Frosty AI chatbot widget into this project. The component file `Chatbot.tsx` is included in this download. Follow these steps precisely:
+
+## STEP 1: Detect Project Structure
+- Identify if this is Next.js (App Router or Pages Router), Vite, Create React App, or plain React.
+- Identify the package manager in use (npm, yarn, pnpm) by checking for lock files.
+- Identify where components are stored (src/components/, components/, etc.).
+
+## STEP 2: Install Dependencies
+- Run the install command for `lucide-react` using the detected package manager.
+- Example: `npm install lucide-react` or `yarn add lucide-react` or `pnpm add lucide-react`.
+- Wait for the install to complete and verify no errors.
+
+## STEP 3: Place the Component
+- Copy `Chatbot.tsx` into the project's components directory.
+- If no components directory exists, create one at `src/components/`.
+- The file should be at: `src/components/Chatbot.tsx` (or equivalent).
+
+## STEP 4: Wire Into Layout
+- For Next.js App Router: Add `import Chatbot from '@/components/Chatbot';` to `src/app/layout.tsx` and render `<Chatbot />` just before the closing `</body>` tag.
+- For Next.js Pages Router: Add the import to `src/pages/_app.tsx` and render `<Chatbot />` after `<Component {...pageProps} />`.
+- For Vite/CRA: Add the import to the root `App.tsx` and render `<Chatbot />` at the end of the JSX tree.
+- IMPORTANT: Do NOT remove any existing code. Only ADD the import line and the component render.
+
+## STEP 5: Validate
+- Start the dev server if not already running (`npm run dev` or equivalent).
+- Open the browser to the local dev URL.
+- Use Agent/DOM tools to verify:
+  1. No console errors related to the Chatbot component.
+  2. No build/compile errors in the terminal.
+  3. A floating chat button is visible in the bottom-right corner of the page.
+  4. Clicking the button opens the chat interface.
+- If any errors are found, diagnose and fix them before reporting success.
+
+## STEP 6: Report
+- Confirm the chatbot is working with a summary of what was done.
+- List the files modified and dependencies installed.
+
+IMPORTANT NOTES:
+- The API key and brand colors are already pre-configured inside Chatbot.tsx. Do NOT modify any color values or API key constants.
+- The component is self-contained — it needs no external CSS, no context providers, and no environment variables.
+- Do not wrap it in any layout components, providers, or error boundaries — just render `<Chatbot />` directly.</div>
+      <button class="copy-prompt-btn" id="copyPromptBtn" onclick="copyPrompt()">
+        📋 Copy Prompt to Clipboard
+      </button>
+    </div>
+
+    <div class="info tip" style="margin-top:20px">
+      <span>💡</span>
+      <div><strong>After pasting:</strong> Your AI assistant will automatically install the dependency, place the file, edit your layout, start the server, and verify everything works. You don't need to do anything else.</div>
+    </div>
+
+    <hr>
+
+    <div style="margin-top:24px">
+      <h2 style="font-size:16px;color:#fff;margin-bottom:12px">🎯 What the AI will do for you:</h2>
+      <ul class="done-list">
+        <li>Detect your project type (Next.js, Vite, CRA, etc.)</li>
+        <li>Install <span class="code-inline">lucide-react</span> automatically</li>
+        <li>Place Chatbot.tsx in the right folder</li>
+        <li>Add the import and render to your layout file</li>
+        <li>Start the dev server and verify via DOM inspection</li>
+        <li>Fix any errors it finds automatically</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       TAB 2: MANUAL
+  ═══════════════════════════════════════════════════ -->
+  <div id="tab-manual" class="tab-content">
+
+    <div class="progress-label" id="prog-label">0 of 4 steps completed</div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+
+    <!-- Step 1 -->
+    <div class="step" id="s1">
+      <div class="step-num current" id="sn1">1</div>
+      <h2><input type="checkbox" class="step-check" onchange="updateProgress()"> Install the Icon Package</h2>
+      <p>Open your terminal <strong>inside your project folder</strong> and run:</p>
+      <div class="code-wrap">
+        <div class="code-block" id="cmd1">npm install lucide-react</div>
+        <button class="copy-btn" onclick="copyCode('cmd1',this)">Copy</button>
+      </div>
+      <div class="info blue"><span>📦</span><div>Yarn: <span class="code-inline">yarn add lucide-react</span> · pnpm: <span class="code-inline">pnpm add lucide-react</span></div></div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" id="s2">
+      <div class="step-num pending" id="sn2">2</div>
+      <h2><input type="checkbox" class="step-check" onchange="updateProgress()"> Copy Chatbot.tsx Into Your Project</h2>
+      <p>Place the file in your components folder:</p>
+      <div class="file-tree">your-project/
+├── src/
+│   ├── components/
+│   │   └── <span class="hl">Chatbot.tsx  ← Put it here</span>
+│   └── app/
+│       └── layout.tsx</div>
+      <div class="info tip"><span>📂</span><div>If you don't have a <span class="code-inline">components</span> folder, create one inside <span class="code-inline">src/</span>.</div></div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" id="s3">
+      <div class="step-num pending" id="sn3">3</div>
+      <h2><input type="checkbox" class="step-check" onchange="updateProgress()"> Add to Your Layout</h2>
+      <p>Open your main layout and add the highlighted lines:</p>
+      <div class="code-wrap">
+        <div class="code-block" id="cmd3"><span style="color:#4ade80">import Chatbot from '@/components/Chatbot';</span>
+
+export default function RootLayout({ children }) {
+  return (
+    &lt;html lang="en"&gt;
+      &lt;body&gt;
+        {children}
+        <span style="color:#4ade80">&lt;Chatbot /&gt;</span>
+      &lt;/body&gt;
+    &lt;/html&gt;
+  );
+}</div>
+        <button class="copy-btn" onclick="copyCode('cmd3',this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step" id="s4">
+      <div class="step-num pending" id="sn4">4</div>
+      <h2><input type="checkbox" class="step-check" onchange="updateProgress()"> Start & Verify</h2>
+      <p>Run your dev server and check the bottom-right corner for the chat bubble:</p>
+      <div class="code-wrap">
+        <div class="code-block" id="cmd4">npm run dev</div>
+        <button class="copy-btn" onclick="copyCode('cmd4',this)">Copy</button>
+      </div>
+      <ul class="done-list" style="margin-top:12px">
+        <li>Floating chat bubble visible in bottom-right</li>
+        <li>Clicking it opens the full chat interface</li>
+        <li>No errors in the browser console (F12)</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <h2 style="font-size:16px;color:#fff;margin-bottom:12px">🎉 What's Pre-Configured</h2>
+    <ul class="done-list">
+      <li><strong>API Key</strong> — embedded, no .env needed</li>
+      <li><strong>Brand Colors</strong> — accent, highlight, and background</li>
+      <li><strong>Dark &amp; Light Mode</strong> — both themed</li>
+      <li><strong>Voice Calls</strong> — full-duplex built in</li>
+      <li><strong>Responsive</strong> — desktop, tablet, mobile</li>
+    </ul>
+
+    <hr>
+
+    <h2 style="font-size:16px;color:#fff;margin-bottom:12px">❓ Troubleshooting</h2>
+    <div class="trouble"><div class="q">"Module not found: lucide-react"</div><div class="a">Run <span class="code-inline">npm install lucide-react</span></div></div>
+    <div class="trouble"><div class="q">Chat bubble doesn't appear</div><div class="a">Verify the import and <span class="code-inline">&lt;Chatbot /&gt;</span> are in your layout. Check console (F12).</div></div>
+    <div class="trouble"><div class="q">No response from bot</div><div class="a">API key may be regenerated. Download a fresh kit from the dashboard.</div></div>
+  </div>
+
+  <div class="footer">
+    <p>Need help? <a href="mailto:Info@frostyagent.com">Info@frostyagent.com</a></p>
+    <p style="margin-top:6px">Built with ❤️ by <strong>Frostrek AI</strong></p>
+  </div>
+
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', (id==='auto'?i===0:i===1));
+  });
+  document.getElementById('tab-auto').classList.toggle('active', id==='auto');
+  document.getElementById('tab-manual').classList.toggle('active', id==='manual');
+}
+
+function copyCode(id, btn) {
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.textContent.trim());
+  btn.textContent = '✓ Copied';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+}
+
+function copyPrompt() {
+  const text = document.getElementById('ai-prompt').textContent;
+  navigator.clipboard.writeText(text);
+  const btn = document.getElementById('copyPromptBtn');
+  btn.innerHTML = '✅ Copied to Clipboard!';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.innerHTML = '📋 Copy Prompt to Clipboard'; btn.classList.remove('copied'); }, 3000);
+}
+
+function updateProgress() {
+  const checks = document.querySelectorAll('.step-check');
+  let done = 0;
+  checks.forEach((c, i) => {
+    const num = document.getElementById('sn'+(i+1));
+    if (c.checked) {
+      done++;
+      num.className = 'step-num done';
+    } else if (done === i) {
+      num.className = 'step-num current';
+    } else {
+      num.className = 'step-num pending';
+    }
+  });
+  document.getElementById('prog-fill').style.width = (done/4*100)+'%';
+  document.getElementById('prog-label').textContent = done+' of 4 steps completed';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.metric {
+  display: block;
+  padding: 1.15rem 1.25rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-1);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.metric:hover {
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--border-soft));
+  transform: translateY(-1px);
+}
+
+.metricLabel {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+  margin-bottom: 0.5rem;
+}
+
+.metricValue {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+
+.metricHint {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 12px;
+  color: var(--on-surface-variant);
+}
+
+.barTrack {
+  margin-top: 0.65rem;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-container);
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: var(--secondary-container);
+  border-radius: 999px;
+}
+
+.keyBlock {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--outline-variant) 40%, transparent);
+}
+
+.key {
+  display: block;
+  word-break: break-all;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--on-surface);
+  background: var(--surface-container-low);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--outline-variant) 40%, transparent);
+  margin-top: 0.35rem;
+}
+
+.opsRow {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.card {
+  padding: 1.35rem 1.4rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-1);
+}
+
+.cardHead h2 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+  margin: 0 0 1rem;
+}
+
+.spark {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.5rem;
+  align-items: end;
+  min-height: 140px;
+}
+
+.sparkCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.sparkBarWrap {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sparkBar {
+  width: 70%;
+  max-width: 28px;
+  min-height: 4px;
+  border-radius: 6px 6px 2px 2px;
+  background: color-mix(in srgb, var(--primary) 75%, var(--secondary-container));
+}
+
+.sparkLabel {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sparkCount {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.emptyHint {
+  margin: 0;
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--on-surface-variant);
+  font-size: 14px;
+  align-self: center;
+}
+
+.splitList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.splitList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-size: 14px;
+  color: var(--on-surface-variant);
+}
+
+.splitList strong {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--on-surface);
+}
+
+.tempStack {
+  display: flex;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--surface-container);
+  margin-bottom: 0.85rem;
+}
+
+.tempHot {
+  background: color-mix(in srgb, var(--error) 70%, transparent);
+  min-width: 0;
+}
+
+.tempWarm {
+  background: color-mix(in srgb, var(--primary) 55%, transparent);
+  min-width: 0;
+}
+
+.tempCold {
+  background: color-mix(in srgb, var(--outline) 45%, transparent);
+  min-width: 0;
+}
+
+.actions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.actions a {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem 0.75rem;
+  border-radius: var(--radius);
+  color: var(--on-surface);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.actions a:hover {
+  background: var(--surface-container-low);
+  color: var(--primary);
+}
+
+.checklist {
+  margin: 0 0 1.25rem;
+  padding-left: 1.25rem;
+  color: var(--on-surface-variant);
+  display: grid;
+  gap: 0.55rem;
+  font-size: 14px;
+}
+
+.done {
+  color: var(--ok);
+  font-weight: 600;
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.error {
+  color: var(--error);
+  margin: 0 0 1rem;
+}
+
+@media (max-width: 1100px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .opsRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .metrics,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*
+ * The 80%/100% quota banner (Master §4). Lives on Home rather than in the shell because it is the
+ * only banner that needs a number the shell does not fetch — the wallet is permission-gated and the
+ * shell must render for a role that cannot read it.
+ */
+.quotaBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--warm-tint);
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--warning) 35%, transparent);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.quotaBanner .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--warning);
+}
+.quotaBanner a {
+  margin-left: auto;
+  font-weight: 700;
+  text-decoration: underline;
+  white-space: nowrap;
+}

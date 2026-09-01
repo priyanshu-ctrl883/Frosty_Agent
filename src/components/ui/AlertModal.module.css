@@ -1,0 +1,79 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(31, 31, 31, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4);
+}
+
+.modalCard {
+  background: var(--card);
+  border-radius: var(--r-card);
+  padding: var(--sp-8);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-floating);
+  position: relative;
+}
+
+.alertModal {
+  max-width: 440px !important;
+  padding: var(--sp-8) var(--sp-10) !important;
+  text-align: center;
+  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes modalPop {
+  0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.alertIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--hot-tint);
+  color: var(--hot);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--sp-6);
+}
+
+.alertIcon .material-symbols-outlined {
+  font-size: 28px;
+}
+
+.alertTitle {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 var(--sp-3);
+  letter-spacing: -0.02em;
+}
+
+.alertSub {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0 0 var(--sp-8);
+}
+
+.alertFooter {
+  display: flex;
+  gap: var(--sp-3);
+  justify-content: center;
+}
+
+.alertFooter button {
+  flex: 1;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}

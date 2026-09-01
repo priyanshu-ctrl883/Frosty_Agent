@@ -1,0 +1,14 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://localhost:3000",
+      "localStorage": [
+        {
+          "name": "sb-mzaefjvnhmxvyxjsascl-auth-token",
+          "value": "{\"access_token\":\"eyJhbGciOiJFUzI1NiIsImtpZCI6IjJkMDA5ZmZlLWJhNmQtNDFiMy1iNWE0LWVjNGM3YWVlZTUyMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL216YWVmanZuaG14dnl4anNhc2NsLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI0ZDgwYzM0YS0yYTMwLTQyMTItYTM0Ni02Y2IzYjUwMDdmZGIiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzg2MTc2Mjc2LCJpYXQiOjE3ODYxNzI2NzYsImVtYWlsIjoiZGhydXZkcnNoQGdtYWlsLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWwiOiJkaHJ1dmRyc2hAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiNGQ4MGMzNGEtMmEzMC00MjEyLWEzNDYtNmNiM2I1MDA3ZmRiIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3ODYxNzI2NzZ9XSwic2Vzc2lvbl9pZCI6IjcyMDE5ZDljLTJmMDUtNDcyZC05MGYzLTRkNzRmYTg2YWJjYyIsImlzX2Fub255bW91cyI6ZmFsc2V9.vY9GeLR_yFNlYUWjEgOCNmvkCBeDxOtnqqaKeay_KUFB-DdUDbbOyEJsAJtDdcAZ4_dhz5ZYkOzAYCsFkCMcvA\",\"token_type\":\"bearer\",\"expires_in\":3600,\"expires_at\":1786176276,\"refresh_token\":\"c6rzbnnzvgcc\",\"user\":{\"id\":\"4d80c34a-2a30-4212-a346-6cb3b5007fdb\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"dhruvdrsh@gmail.com\",\"email_confirmed_at\":\"2026-07-30T12:20:25.991563Z\",\"phone\":\"\",\"confirmed_at\":\"2026-07-30T12:20:25.991563Z\",\"last_sign_in_at\":\"2026-08-08T07:04:36.692013542Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{\"email\":\"dhruvdrsh@gmail.com\",\"email_verified\":true,\"phone_verified\":false,\"sub\":\"4d80c34a-2a30-4212-a346-6cb3b5007fdb\"},\"identities\":[{\"identity_id\":\"5383c2e9-45cb-4569-9d2d-0aed0093ace3\",\"id\":\"4d80c34a-2a30-4212-a346-6cb3b5007fdb\",\"user_id\":\"4d80c34a-2a30-4212-a346-6cb3b5007fdb\",\"identity_data\":{\"email\":\"dhruvdrsh@gmail.com\",\"email_verified\":false,\"phone_verified\":false,\"sub\":\"4d80c34a-2a30-4212-a346-6cb3b5007fdb\"},\"provider\":\"email\",\"last_sign_in_at\":\"2026-07-30T12:20:25.96984Z\",\"created_at\":\"2026-07-30T12:20:25.970286Z\",\"updated_at\":\"2026-07-30T12:20:25.970286Z\",\"email\":\"dhruvdrsh@gmail.com\"}],\"created_at\":\"2026-07-30T12:20:25.942188Z\",\"updated_at\":\"2026-08-08T07:04:36.747642Z\",\"is_anonymous\":false},\"weak_password\":null}"
+        }
+      ]
+    }
+  ]
+}

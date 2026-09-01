@@ -1,0 +1,47 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: color-mix(in srgb, var(--scrim) 40%, transparent);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.modal {
+  width: min(440px, 100%);
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--border-soft);
+  border-radius: calc(var(--radius) + 4px);
+  padding: 1.1rem 1.2rem 1rem;
+}
+
+.modal h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.sub {
+  margin: 0 0 0.75rem;
+  font-size: 13px;
+  color: var(--on-surface-variant);
+}
+
+.cols {
+  margin: 0 0 0.75rem;
+  padding-left: 1.1rem;
+  font-size: 13px;
+  max-height: 160px;
+  overflow: auto;
+}
+
+.meta {
+  margin: 0 0 0.85rem;
+  font-size: 12px;
+  color: var(--outline);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}

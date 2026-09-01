@@ -1,0 +1,22 @@
+# Frosty Agent
+
+Frosty Agent is an AI customer agent for presales, after-sales, and lead management. It deploys intelligent AI assistants on websites and WhatsApp with one shared memory.
+
+## Core Superpowers
+- **WhatsApp Voice Notes:** Transcribes voice notes and replies in the same language.
+- **Multilingual Support:** Handles 16 languages (including Hinglish) automatically.
+- **AI PDF Quotations:** Generates personalized costing sheets and brochures.
+- **24/7 Calendar Booking:** Directly checks availability and books site visits/appointments.
+- **CRM Campaign Attribution:** Tags leads with their exact campaign source even on WhatsApp.
+- **One Shared Memory:** A buyer who browsed the website on Monday does not start over when they message on WhatsApp on Thursday.
+
+## Supported Industries
+Frosty has specific, fine-tuned capabilities for over 35 industries, including Real Estate, Healthcare Clinics, E-Commerce, Home Services, Manufacturing, Automotive, Legal, and Education.
+
+## Pricing
+Plans start at ₹5,299 a month in India and $199 internationally, with no setup or onboarding fee on any plan. Seven-day free trial, no card needed.
+
+## Important Links
+- Pricing: https://frostyagent.com/pricing
+- Industries: https://frostyagent.com/industries
+- FAQ: https://frostyagent.com/faq

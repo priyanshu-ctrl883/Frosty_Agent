@@ -1,0 +1,122 @@
+/* Brand coral — matches headline "smarter." (#FF7A5E) */
+.authGlowRoot {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  --glow-coral: #ff7a5e;
+  --glow-coral-rgb: 255, 122, 94;
+}
+
+.authGlowStack {
+  pointer-events: none;
+  position: absolute;
+  inset: -44px -36px;
+  z-index: 0;
+  overflow: visible;
+}
+
+.authGlowParallax {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.authGlowLayer {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  will-change: transform, opacity;
+}
+
+/* Teal bloom — left */
+.authGlowOuter {
+  filter: blur(52px);
+  background: radial-gradient(
+    circle at var(--glow-origin-x, 38%) var(--glow-origin-y, 48%),
+    rgba(0, 146, 162, 0.48) 0%,
+    rgba(56, 189, 248, 0.3) 40%,
+    transparent 68%
+  );
+  animation: authGlowOuter 5.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* #FF7A5E coral — right, same as "smarter." */
+.authGlowWarm {
+  filter: blur(56px);
+  background: radial-gradient(
+    ellipse 92% 82% at var(--glow-origin-x, 62%) var(--glow-origin-y, 52%),
+    var(--glow-coral) 0%,
+    rgba(var(--glow-coral-rgb), 0.38) 38%,
+    rgba(var(--glow-coral-rgb), 0.14) 58%,
+    transparent 78%
+  );
+  animation: authGlowWarm 5.2s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+  animation-delay: -0.6s;
+}
+
+/* Cyan core with coral bleed */
+.authGlowCore {
+  inset: 12%;
+  filter: blur(40px);
+  background: radial-gradient(
+    circle at var(--glow-origin-x, 48%) var(--glow-origin-y, 46%),
+    rgba(34, 211, 238, 0.38) 0%,
+    rgba(56, 189, 248, 0.2) 40%,
+    rgba(var(--glow-coral-rgb), 0.14) 58%,
+    rgba(var(--glow-coral-rgb), 0.06) 68%,
+    transparent 80%
+  );
+  animation: authGlowCore 5s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+  animation-delay: -1.2s;
+}
+
+.authGlowCard {
+  position: relative;
+  z-index: 10;
+}
+
+@keyframes authGlowOuter {
+  0%,
+  100% {
+    opacity: 0.62;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.92;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes authGlowWarm {
+  0%,
+  100% {
+    opacity: 0.52;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.88;
+    transform: scale(1.07);
+  }
+}
+
+@keyframes authGlowCore {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: scale(0.97);
+  }
+  50% {
+    opacity: 0.86;
+    transform: scale(1.03);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .authGlowOuter,
+  .authGlowWarm,
+  .authGlowCore {
+    animation: none;
+    opacity: 0.6;
+    transform: scale(1);
+  }
+}

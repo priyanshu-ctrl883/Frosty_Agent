@@ -1,0 +1,103 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-6);
+  flex-wrap: wrap;
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  position: relative;
+  height: 640px;
+  width: 100%;
+}
+
+.flowWrap {
+  width: 100%;
+  height: 100%;
+}
+
+.nodeCard {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 12px 16px;
+  width: 220px;
+  box-shadow: 0 4px 12px rgba(17, 26, 23, 0.08);
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.nodeCard:hover {
+  border-color: var(--pine);
+  transform: translateY(-2px);
+}
+
+.nodeActive {
+  border-color: var(--pine);
+  background: var(--surf-1);
+}
+
+.nodeHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.nodeIconWrap {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--pine-tint);
+  color: var(--pine);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.nodeTitle {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+.nodeDesc {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--surf-1);
+  color: var(--text-2);
+  border: 1px solid var(--line);
+  margin-top: 8px;
+  display: inline-block;
+}

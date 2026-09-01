@@ -1,0 +1,84 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-8);
+  flex-wrap: wrap;
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: var(--sp-8);
+  box-shadow: var(--shadow);
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 var(--sp-2);
+}
+
+.stepBox {
+  display: flex;
+  gap: 16px;
+  padding: var(--sp-4);
+  border-radius: var(--r-lg);
+  background: var(--surf-1);
+  border: 1px solid var(--line);
+  margin-bottom: var(--sp-4);
+}
+
+.stepIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--pine-tint);
+  color: var(--pine);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.stepTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+
+.stepDesc {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--line);
+}

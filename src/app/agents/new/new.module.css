@@ -1,0 +1,162 @@
+.form {
+  display: grid;
+  gap: 1rem;
+  max-width: 560px;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-1);
+}
+
+.form fieldset {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.form legend {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+  margin-bottom: 0.25rem;
+}
+
+.card {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-soft);
+  background: var(--surface-container-low);
+  cursor: pointer;
+}
+
+.card input {
+  margin-top: 0.2rem;
+}
+
+.hint {
+  display: block;
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin: 0.15rem 0 0;
+}
+
+.area {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.area span {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+
+.area textarea {
+  width: 100%;
+  min-height: 120px;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--outline-variant) 50%, transparent);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  padding: 0.75rem;
+  resize: vertical;
+  outline: none;
+}
+
+.area textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+.selectLabel {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.selectLabel span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+}
+
+.selectLabel select {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-soft);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  padding: 0.55rem 0.65rem;
+}
+
+.nested {
+  margin-top: 0.35rem;
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  border: 1px dashed var(--border-soft);
+}
+
+.check {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  color: var(--on-surface);
+}
+
+.linkButton {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.linkButton:hover {
+  text-decoration: underline;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.error {
+  color: var(--error);
+  margin: 0;
+}
+
+.notice {
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.notice ol,
+.notice ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.notice li {
+  margin: 0.2rem 0;
+}

@@ -1,0 +1,681 @@
+.blankTab {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.page {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 8px 16px 12px;
+}
+
+.pageActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggleLabel {
+  white-space: nowrap;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: 200px;
+  max-width: 360px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8b847b;
+  pointer-events: none;
+}
+
+.searchInput {
+  height: 38px;
+  border: 1px solid #d9edee;
+  background-color: #ffffff;
+  color: #211d19;
+  font-size: 13px;
+  border-radius: 12px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0 12px 0 36px;
+}
+
+.searchInput::placeholder {
+  color: #8b847b;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #0396a6;
+  box-shadow: 0 0 0 3px rgba(3, 150, 166, 0.12);
+}
+
+.filterSelect {
+  flex: 0 0 auto;
+  min-width: 168px;
+  width: auto !important;
+}
+
+.toolbarToggle {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.clearBtn {
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #d9edee;
+  background: #ffffff;
+  color: #5c564e;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.clearBtn:hover {
+  background: #f3f9f9;
+  color: #211d19;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #8b847b;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.connectedAs {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tableCard {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-width: 100%;
+  border: 1px solid #d9edee;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(33, 29, 25, 0.04);
+}
+
+.listScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.paginationBar {
+  flex-shrink: 0;
+  border-top: 1px solid #eaf3f3;
+}
+
+.fixedTable {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.colFrom {
+  width: 22%;
+}
+
+.colSubject {
+  width: 30%;
+}
+
+.colIntent {
+  width: 14%;
+}
+
+.colStatus {
+  width: 14%;
+}
+
+.colReply {
+  width: 10%;
+}
+
+.colDate {
+  width: 10%;
+  min-width: 6.75rem;
+  padding-right: 16px !important;
+  letter-spacing: 0.04em;
+}
+
+.fixedTable :global(th) {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+.tightCell {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.fromName {
+  display: block;
+  font-size: 13px;
+  font-weight: 650;
+  color: #211d19;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fromEmail {
+  display: block;
+  font-size: 12px;
+  color: #8b847b;
+  line-height: 1.3;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subjectCell {
+  display: block;
+  font-size: 13px;
+  color: #3d3832;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dateCell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  font-size: 12px;
+  color: #8b847b;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.dateDay {
+  font-weight: 650;
+  color: #5c564e;
+}
+
+.dateTime {
+  font-size: 11px;
+}
+
+.desktopTable {
+  display: block;
+}
+
+.mobileList {
+  display: none;
+}
+
+.mobileCard {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  border: 0;
+  border-bottom: 1px solid #eaf3f3;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.mobileCard:last-child {
+  border-bottom: 0;
+}
+
+.mobileCard:hover,
+.mobileCard:focus-visible {
+  background: #f3f9f9;
+  outline: none;
+}
+
+.mobileCardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mobileSubject {
+  margin: 8px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #211d19;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.mobileBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.rowActive {
+  background: #f3f9f9;
+}
+
+.emptyFilter {
+  padding: 48px 24px;
+  text-align: center;
+  color: #8b847b;
+  font-size: 14px;
+}
+
+.showMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+  height: 36px;
+  border: 1px dashed #b7d8da;
+  background: #f8fbfb;
+  color: #037a87;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.showMoreBtn:hover {
+  background: #eef7f7;
+  border-color: #0396a6;
+}
+
+.dateBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.dateChip {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid #d9edee;
+  background: #ffffff;
+  color: #5c564e;
+  font-size: 12px;
+  font-weight: 650;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.dateChip:hover {
+  background: #f3f9f9;
+  color: #211d19;
+}
+
+.dateChipActive {
+  border-color: #0396a6;
+  background: rgba(3, 150, 166, 0.1);
+  color: #037a87;
+}
+
+.dateInputs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.dateInput {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #d9edee;
+  background: #ffffff;
+  color: #211d19;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #0396a6;
+  box-shadow: 0 0 0 3px rgba(3, 150, 166, 0.12);
+}
+
+.promptBox {
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid #d9edee;
+  border-radius: 12px;
+  background: #f8fbfb;
+}
+
+.promptLabel {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #037a87;
+}
+
+.promptInput {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid #d9edee;
+  border-radius: 10px;
+  background: #ffffff;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #211d19;
+}
+
+.promptInput:focus {
+  outline: none;
+  border-color: #0396a6;
+}
+
+.drawerOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(33, 29, 25, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+.drawerContent {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  box-shadow: -8px 0 32px rgba(33, 29, 25, 0.12);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid #d9edee;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #d9edee;
+  background: #f8fbfb;
+}
+
+.drawerClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  color: #8b847b;
+}
+
+.drawerClose:hover {
+  background: #d9edee;
+  color: #211d19;
+}
+
+.drawerBody {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.composeFooter {
+  padding: 20px;
+}
+
+.composeHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.composeActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 1100px) {
+  .hideTablet {
+    display: none;
+  }
+
+  .colFrom {
+    width: 26%;
+  }
+
+  .colSubject {
+    width: 34%;
+  }
+
+  .colIntent {
+    width: 16%;
+  }
+
+  .colReply {
+    width: 12%;
+  }
+
+  .colDate {
+    width: 12%;
+    min-width: 6.75rem;
+  }
+
+  .togglePrefix {
+    display: none;
+  }
+
+  .searchWrap {
+    max-width: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktopTable {
+    display: none;
+  }
+
+  .mobileList {
+    display: block;
+  }
+
+  .toolbar {
+    gap: 8px;
+  }
+
+  .searchWrap {
+    flex: 1 1 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .filterSelect {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+  }
+
+  .clearBtn {
+    flex: 1 1 100%;
+  }
+
+  .dateBar {
+    gap: 6px;
+  }
+
+  .dateChip {
+    height: 30px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+
+  .dateInputs {
+    width: 100%;
+  }
+
+  .dateInput {
+    flex: 1 1 140px;
+    min-width: 0;
+  }
+
+  .metaRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .connectedAs {
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  .tableCard {
+    border: 2px solid #7eb4b8;
+    border-radius: 14px;
+    background: #f3f9f9;
+    box-shadow: none;
+    padding: 10px;
+  }
+
+  .mobileList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mobileCard {
+    border: 2px solid #5a9ea3;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(33, 29, 25, 0.06);
+  }
+
+  .mobileCard:last-child {
+    border-bottom: 2px solid #5a9ea3;
+  }
+
+  .tableCard :global([role="navigation"]) {
+    margin-top: 8px;
+    border: 2px solid #7eb4b8;
+    border-radius: 12px;
+    background: #ffffff;
+  }
+
+  .page {
+    padding: 0 0 8px;
+  }
+
+  .pageActions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .drawerContent {
+    max-width: 100%;
+    border-left: 0;
+  }
+
+  .drawerHeader {
+    padding: 16px;
+  }
+
+  .composeFooter {
+    padding: 16px;
+  }
+
+  .composeHead {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .composeActions {
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .composeActions :global(button) {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .mobileCardTop .dateCell {
+    flex-shrink: 0;
+    align-items: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .filterSelect {
+    flex: 1 1 100%;
+  }
+
+  .dateChip {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}

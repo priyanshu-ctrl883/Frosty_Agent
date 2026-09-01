@@ -1,0 +1,96 @@
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: var(--sp-8);
+  box-shadow: var(--shadow);
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 var(--sp-2);
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0 0 var(--sp-6);
+  line-height: 1.5;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-8);
+}
+
+.planBox {
+  background: var(--surf-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.planBox:hover {
+  border-color: var(--pine);
+  transform: translateY(-2px);
+}
+
+.planBoxSelected {
+  border: 2px solid var(--pine);
+  background: var(--card);
+  box-shadow: 0 4px 12px rgba(17, 26, 23, 0.08);
+}
+
+.planName {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 4px 0 0;
+}
+
+.featureList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--text-2);
+}
+
+.featureList li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--line);
+}

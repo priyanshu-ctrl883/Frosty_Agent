@@ -1,0 +1,132 @@
+.wrap,
+.card {
+  text-align: center;
+}
+
+.wrap {
+  max-width: 520px;
+  margin: 2rem auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.card {
+  width: 100%;
+  min-height: 420px;
+  margin: 0;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  background: var(--surface-container-lowest);
+  border: 1px solid color-mix(in srgb, var(--outline-variant) 55%, transparent);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.illustration {
+  width: 192px;
+  height: 192px;
+  margin: 0 auto 1rem;
+  overflow: clip;
+  display: grid;
+  place-items: center;
+}
+
+.illustration img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+  border-radius: var(--radius);
+  background: var(--surface-container);
+  color: var(--primary);
+  display: grid;
+  place-items: center;
+}
+
+.icon .material-symbols-outlined {
+  font-size: 28px;
+}
+
+.card h2,
+.wrap h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--on-surface);
+}
+
+.card p,
+.wrap p {
+  margin: 0;
+  max-width: 420px;
+  color: var(--on-surface-variant);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.lock {
+  margin-top: 0.75rem !important;
+  color: var(--on-secondary-container) !important;
+  background: color-mix(in srgb, var(--secondary-container) 35%, white);
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius);
+  font-size: 13px !important;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/*
+ * Appended from the Frostrek dashboard (Phase C). Their PageState carries the soft-lock and
+ * empty-state shapes; ours carries the three inline states every data screen needs
+ * (Loading / ErrorBox / Empty). Both are used here, so both sets of rules live in this file.
+ */
+.error .icon {
+  background: var(--hot-tint);
+  color: var(--danger);
+}
+.inline {
+  padding: var(--sp-6);
+  text-align: center;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.errorBox {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--hot-tint);
+  color: var(--danger);
+  border: 1px solid color-mix(in srgb, var(--danger) 25%, transparent);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.errorBox .material-symbols-outlined {
+  font-size: 18px;
+}
+.errorBox button {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: var(--danger);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: underline;
+}

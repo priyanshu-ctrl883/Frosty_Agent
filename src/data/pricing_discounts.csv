@@ -1,0 +1,8 @@
+category,term,label,months,discount_percent,badge
+core,annual,Annual,12,20,Save 20%
+core,biannual,6 Months,6,15,Save 15%
+core,quarterly,Quarterly,3,5,Save 5%
+core,monthly,Monthly,1,0,
+commerce,annual,Annual,12,20,Save 20%
+commerce,biannual,6 Months,6,10,Save 10%
+commerce,trimonthly,3 Months,3,0,Min Term · List Price

@@ -1,0 +1,408 @@
+/*
+ * ⚠️ HARDCODED COLOURS WERE REPLACED WITH THERMAL TOKENS WHEN THIS FILE WAS PORTED.
+ *
+ * `globals.css` says it outright — "anything that hard-codes a hex here would be a screen that never
+ * goes dark, which is how single-mode dashboards happen" — and the browser proved it: the widget
+ * preview's message bubble kept `background: white` and, in dark mode, rendered #e9f0ed text on it
+ * at a contrast ratio of **1.16:1**. Unreadable, and invisible to tsc, to the DOM tree and to every
+ * light-mode screenshot.
+ *
+ * The lead-temperature chips are the neat case: hot/warm/cold map straight onto the palette the
+ * design direction is named for (pine / frost / warm / hot), so they now change with the theme
+ * instead of being three fixed pastels.
+ */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(400px, 500px) 1fr;
+  gap: 2.5rem;
+  align-items: stretch;
+  height: calc(100vh - 260px);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: var(--radius-xl, 1rem);
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-sm);
+  
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.form > * {
+  flex-shrink: 0;
+}
+.form::-webkit-scrollbar {
+  display: none;
+}
+
+.form h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--on-surface);
+  margin: 0 0 0.25rem 0;
+  letter-spacing: -0.01em;
+}
+
+.selectField,
+.areaField,
+.colorField {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.selectField span,
+.areaField span,
+.colorField span,
+.position legend {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+
+.selectField select,
+.areaField textarea {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--outline-variant) 50%, transparent);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  padding: 0.6rem 0.75rem;
+  outline: none;
+}
+
+.areaField textarea {
+  resize: vertical;
+  min-height: 84px;
+  line-height: 1.45;
+}
+
+.colorField > div {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 0.65rem;
+  align-items: end;
+}
+
+.colorField input[type="color"] {
+  width: 48px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: transparent;
+  cursor: pointer;
+}
+
+.position {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.position label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 14px;
+  color: var(--on-surface);
+}
+
+.previewCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.previewCol > * {
+  flex-shrink: 0;
+}
+.previewCol::-webkit-scrollbar {
+  display: none;
+}
+
+.previewFrame {
+  height: 310px;
+  width: 100%;
+  max-width: 450px;
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-container-lowest);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.previewChrome {
+  padding: 0.85rem 1.25rem;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--on-pine);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.previewBody {
+  position: relative;
+  flex: 1;
+  background:
+    linear-gradient(180deg, #f8f9ff 0%, #eef2ff 100%);
+  min-height: 240px;
+}
+
+.bubble {
+  position: absolute;
+  bottom: 72px;
+  max-width: 250px;
+  padding: 0.75rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.12);
+  font-size: 13.5px;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  line-height: 1.45;
+  color: var(--on-surface);
+  z-index: 10;
+}
+
+.launcher {
+  position: absolute;
+  bottom: 14px;
+  width: auto;
+  min-width: 60px;
+  padding: 0 1.25rem;
+  height: 48px;
+  border-radius: 24px;
+  color: var(--on-pine);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  cursor: default;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  font-size: 14px;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  transition: transform 0.2s ease;
+  z-index: 10;
+}
+.launcher:hover {
+  transform: scale(1.05);
+}
+
+.left {
+  left: 20px;
+}
+
+.right {
+  right: 20px;
+}
+
+.embed {
+  padding: 2rem;
+  border-radius: var(--radius-xl, 1rem);
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-sm);
+}
+
+.embedHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.embedHead h2 {
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+
+.snippetTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.65rem;
+}
+
+.snippetTab,
+.snippetTabActive {
+  border: 1px solid var(--border-soft);
+  background: var(--surface-container-low);
+  color: var(--on-surface-variant);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.snippetTabActive {
+  background: color-mix(in srgb, var(--primary) 14%, white);
+  border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+  color: var(--primary);
+}
+
+.snippetHint {
+  margin: 0 0 0.65rem;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--on-surface-variant);
+}
+
+.embed pre {
+  margin: 0;
+  padding: 0.85rem 2.5rem 0.85rem 1rem;
+  border-radius: var(--radius, 0.5rem);
+  background: var(--surface-container-low, #fafafb);
+  color: var(--on-surface, #111318);
+  border: 1px solid var(--border-soft, #e2e8f0);
+  overflow: auto;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  line-height: 1.55;
+  max-height: 320px;
+}
+
+.hint {
+  margin: 0.65rem 0 0;
+  font-size: 13px;
+  color: var(--on-surface-variant);
+}
+
+.error {
+  color: var(--error);
+  margin: 0 0 1rem;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Added for ours: the form rows, the preview chrome and the install block. Their stylesheet was
+   written for an agent-picker layout; these are the pieces our version needs. */
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--sp-3);
+  align-items: end;
+}
+.formActions {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+.embed pre {
+  margin: 0;
+  padding: 0.85rem 2.5rem 0.85rem 1rem;
+  border-radius: var(--r-md);
+  background: var(--surf-2);
+  /*
+   * ⚠️ `color` IS NOT OPTIONAL HERE. Without it the block inherited a muted colour from an ancestor
+   * and rendered near-invisible grey-on-grey — the snippet a merchant has to copy and the key they
+   * have to paste were both unreadable. Caught in a screenshot, not by tsc: a contrast failure is
+   * a rendered-pixels bug and nothing in the type system or the DOM tree looks wrong.
+   */
+  color: var(--ink);
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-x: auto;
+}
+.previewChrome {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  color: var(--on-pine);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  font-size: 14px;
+}
+.previewChrome img {
+  height: 24px;
+  width: auto;
+  border-radius: 4px;
+}
+
+/*
+ * ⚠️ `.left` and `.right` above are `left: 20px` / `right: 20px` — they position the LAUNCHER inside
+ * the preview, and are not layout columns. Using them as columns (the obvious reading of the names)
+ * silently drops all form styling, which is what the first browser run showed.
+ *
+ * The preview is also constrained to a real widget's width. Their frame is `1fr` of the grid, so at
+ * 1440px it drew a 716px-wide "chat panel" — which is not a preview of anything a visitor sees.
+ */
+.previewFrame {
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+}
+.previewFrame .launcher {
+  position: absolute;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--on-pine);
+  font-weight: 600;
+}
+.previewFrame[data-position="bottom-right"] .launcher {
+  right: 24px;
+}
+.previewFrame[data-position="bottom-left"] .launcher {
+  left: 24px;
+}
+.previewFrame[data-position="bottom-right"] .bubble {
+  right: 24px;
+  border-radius: 18px 18px 4px 18px;
+}
+.previewFrame[data-position="bottom-left"] .bubble {
+  left: 24px;
+  border-radius: 18px 18px 18px 4px;
+}
+.previewFrame[data-position="bottom-right"] .snippetTabs,
+.previewFrame[data-position="bottom-right"] .position {
+  align-items: flex-end;
+  text-align: right;
+  right: 24px;
+}
+.previewFrame[data-position="bottom-left"] .snippetTabs,
+.previewFrame[data-position="bottom-left"] .position {
+  align-items: flex-start;
+  text-align: left;
+  left: 24px;
+}
+.position {
+  position: absolute;
+  bottom: 124px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 250px;
+  z-index: 10;
+}

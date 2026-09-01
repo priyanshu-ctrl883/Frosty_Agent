@@ -1,0 +1,630 @@
+/*
+ * ⚠️ HARDCODED COLOURS WERE REPLACED WITH THERMAL TOKENS WHEN THIS FILE WAS PORTED.
+ *
+ * `globals.css` says it outright — "anything that hard-codes a hex here would be a screen that never
+ * goes dark, which is how single-mode dashboards happen" — and the browser proved it: the widget
+ * preview's message bubble kept `background: white` and, in dark mode, rendered #e9f0ed text on it
+ * at a contrast ratio of **1.16:1**. Unreadable, and invisible to tsc, to the DOM tree and to every
+ * light-mode screenshot.
+ *
+ * The lead-temperature chips are the neat case: hot/warm/cold map straight onto the palette the
+ * design direction is named for (pine / frost / warm / hot), so they now change with the theme
+ * instead of being three fixed pastels.
+ */
+
+/* ─── Layout ─────────────────────────────────────────────────────────────── */
+
+.wrap {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: center;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  background: #FAF6F0;
+}
+
+/* ─── Split Screen Layout ─────────────────────────────────────────────────── */
+
+.splitWrap {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  background: #FAF6F0;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 960px) {
+  .splitWrap {
+    grid-template-columns: 1fr;
+  }
+  .heroSide {
+    display: none !important;
+  }
+}
+
+/* ─── Hero / Left Column ─────────────────────────────────────────────────── */
+
+.heroSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4rem 4.5rem 0rem 4.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.heroLegal {
+  position: relative;
+  z-index: 2;
+  padding: 0 0 1.5rem;
+}
+
+.heroBrand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.logoBadge {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #275E48;
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 14px rgba(39, 94, 72, 0.25);
+}
+
+.logoBadge .material-symbols-outlined {
+  font-size: 24px;
+}
+
+.brandTitle {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #275E48;
+  line-height: 1.1;
+  display: block;
+  letter-spacing: -0.02em;
+}
+
+.brandSub {
+  font-size: 12.5px;
+  color: #78746D;
+  font-weight: 500;
+  display: block;
+}
+
+.heroContent {
+  margin-top: 3.5rem;
+  margin-bottom: auto;
+}
+
+.heroContent h1 {
+  font-size: 3rem;
+  line-height: 1.12;
+  font-weight: 800;
+  color: #275E48;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.25rem 0;
+}
+
+.heroDesc {
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: #667085;
+  max-width: 380px;
+  margin: 0 0 2.5rem 0;
+}
+
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 380px;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.featureIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #EBF3EE;
+  color: #275E48;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.featureIcon .material-symbols-outlined {
+  font-size: 22px;
+}
+
+.featureItem strong {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #211D19;
+  margin-bottom: 2px;
+}
+
+.featureItem p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #667085;
+}
+
+/* Pine Forest Artwork Container */
+.forestArtwork {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 260px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.forestSvg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom left;
+}
+
+/* ─── Form / Right Column ─────────────────────────────────────────────────── */
+
+.formSide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Panel ───────────────────────────────────────────────────────────────── */
+
+.panel {
+  width: min(440px, 100%);
+  position: relative;
+  z-index: 1;
+  padding: 2.5rem 2.25rem;
+  border-radius: 20px;
+  background: #FAF7F2;
+  border: 1px solid #EAE4DC;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.02),
+    0 12px 36px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.panel:hover {
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.03),
+    0 16px 44px rgba(0, 0, 0, 0.06);
+}
+
+.signupPanel {
+  gap: 1.25rem;
+}
+
+/* ─── Brand ───────────────────────────────────────────────────────────────── */
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.brandCompact {
+  gap: 0.35rem;
+}
+
+.brandIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: #275E48;
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 14px rgba(39, 94, 72, 0.25);
+}
+
+.brandIcon .material-symbols-outlined {
+  font-size: 28px;
+}
+
+.brand h1 {
+  font-size: 2.1rem;
+  line-height: 1.18;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #275E48;
+  margin: 0;
+}
+
+.brandCompact h1 {
+  font-size: 1.75rem;
+}
+
+.brand p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #667085;
+}
+
+/* ─── Feature badges (signup) ─────────────────────────────────────────────── */
+
+.featurePills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+
+.featurePill {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, transparent);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  font-family: var(--font-display);
+}
+
+.featurePill .material-symbols-outlined {
+  font-size: 14px;
+}
+
+/* ─── Google button ───────────────────────────────────────────────────────── */
+
+.googleButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  background: var(--surface-container-lowest);
+  color: var(--on-surface);
+  border: 1.5px solid color-mix(in srgb, var(--outline-variant) 55%, transparent);
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  letter-spacing: 0.01em;
+}
+
+.googleButton:hover {
+  background: var(--surface-container-low);
+  border-color: color-mix(in srgb, var(--outline-variant) 80%, transparent);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--outline) 12%, transparent);
+}
+
+.googleButton:active {
+  background: var(--surface-container);
+}
+
+.googleButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.googleIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ─── Divider ─────────────────────────────────────────────────────────────── */
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--on-surface-variant);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid color-mix(in srgb, var(--outline-variant) 30%, transparent);
+}
+
+.divider::before {
+  margin-right: 0.85em;
+}
+
+.divider::after {
+  margin-left: 0.85em;
+}
+
+/* ─── Form ────────────────────────────────────────────────────────────────── */
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+.error {
+  margin: 0;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--error) 22%, transparent);
+  color: var(--error);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* ─── Callout / aside ─────────────────────────────────────────────────────── */
+
+.callout {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius);
+  background: var(--surface-container-low);
+  border: 1px solid color-mix(in srgb, var(--outline-variant) 30%, transparent);
+}
+
+.callout > .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--primary);
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.callout strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--on-surface);
+  margin-bottom: 0.2rem;
+}
+
+.callout p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--on-surface-variant);
+}
+
+.submitBtn {
+  width: 100%;
+  height: 48px;
+  min-height: 48px;
+  border-radius: 10px;
+  background: #275E48 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  border: none !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: background 0.18s ease, transform 0.1s ease;
+  box-shadow: 0 4px 12px rgba(39, 94, 72, 0.2);
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: #1E4B39 !important;
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+/* ─── Help Callout Box ────────────────────────────────────────────────────── */
+
+.helpBox {
+  background: #F4F7F4;
+  border: 1px solid #E2EBE5;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.helpIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: #E2EBE5;
+  color: #275E48;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.helpIcon .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.helpContent strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #211D19;
+  margin-bottom: 2px;
+}
+
+.helpContent p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #667085;
+}
+
+.helpArrow {
+  color: #667085;
+  font-size: 20px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ─── Shield Divider ──────────────────────────────────────────────────────── */
+
+.shieldDivider {
+  position: relative;
+  text-align: center;
+  margin: 1.25rem 0 0.5rem 0;
+}
+
+.shieldDivider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #EAE4DC;
+  z-index: 0;
+}
+
+.shieldBadge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #FAF7F2;
+  border: 1px solid #EAE4DC;
+  color: #275E48;
+}
+
+.shieldBadge .material-symbols-outlined {
+  font-size: 16px;
+}
+
+/* ─── Forgot / footer links ───────────────────────────────────────────────── */
+
+.forgot {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: #275E48;
+  text-decoration: none;
+}
+
+.forgot:hover {
+  text-decoration: underline;
+}
+
+.foot {
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: none;
+  text-align: center;
+  color: #667085;
+  font-size: 14px;
+}
+
+.foot a,
+.footLink {
+  margin-left: 0.35rem;
+  color: #275E48;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.foot a:hover,
+.footLink:hover {
+  text-decoration: underline;
+}
+
+/* ─── Trust badge ─────────────────────────────────────────────────────────── */
+
+.trust {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.25rem;
+  text-align: center;
+  color: var(--outline);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+/* ─── Password strength ───────────────────────────────────────────────────── */
+
+.strengthTracker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: -2px;
+}
+
+.strengthBar {
+  flex: 1;
+  height: 4px;
+  background: var(--surface-container-high);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strengthLabel {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 42px;
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

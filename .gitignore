@@ -1,0 +1,52 @@
+# --- OS ---
+.DS_Store
+._*
+Thumbs.db
+
+# --- Env / secrets ---
+.env
+.env.*
+!.env.example
+# GCP / Vertex service-account credentials (JSON key files) — never commit
+secrets/
+*service-account*.json
+*-sa.json
+gcp-*.json
+
+# --- Node ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# --- Build output ---
+dist/
+build/
+out/
+.next/
+*.tsbuildinfo
+.turbo/
+.vite/
+coverage/
+
+# --- Python (in case of services/tooling) ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# --- Logs ---
+logs/
+*.log
+
+# --- Editor / tooling ---
+.idea/
+*.swp
+.staging/
+.env.bak.*
+.env.local
+
+trash

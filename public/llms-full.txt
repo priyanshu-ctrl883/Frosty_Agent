@@ -1,0 +1,69 @@
+# Frosty Agent - Full Context
+
+Frosty Agent is an AI customer agent designed to handle every enquiry before and after the sale. It deploys on websites and WhatsApp with a unified memory.
+
+## Core Superpowers
+- **WhatsApp Voice Notes:** Transcribes voice notes and replies in the same language.
+- **Multilingual Support:** Handles 16 languages automatically.
+- **AI PDF Quotations:** Generates personalized costing sheets and brochures.
+- **24/7 Calendar Booking:** Directly checks availability and books site visits/appointments.
+- **CRM Campaign Attribution:** Tags leads with their exact campaign source even on WhatsApp.
+- **One Shared Memory:** A buyer who browsed the website on Monday does not start over when they message on WhatsApp on Thursday.
+
+## Industry Expertise (35+ Verticals)
+
+### 1. High-Ticket Quoters
+Frosty is optimized for industries that rely on AI Quotations, CRM Campaign Attribution, and WhatsApp voice notes to close large deals.
+- Real Estate Developers & Brokers
+- Home Services (HVAC & Trades)
+- Auto Dealerships
+- Interior Design & Modular Kitchens
+- Jewellery & Luxury Retail
+- Manufacturing & Industrial B2B
+- Building Materials & Distribution
+- Solar & Renewables
+- Equipment Rental & Heavy Machinery
+
+### 2. The Appointment Engine
+Frosty is optimized for 24/7 Appointment Booking, RAG Knowledge, and Human Handoff.
+- Healthcare & General Clinics
+- Dental Practices
+- Med Spa & Dermatology
+- IVF & Fertility Clinics
+- Mental Health Therapy
+- Law Firms & Legal
+- Immigration & Visa Consultants
+- Financial Advisors & Accounting
+- Salons, Fitness & Yoga
+- Diagnostics & Pathology Labs
+- Veterinary Clinics
+- Physiotherapy & Rehab
+
+### 3. Education & Coaching
+Frosty handles Multilingual Support, Lead Generation, and answering repetitive curriculum questions.
+- Study Abroad & Overseas Education
+- Coaching & Test Prep
+- Private Schools & Daycares
+- Higher Ed / Universities
+- Individual Coaches & Consultants
+- Corporate Training & Skill Development
+- Professional Institutes & Certification Bodies
+
+### 4. Volume Support (Travel & Commerce)
+Frosty handles Follow-Up / Re-engagement, Order Status, and Conversational Commerce.
+- E-Commerce & D2C
+- Travel Agencies & Tours
+- Hotels & Resorts
+- Restaurants & Hospitality
+- Insurance Agencies
+- Logistics & Freight
+- Event Management & Wedding Venues
+
+## Pricing
+Plans start at ₹5,299 a month in India and $199 internationally, with no setup or onboarding fee on any plan. Seven-day free trial, no card needed.
+
+## Important Links
+- Home: https://frostyagent.com
+- Pricing: https://frostyagent.com/pricing
+- Industries: https://frostyagent.com/industries
+- FAQ: https://frostyagent.com/faq

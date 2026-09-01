@@ -1,0 +1,9 @@
+plan,category,is_popular,convos,overage_inr,overage_usd,seats,web_channels,wa_channels,base_inr,base_usd,inr_annual,inr_biannual,inr_quarterly,usd_annual,usd_biannual,usd_quarterly,inr_strikethrough,usd_strikethrough
+Starter,core,false,300,₹26,$0.80,2,1,1,6599,199,5299,5599,6299,159,179,189,9499,
+Growth,core,true,600,₹20,$0.70,3,1,1,9899,349,7899,8399,9399,279,319,329,13999,
+Scale,core,false,1600,₹16,$0.52,4,1,1,21999,699,17599,18699,20899,559,629,669,30999,
+Max,core,false,4000,₹15,$0.44,7,1,1,50599,1479,40499,42999,47999,1179,1329,1409,71999,
+Starter,commerce,false,500,₹24,$0.81,2,1,1,9999,339,7999,8999,9999,269,309,339,13999,
+Growth,commerce,true,1000,₹22,$0.72,3,1,1,17999,599,14399,16199,17999,479,539,599,24999,
+Scale,commerce,false,2000,₹18,$0.56,4,1,1,29999,929,23999,26999,29999,739,839,929,41999,
+Max,commerce,false,5000,₹16,$0.47,7,1,1,67499,1979,53999,60799,67499,1579,1779,1979,94999,

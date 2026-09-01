@@ -1,0 +1,100 @@
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem 3rem;
+}
+
+.card {
+  width: min(100%, 28rem);
+  padding: 1.75rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border-subtle, #e5e7eb);
+  background: var(--surface-raised, #fff);
+  box-shadow: 0 8px 30px rgb(15 23 42 / 6%);
+}
+
+.kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted, #6b7280);
+}
+
+.title {
+  margin: 0 0 1.25rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary, #111827);
+}
+
+.amountRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.amountLabel {
+  font-size: 0.95rem;
+  color: var(--text-muted, #6b7280);
+}
+
+.amountValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
+}
+
+.refundNote {
+  margin: 0 0 1.25rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-secondary, #374151);
+}
+
+.futureCharge {
+  padding: 1rem 1.1rem;
+  border-radius: 0.75rem;
+  background: var(--surface-muted, #f9fafb);
+  border: 1px solid var(--border-subtle, #e5e7eb);
+  margin-bottom: 1rem;
+}
+
+.futureLabel {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted, #6b7280);
+}
+
+.futureAmount {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: var(--text-primary, #111827);
+}
+
+.futurePlan {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-secondary, #374151);
+}
+
+.genericFuture {
+  margin: 0 0 1rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-secondary, #374151);
+}
+
+.statusLine {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted, #6b7280);
+}

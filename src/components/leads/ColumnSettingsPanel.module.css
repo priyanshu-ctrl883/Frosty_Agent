@@ -1,0 +1,158 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: color-mix(in srgb, var(--scrim) 45%, transparent);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.panel {
+  width: min(420px, 100vw);
+  height: 100%;
+  background: var(--surface-container-lowest);
+  border-left: 1px solid var(--border-soft);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.1rem 1.25rem;
+  overflow: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.close {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--outline);
+}
+
+.hint {
+  margin: 0 0 0.85rem;
+  font-size: 13px;
+  color: var(--on-surface-variant);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr 80px 1fr;
+  gap: 0.45rem;
+  align-items: center;
+  padding: 0.45rem 0.35rem;
+  border-radius: var(--radius);
+  background: var(--surface-container-low);
+}
+
+.drag {
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  color: var(--outline);
+  padding: 0;
+  display: flex;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 13px;
+  min-width: 0;
+}
+
+.check span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.range {
+  width: 100%;
+}
+
+.rename {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--surface-container-lowest);
+  padding: 0.25rem 0.45rem;
+  font-size: 12px;
+}
+
+.customSection {
+  border-top: 1px solid var(--border-soft);
+  padding-top: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.customSection h3 {
+  margin: 0 0 0.65rem;
+  font-size: 0.95rem;
+}
+
+.fieldForm {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
+}
+
+.selectWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 13px;
+}
+
+.cfList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.cfList li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
+}
+
+.cfList code {
+  font-size: 11px;
+  color: var(--outline);
+}
+
+.removeCf {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: var(--error);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.footer {
+  margin-top: auto;
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-soft);
+}

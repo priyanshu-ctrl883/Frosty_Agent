@@ -1,0 +1,1535 @@
+/* Tabs */
+.tabs {
+  display: inline-flex;
+  background: #ffffff;
+  border-radius: var(--r-md);
+  padding: 4px;
+  gap: 2px;
+  margin-bottom: var(--sp-6);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  padding: 8px 16px;
+  border-radius: calc(var(--r-md) - 2px);
+  border: none;
+  background: transparent;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tabActive {
+  background: #ffffff;
+  color: var(--pine);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.tabIcon {
+  font-size: 16px;
+}
+
+/* Card Container */
+.card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  height: 540px;
+  min-height: 420px;
+}
+
+@media (max-width: 768px) {
+  .card {
+    height: auto;
+    min-height: unset;
+    display: block;
+    margin-bottom: var(--sp-6);
+  }
+
+  .tableWrap {
+    overflow-y: visible;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .roleHeader {
+    padding: 14px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .roleTitle {
+    font-size: 18px;
+    margin: 0 0 4px;
+  }
+
+  .roleDesc {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .roleHeaderRight {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .roleBtnIcon,
+  .roleHeaderRight :global(.material-symbols-outlined) {
+    display: none !important;
+  }
+
+  .editRoleBtn {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    height: auto !important;
+    color: #0396A6 !important;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.15s ease;
+  }
+
+  .editRoleBtn:hover {
+    color: #027a87 !important;
+    text-decoration: underline;
+    background: none !important;
+  }
+
+  .deleteRoleBtn {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    height: auto !important;
+    color: #ef4444 !important;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.15s ease;
+  }
+
+  .deleteRoleBtn:hover {
+    color: #dc2626 !important;
+    text-decoration: underline;
+    background: none !important;
+  }
+
+  .managedBadge {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    height: auto !important;
+    color: var(--muted) !important;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .desktopCol {
+    display: none !important;
+  }
+
+  .mobileCol {
+    display: table-cell !important;
+    text-align: right !important;
+    vertical-align: middle !important;
+    padding: 8px 14px !important;
+    width: 44px !important;
+  }
+
+  .table {
+    min-width: 100% !important;
+  }
+
+  .table th, .table td {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .moduleIcon {
+    width: auto;
+    height: auto;
+    font-size: 18px;
+    background: transparent;
+  }
+
+  .moduleName {
+    font-size: 13px;
+  }
+
+  .moduleCodes {
+    font-size: 10px;
+  }
+
+  .cardFooter {
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .avatar {
+    width: 26px;
+    height: 26px;
+    font-size: 10px;
+    margin-left: -8px;
+  }
+
+  .avatarGroupText {
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+}
+
+/* Role Header inside Card */
+.roleHeader {
+  padding: var(--sp-6) var(--sp-8);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  flex-shrink: 0;
+}
+
+.roleTitle {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+
+.roleDesc {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.managedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 6px;
+  background: transparent;
+  border: none;
+  color: #b45309;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.managedBadge .material-symbols-outlined {
+  font-size: 16px;
+  color: inherit;
+}
+
+.customBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 6px;
+  background: transparent;
+  border: none;
+  color: #0396A6;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.customBadge .material-symbols-outlined {
+  font-size: 16px;
+  color: inherit;
+}
+
+/* Matrix Table */
+.tableWrap {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tableWrap::-webkit-scrollbar {
+  display: none;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 580px;
+}
+
+.table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table th {
+  background: #ffffff;
+  padding: var(--sp-4) var(--sp-6);
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table th.center,
+.table td.center {
+  text-align: center;
+}
+
+.table td {
+  padding: var(--sp-4) var(--sp-6);
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: 0;
+}
+
+.desktopCol {
+  display: table-cell;
+}
+
+.mobileCol {
+  display: none;
+}
+
+.mobileMenuContainer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.threeDotBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.threeDotBtn:hover {
+  background: var(--surf-1);
+  border-color: #0396A6;
+  color: #0396A6;
+}
+
+.threeDotBtn .material-symbols-outlined {
+  font-size: 18px;
+  color: inherit;
+}
+
+/* Mobile Popover for 3-dot view */
+.mobilePopover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 50;
+  width: 230px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 10px 12px;
+  animation: popIn 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  text-align: left;
+}
+
+.mobilePopoverTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.mobilePopoverTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobilePopoverCloseBtn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobilePopoverCloseBtn .material-symbols-outlined {
+  font-size: 15px;
+}
+
+.mobileScopeRows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mobileScopeItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: var(--surf-1);
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.mobileScopeItemClickable {
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mobileScopeItemClickable:hover {
+  background: var(--card);
+  border-color: color-mix(in srgb, var(--pine) 35%, transparent);
+}
+
+.mobileScopeName {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.mobileScopeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Mobile Floating Save Bar ───────────────────────────────────────────── */
+.mobileStickySaveBar {
+  position: fixed;
+  bottom: 20px;
+  left: 16px;
+  right: 16px;
+  z-index: 9999;
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--pine) 35%, transparent);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.3), 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 12px 16px;
+  animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.stickySaveBarContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.stickySaveBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.stickySaveBarText {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stickySaveBarActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.stickyCancelBtn {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.stickyCancelBtn:hover {
+  background: var(--surf-1);
+  color: var(--ink);
+}
+
+.stickySaveBtn {
+  background: var(--pine);
+  border: none;
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(3, 150, 166, 0.3);
+}
+
+.stickySaveBtn:hover:not(:disabled) {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.stickySaveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.stickySaveError {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--danger);
+  font-weight: 500;
+}
+
+/* Module Row */
+.moduleInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.moduleIcon {
+  color: #0396A6;
+  background: transparent;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.moduleName {
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.moduleCodes {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Checkboxes / Toggles */
+.checkOk {
+  color: var(--pine);
+  background: var(--pine-tint);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkOk .material-symbols-outlined {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.checkNo {
+  color: var(--muted);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
+
+.checkNo .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.checkDisabled {
+  color: var(--line);
+  font-size: 13px;
+}
+
+.inlineToggle {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  background-color: color-mix(in srgb, var(--line) 60%, transparent);
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+}
+
+.inlineToggle:hover {
+  background-color: var(--line);
+}
+
+.inlineToggleReadOnly,
+.inlineToggle:disabled {
+  cursor: default !important;
+  opacity: 0.88;
+}
+
+.inlineToggleReadOnly:hover,
+.inlineToggle:disabled:hover {
+  background-color: color-mix(in srgb, var(--line) 60%, transparent) !important;
+}
+
+.inlineToggleActive.inlineToggleReadOnly:hover,
+.inlineToggleActive:disabled:hover {
+  background-color: var(--pine) !important;
+}
+
+.inlineToggleActive {
+  background-color: var(--pine) !important;
+}
+
+.inlineToggleThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* bouncy spring */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inlineToggleActive .inlineToggleThumb {
+  transform: translateX(24px);
+}
+
+.inlineToggleIcon {
+  font-size: 13px !important;
+  font-weight: 800;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.inlineToggle:not(.inlineToggleActive) .inlineToggleIcon {
+  color: var(--muted);
+  transform: rotate(-90deg) scale(0.8);
+  opacity: 0.6;
+}
+
+.inlineToggleActive .inlineToggleIcon {
+  color: var(--pine);
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+
+.inlineToggleDisabled {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  background-color: transparent;
+  border-radius: 100px;
+  cursor: default;
+  opacity: 0.3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inlineToggleDisabled::after {
+  content: "";
+  width: 12px;
+  height: 2px;
+  background: var(--muted);
+  border-radius: 2px;
+}
+
+.inlineHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.inlineEditInputs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  width: 100%;
+  max-width: 400px;
+}
+.inlineEditInputs input {
+  padding: 8px 12px;
+  border: 1px solid var(--pine);
+  border-radius: var(--r-md);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--surf-1);
+  outline: none;
+}
+.inlineEditInputs input:focus {
+  box-shadow: 0 0 0 2px var(--pine-tint);
+}
+.inlineEditInputs textarea {
+  padding: 8px 12px;
+  border: 1px solid var(--pine);
+  border-radius: var(--r-md);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--surf-1);
+  resize: vertical;
+  min-height: 60px;
+  outline: none;
+}
+.inlineEditInputs textarea:focus {
+  box-shadow: 0 0 0 2px var(--pine-tint);
+}
+
+/* Members Assigned Footer */
+.cardFooter {
+  padding: var(--sp-5) var(--sp-6);
+  background: #ffffff;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  flex-shrink: 0;
+}
+
+.avatarGroup {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--card);
+  margin-left: -12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.avatar:first-child {
+  margin-left: 0;
+  background: var(--pine-tint);
+  color: var(--pine);
+}
+
+.avatarGroupText {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Info Cards Footer */
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-6);
+  margin-top: var(--sp-8);
+}
+
+@media (min-width: 768px) {
+  .infoGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.infoCard {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: var(--sp-6);
+}
+
+.infoCardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+
+.infoCardIcon {
+  color: var(--pine);
+}
+
+.infoCardTitle {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 15px;
+  margin: 0;
+}
+
+.infoCardDesc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.link {
+  color: var(--pine);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* ── Custom tab variant ─────────────────────────────────────────────────── */
+.tabCustom {
+  border: 1px dashed var(--line);
+}
+
+.tabCustom.tabActive {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--pine) 30%, transparent);
+}
+
+/* Wrapper for custom role tab + edit icon */
+.tabWrapper {
+  display: inline-flex;
+  align-items: center;
+  border-radius: calc(var(--r-md) - 2px);
+  overflow: hidden;
+  border: 1px dashed var(--line);
+  margin-left: 4px;
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.tabWrapperActive {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--pine) 40%, transparent);
+  background: var(--card);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.tabWrapper .tab {
+  border: none !important;
+  margin-left: 0 !important;
+  border-radius: 0 !important;
+}
+
+.tabEditBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  border: none;
+  border-left: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  height: 100%;
+}
+
+.tabEditBtn:hover {
+  background: color-mix(in srgb, var(--pine) 10%, transparent);
+  color: var(--pine);
+}
+
+/* ── Role header right side ─────────────────────────────────────────────── */
+.roleHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.roleBtnIcon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.deleteRoleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 6px;
+  background: transparent;
+  border: none;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.deleteRoleBtn:hover {
+  text-decoration: underline;
+  color: #b91c1c;
+}
+
+.deleteRoleBtn .material-symbols-outlined {
+  font-size: 16px;
+  color: inherit;
+}
+
+.editRoleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 6px;
+  background: transparent;
+  border: none;
+  color: #0396A6;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-ui);
+}
+
+.editRoleBtn:hover {
+  text-decoration: underline;
+  color: #087681;
+}
+
+.editRoleBtn .material-symbols-outlined {
+  font-size: 16px;
+  color: inherit;
+}
+
+/* ── Modal Overlay ──────────────────────────────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Create Role Modal — Premium ────────────────────────────────────────── */
+.createModalCard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 32px 80px -16px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.05);
+  width: 100%;
+  max-width: 900px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.9) translateY(16px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0); }
+}
+
+/* Workspace Themed Header */
+.createModalHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  background: var(--card, #ffffff);
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.createModalHeaderIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0396A6;
+  flex-shrink: 0;
+  font-size: 26px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+
+.createModalHeaderIcon .material-symbols-outlined {
+  font-size: 26px;
+  color: #0396A6;
+}
+
+.createModalHeaderText {
+  flex: 1;
+}
+
+.createModalTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0396A6;
+  margin: 0 0 3px;
+  letter-spacing: -0.02em;
+}
+
+.createModalSub {
+  font-size: 13.5px;
+  color: var(--muted, #64748b);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.createModalClose {
+  background: transparent;
+  border: 1px solid var(--line, #e2e8f0);
+  color: var(--muted, #64748b);
+  cursor: pointer;
+  padding: 7px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.createModalClose:hover {
+  background: #F7FBFB;
+  color: #0396A6;
+  border-color: #0396A6;
+}
+
+/* Two-column body */
+.createModalBody {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+.createModalLeft {
+  padding: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+  background: var(--surf-1);
+}
+
+.createModalRight {
+  padding: var(--sp-5) var(--sp-6);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+
+
+
+/* Footer */
+.createModalFooter {
+  padding: 14px 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  background: var(--surf-1);
+  flex-shrink: 0;
+}
+
+.createModalActions {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+/* ── Fields ─────────────────────────────────────────────────────────────── */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.fieldLabel {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.required {
+  color: var(--danger);
+}
+
+.fieldHint {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.fieldInput,
+.fieldTextarea {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.fieldInput:focus,
+.fieldTextarea:focus {
+  border-color: var(--pine);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pine) 12%, transparent);
+}
+
+/* Role Preview Card */
+.rolePreviewCard {
+  background: var(--card);
+  border: 1.5px dashed var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4);
+  margin-top: var(--sp-1);
+}
+
+.rolePreviewLabel {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 var(--sp-2);
+}
+
+.rolePreviewName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.rolePreviewDesc {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 0 0 var(--sp-3);
+  line-height: 1.5;
+}
+
+.rolePreviewBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: #0396A6;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0;
+  border-radius: 0;
+}
+
+.rolePreviewBadge .material-symbols-outlined {
+  font-size: 15px;
+  color: #0396A6;
+}
+
+.createError {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--danger) 20%, transparent);
+  border-radius: var(--r-md);
+  padding: 8px 12px;
+  margin: 0;
+}
+
+/* Perm count badge */
+.permCount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.permCountBadge {
+  background: #0396A6;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  transition: all 0.2s ease;
+}
+
+/* Permissions panel header */
+.permHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-1);
+}
+
+.permHeaderTitle {
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  margin: 0;
+}
+
+.permHeaderActions {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.permSelectAll {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-ui);
+}
+
+.permSelectAll:hover {
+  border-color: #0396A6;
+  color: #0396A6;
+  background: #F7FBFB;
+}
+
+/* Permission group cards */
+.permGroupList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.permGroupCard {
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+
+.permGroupCard:hover {
+  border-color: color-mix(in srgb, #0396A6 30%, transparent);
+}
+
+.permGroupCardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 10px 14px;
+  background: var(--surf-1);
+  border-bottom: 1px solid var(--line);
+}
+
+.permGroupCardIcon {
+  width: auto !important;
+  height: auto !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0396A6 !important;
+  flex-shrink: 0;
+  padding: 0 !important;
+}
+
+.permGroupCardIcon .material-symbols-outlined {
+  font-size: 18px;
+  color: #0396A6 !important;
+}
+
+.permGroupCardLabel {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.permGroupToggleAll {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  font-family: var(--font-ui);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.permGroupToggleAll:hover {
+  background: var(--surf-1);
+  color: var(--ink);
+}
+
+.permGroupToggleAllActive {
+  background: var(--pine-tint);
+  border-color: color-mix(in srgb, var(--pine) 30%, transparent);
+  color: var(--pine);
+}
+
+/* Permission toggle rows */
+.permToggleList {
+  display: flex;
+  flex-direction: column;
+}
+
+.permToggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+  border-bottom: 1px solid var(--line);
+  gap: var(--sp-3);
+}
+
+.permToggleRow:last-child {
+  border-bottom: none;
+}
+
+.permToggleRow:hover {
+  background: var(--surf-1);
+}
+
+.permToggleRowActive {
+  background: color-mix(in srgb, var(--pine) 4%, transparent);
+}
+
+.permToggleRowActive:hover {
+  background: color-mix(in srgb, var(--pine) 7%, transparent);
+}
+
+.permToggleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.permToggleName {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.permToggleCode {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Toggle switch */
+.permToggleSwitch {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--line);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.permToggleSwitchOn {
+  background: var(--pine);
+}
+
+.permToggleThumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.permToggleSwitchOn .permToggleThumb {
+  transform: translateX(16px);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+
+/* ── Alert / Delete Confirm Modal ───────────────────────────────────────── */
+.alertModal {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 400px;
+  padding: var(--sp-8);
+  text-align: center;
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.alertIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--sp-4);
+  font-size: 26px;
+}
+
+.alertTitle {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 var(--sp-2);
+}
+
+.alertSub {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 var(--sp-6);
+}
+
+.alertFooter {
+  display: flex;
+  gap: var(--sp-3);
+  justify-content: center;
+}
+
+
