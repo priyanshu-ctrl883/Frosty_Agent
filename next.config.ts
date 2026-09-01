@@ -102,7 +102,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  output: process.env.BUILD_STANDALONE === "true" || process.platform !== "win32" ? "standalone" : undefined,
+  output: process.env.BUILD_STANDALONE === "true" ? "standalone" : undefined,
   serverExternalPackages: ["@supabase/ssr", "@supabase/supabase-js"],
   // Trace from monorepo root so standalone nests under apps/merchant-dashboard/
   // and includes hoisted pnpm deps from the workspace root.
