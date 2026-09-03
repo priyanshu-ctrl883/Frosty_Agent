@@ -1621,11 +1621,11 @@ function MerchantConsoleTakeoverContent({ beat, phase }: { beat: number; phase: 
         <aside style={{ borderRight: "1px solid #F1F5F9", background: "#FFFFFF", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden" }}>
           <div style={{ overflowY: "auto", overflowX: "hidden", padding: "8px 6px 4px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "2px 4px 8px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                <img src="/logo-small.png" alt="Frosty" style={{ width: 20, height: 20 }} />
-                <div>
-                  <div style={{ fontSize: 10.5, fontWeight: 900, color: "#0F172A", lineHeight: 1.1 }}>Frosty</div>
-                  <div style={{ fontSize: 5.8, color: "#64748B", fontWeight: 500 }}>Merchant Console</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <img src="/logo-small.png" alt="Frosty" style={{ width: 26, height: 26, objectFit: "contain", marginTop: -4 }} />
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 900, color: "#0F172A", lineHeight: 1 }}>Frosty</div>
+                  <div style={{ fontSize: 6, color: "#64748B", fontWeight: 500, marginTop: 1 }}>Merchant Console</div>
                 </div>
               </div>
               <div style={{ width: 17, height: 17, borderRadius: "50%", background: "#F8FAFC", border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -3153,11 +3153,11 @@ function CRMDashboardBeat({ phase }: { phase: number }) {
           <div style={{ overflowY: "auto", overflowX: "hidden", padding: "8px 6px 4px" }}>
             {/* Header: Frosty Brand & Menu */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "2px 4px 8px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                <img src="/logo-small.png" alt="Frosty" style={{ width: 20, height: 20 }} />
-                <div>
-                  <div style={{ fontSize: 10.5, fontWeight: 900, color: "#0F172A", lineHeight: 1.1 }}>Frosty</div>
-                  <div style={{ fontSize: 5.8, color: "#64748B", fontWeight: 500 }}>Merchant Console</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <img src="/logo-small.png" alt="Frosty" style={{ width: 26, height: 26, objectFit: "contain", marginTop: -4 }} />
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 900, color: "#0F172A", lineHeight: 1 }}>Frosty</div>
+                  <div style={{ fontSize: 6, color: "#64748B", fontWeight: 500, marginTop: 1 }}>Merchant Console</div>
                 </div>
               </div>
               <div style={{ width: 17, height: 17, borderRadius: "50%", background: "#F8FAFC", border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -6133,11 +6133,11 @@ function AnalyticsDashboardBeat({ phase }: { phase: number }) {
           <div style={{ overflowY: "auto", overflowX: "hidden", padding: "8px 6px 4px" }}>
             {/* Header: Frosty Brand & Menu */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "2px 4px 8px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                <img src="/logo-small.png" alt="Frosty" style={{ width: 16, height: 16, objectFit: "contain" }} />
-                <div>
-                  <div style={{ fontSize: 10.5, fontWeight: 900, color: "#0F172A", lineHeight: 1.1 }}>Frosty</div>
-                  <div style={{ fontSize: 5.8, color: "#64748B", fontWeight: 500 }}>Merchant Console</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <img src="/logo-small.png" alt="Frosty" style={{ width: 26, height: 26, objectFit: "contain", marginTop: -4 }} />
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 900, color: "#0F172A", lineHeight: 1 }}>Frosty</div>
+                  <div style={{ fontSize: 6, color: "#64748B", fontWeight: 500, marginTop: 1 }}>Merchant Console</div>
                 </div>
               </div>
               <div style={{ width: 17, height: 17, borderRadius: "50%", background: "#F8FAFC", border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -6359,9 +6359,6 @@ function AnalyticsDashboardBeat({ phase }: { phase: number }) {
               {/* 1. Header Action Bar */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: 4, borderBottom: "1px solid #E2E8F0", flexShrink: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <div style={{ width: 18, height: 18, borderRadius: 5, background: "linear-gradient(135deg, rgba(3,150,166,0.15), rgba(34,211,238,0.2))", border: "1px solid rgba(3,150,166,0.25)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <img src="/logo-small.png" alt="Frosty" style={{ width: 10, height: 10, objectFit: "contain" }} />
-                  </div>
                   <div>
                     <div style={{ fontSize: 9.5, fontWeight: 800, color: "#0F172A", lineHeight: 1.1 }}>Performance &amp; Traffic Overview</div>
                     <div style={{ fontSize: 6, color: "#64748B", fontWeight: 500 }}>Updated 10:04 AM · cached ≤5m</div>
@@ -6598,13 +6595,13 @@ function ClosingVerdictContent({ beat, phase }: { beat: number; phase: number })
               transition={{ duration: 0.4 }}
               style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}
             >
-              <div style={{ fontSize: 10, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              <div style={{ fontSize: 10, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center" }}>
                 The Crossroads
               </div>
-              <h2 style={{ fontSize: 32, fontWeight: 800, color: "#0F172A", lineHeight: 1.2, margin: 0, letterSpacing: "-0.02em" }}>
+              <h2 style={{ fontSize: 32, fontWeight: 800, color: "#0F172A", lineHeight: 1.2, margin: 0, letterSpacing: "-0.02em", textAlign: "center" }}>
                 Stay trapped in tool chaos.<br />Or scale with Frosty.
               </h2>
-              <p style={{ fontSize: 14, color: "#475569", margin: 0, maxWidth: 400, lineHeight: 1.5 }}>
+              <p style={{ fontSize: 14, color: "#475569", margin: 0, maxWidth: 400, lineHeight: 1.5, textAlign: "center" }}>
                 Lost 3 AM leads, manual copy-pasting, and disconnected tools — or one unified autonomous AI.
               </p>
             </motion.div>
@@ -6617,13 +6614,13 @@ function ClosingVerdictContent({ beat, phase }: { beat: number; phase: number })
               transition={{ duration: 0.4 }}
               style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}
             >
-              <div style={{ fontSize: 10, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              <div style={{ fontSize: 10, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center" }}>
                 The Old Reality vs. The Frosty Way
               </div>
-              <h2 style={{ fontSize: 32, fontWeight: 800, color: "#0F172A", lineHeight: 1.2, margin: 0, letterSpacing: "-0.02em" }}>
+              <h2 style={{ fontSize: 32, fontWeight: 800, color: "#0F172A", lineHeight: 1.2, margin: 0, letterSpacing: "-0.02em", textAlign: "center" }}>
                 1 unified brain. Zero context lost.<br />24/7 revenue.
               </h2>
-              <p style={{ fontSize: 14, color: "#475569", margin: 0, maxWidth: 400, lineHeight: 1.5 }}>
+              <p style={{ fontSize: 14, color: "#475569", margin: 0, maxWidth: 400, lineHeight: 1.5, textAlign: "center" }}>
                 Your entire storefront, WhatsApp, calendar, and CRM connected in real-time.
               </p>
             </motion.div>
@@ -6634,91 +6631,70 @@ function ClosingVerdictContent({ beat, phase }: { beat: number; phase: number })
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.3 }}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}
+              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}
             >
-              <KineticWordHeadline
-                fontSize="clamp(21px, 2.5vw, 26px)"
-                delay={0.12}
-                words={[
-                  { text: "Stop" },
-                  { text: "Trading" },
-                  { text: "Your", breakAfter: true },
-                  { text: "Time", highlight: true },
-                  { text: "For", highlight: true },
-                  { text: "Manual", highlight: true },
-                  { text: "Chats.", highlight: true },
-                ]}
-              />
-              <KineticDescription delay={0.25} text="Deploy Frosty in 2 minutes and turn your store into an autonomous 24/7 conversion engine." />
+              <div style={{ fontSize: 10, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center" }}>
+                The Final Verdict
+              </div>
+              <h2 style={{ fontSize: 32, fontWeight: 800, color: "#0F172A", lineHeight: 1.2, margin: 0, letterSpacing: "-0.02em", textAlign: "center" }}>
+                Stop trading your time.<br />For manual chats.
+              </h2>
+              <p style={{ fontSize: 14, color: "#475569", margin: 0, maxWidth: 400, lineHeight: 1.5, textAlign: "center" }}>
+                Deploy Frosty in 2 minutes and turn your store into an autonomous 24/7 conversion engine.
+              </p>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Side-by-Side Reality Comparison Cards (Large, Highly Readable) */}
-      <div style={{ width: "100%", maxWidth: 580, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 8 }}>
+      {/* Side-by-Side Reality Comparison */}
+      <div style={{ width: "100%", maxWidth: 520, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, marginTop: 16 }}>
         {/* The Old Way */}
         <motion.div
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           style={{
-            background: "#FFF7F7",
-            border: "1.5px solid #FECACA",
-            borderRadius: 12,
-            padding: "14px 16px",
+            padding: "16px 32px",
             textAlign: "left",
+            borderRight: "1px solid #E2E8F0",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
+            alignItems: "flex-start",
           }}
         >
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 800, color: "#DC2626", marginBottom: 8, display: "flex", alignItems: "center", gap: 5 }}>
-              <span style={{ fontSize: 13 }}>❌</span> The Fragmented Way
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 5.5, fontSize: 8.8, color: "#7F1D1D", lineHeight: 1.35 }}>
-              <div>• 5+ Disconnected Apps &amp; Tabs</div>
-              <div>• Manual chat copy-paste to CRM</div>
-              <div>• 0 Replies while you sleep</div>
-              <div>• High cart abandonment rate</div>
-            </div>
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#334155", marginBottom: 16 }}>
+            The Fragmented Way
           </div>
-          <div style={{ marginTop: 8, paddingTop: 6, borderTop: "1px solid #FEE2E2", fontSize: 7.2, color: "#991B1B", fontWeight: 700 }}>
-            High merchant burnout &amp; lost deals
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, fontSize: 11, color: "#475569", fontWeight: 500, lineHeight: 1.4, textAlign: "left" }}>
+            <div>• 5+ Disconnected Apps &amp; Tabs</div>
+            <div>• Manual chat copy-paste to CRM</div>
+            <div>• 0 Replies while you sleep</div>
+            <div>• High cart abandonment rate</div>
           </div>
         </motion.div>
 
         {/* The Frosty Way */}
         <motion.div
-          initial={{ opacity: 0, x: 10 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
           style={{
-            background: "#F0FDFA",
-            border: "1.5px solid #5EEAD4",
-            borderRadius: 12,
-            padding: "14px 16px",
+            padding: "16px 32px",
             textAlign: "left",
-            boxShadow: "0 10px 30px rgba(3,150,166,0.16)",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
+            alignItems: "flex-start",
           }}
         >
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 800, color: TEAL, marginBottom: 8, display: "flex", alignItems: "center", gap: 5 }}>
-              The Frosty Way
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 5.5, fontSize: 8.8, color: "#0F766E", fontWeight: 700, lineHeight: 1.35 }}>
-              <div>• 1 Autonomous Shared Brain</div>
-              <div>• Instant WhatsApp &amp; Calendar Sync</div>
-              <div>• 24/7 Conversions on Auto-Pilot</div>
-              <div>• 45% Verified Lead Conversion</div>
-            </div>
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#0F172A", marginBottom: 16 }}>
+            The Frosty Way
           </div>
-          <div style={{ marginTop: 8, paddingTop: 6, borderTop: "1px solid #CCFBF1", fontSize: 7.2, color: "#0D9488", fontWeight: 800 }}>
-            100% Pipeline auto-generated in real time
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, fontSize: 11, color: "#334155", fontWeight: 600, lineHeight: 1.4, textAlign: "left" }}>
+            <div>• 1 Autonomous Shared Brain</div>
+            <div>• Instant WhatsApp &amp; Calendar Sync</div>
+            <div>• 24/7 Conversions on Auto-Pilot</div>
+            <div>• 45% Verified Lead Conversion</div>
           </div>
         </motion.div>
       </div>
@@ -6862,8 +6838,6 @@ export default function LiveProductTour() {
 
   return (
     <motion.div
-      animate={reducedMotion ? {} : { y: [0, -3.5, 0] }}
-      transition={reducedMotion ? {} : { duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
       style={{ position: "relative", width: "100%", maxWidth: 670 }}
       className="mx-auto lg:mx-0"
     >
