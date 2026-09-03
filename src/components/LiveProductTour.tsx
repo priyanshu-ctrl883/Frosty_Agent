@@ -118,7 +118,7 @@ interface BeatDef {
   id: string;
   label: string;
   heading: string;
-  frameGroup: "browser" | "whatsapp" | "meeting" | "transition" | "knowledge" | "dashboard" | "closing";
+  frameGroup: "browser" | "whatsapp" | "splash" | "meeting" | "transition" | "knowledge" | "dashboard" | "closing";
   phases: number[];
 }
 
@@ -127,7 +127,7 @@ const BEATS: BeatDef[] = [
   /* Beat 1 */ { id: "visitor-engages", label: "LIVE CHAT", heading: "Questions answered in real time", frameGroup: "browser", phases: [800, 600, 3500, 1200, 2500, 1200] },
   /* Beat 2 */ { id: "channel-switch", label: "WHATSAPP AGENT", heading: "Same thread, now on WhatsApp", frameGroup: "whatsapp", phases: [2200, 1600] },
   /* Beat 3 */ { id: "human-handoff", label: "HUMAN HANDOFF", heading: "A real person steps in", frameGroup: "whatsapp", phases: [3000, 1000, 1100, 1400, 1800, 1400, 1100] },
-  /* Beat 4 */ { id: "meeting-calendar", label: "CALENDAR ENGINE", heading: "Autonomous slot matching", frameGroup: "meeting", phases: [3000, 400, 600, 600, 400] },
+  /* Beat 4 */ { id: "handoff-splash", label: "SEAMLESS TRANSITION", heading: "Seamlessly transition from AI to Human", frameGroup: "splash", phases: [3000, 1000] },
   /* Beat 5 */ { id: "whatsapp-booking", label: "SLOT SELECTION", heading: "Pick time directly in WhatsApp", frameGroup: "whatsapp", phases: [800, 1000, 600, 1400, 1100] },
   /* Beat 6 */ { id: "meeting-confirmed", label: "MEETING LOCKED", heading: "Instant Google Meet & CRM sync", frameGroup: "meeting", phases: [3000, 800, 1500, 1800, 1400] },
   /* Beat 7 */ { id: "merchant-chaos", label: "TOO MANY TOOLS", heading: "Fragmented tools vs. One unified AI", frameGroup: "transition", phases: [2000, 3200, 1800, 450] },
@@ -1446,7 +1446,7 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
                   <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
                     style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "6px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)" }}>
                     <div style={{ fontSize: 7, fontWeight: 800, color: TEAL, marginBottom: 2 }}>
-                      Frosty Agent
+                      Priya (Sales Lead)
                     </div>
                     Your meeting has been booked for 5:30 pm....
                     <div style={{ fontSize: 6.5, color: "#667781", textAlign: "right", marginTop: 2 }}>{sched.msgTime3}</div>
@@ -1509,33 +1509,25 @@ function WhatsAppGroupContent({ beat, phase }: { beat: number; phase: number }) 
    Right Side: Kinetic Storytelling Typography
    ═══════════════════════════════════════════════════════════════════ */
 function MeetingGroupContent({ beat, phase }: { beat: number; phase: number }) {
-  const b4 = beat === 4;
   const b6 = beat === 6;
-
   const sched = useMemo(() => getDynamicSchedule(), []);
 
-  // In Beat 4 (Calendar Engine):
-  // phase 0: Calendar empty, scanning Google/Outlook
-  // phase 1: Calendar populates with busy blocks
-  // phase 2: Frosty scans free slots
-  // phase 3: Frosty highlights best slot & reasoning
+  const showEvents = b6;
+  const showHighlight = b6;
+  const showReasoning = b6;
 
-  const showTimeline = b4 || b6;
-  const showEvents = (b4 && phase >= 2) || b6;
-  const showScan = b4 && phase === 2;
-  const showHighlight = (b4 && phase >= 3) || b6;
-  const showReasoning = (b4 && phase >= 4) || b6;
-
+  // We are showing the Google Calendar Clone UI instead of the mini-hero.
+  // The storytelling elements (Scanning, Highlighting, Booking) are integrated into the main grid.
   return (
     <div style={{
       height: "100%",
+      width: "100%",
       display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 0,
+      flexDirection: "column",
       background: "#FFFFFF",
       position: "relative",
       overflow: "hidden",
+      fontFamily: "'Google Sans', Roboto, Arial, sans-serif"
     }}>
       {/* ── SPLASH SCREEN OVERLAY ── */}
       <AnimatePresence mode="wait">
@@ -1558,42 +1550,17 @@ function MeetingGroupContent({ beat, phase }: { beat: number; phase: number }) {
               padding: 40,
             }}
           >
+            {/* Same kinetic splash content as before */}
             <motion.div
-              key={b4 ? "text-meeting-scanning" : "text-meeting-locked"}
+              key="text-meeting-locked"
               style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, maxWidth: 500 }}
             >
-              {b4 ? (
                 <>
                   <KineticWordHeadline
                     delay={0.15}
                     fontSize="clamp(32px, 4.5vw, 44px)"
                     centered={true}
                     words={[
-                      { text: "Autonomous" },
-                      { text: "Scheduling.", breakAfter: true },
-                      { text: "Real-time", highlight: true },
-                      { text: "calendar", highlight: true },
-                      { text: "sync", highlight: true },
-                      { text: "&", highlight: true },
-                      { text: "slot", highlight: true },
-                      { text: "engine.", highlight: true },
-                    ]}
-                  />
-                  <div style={{ marginTop: 8 }}>
-                    <KineticDescription
-                      delay={0.32}
-                      text="Frosty checks live executive calendars, proposes conflict-free slots directly inside chat, and books without human lag."
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <KineticWordHeadline
-                    delay={0.15}
-                    fontSize="clamp(32px, 4.5vw, 44px)"
-                    centered={true}
-                    words={[
-                      // { text: "Instant" },
                       { text: "Lead" },
                       { text: "Conversion.", breakAfter: true },
                       { text: "From", highlight: true },
@@ -1610,230 +1577,186 @@ function MeetingGroupContent({ beat, phase }: { beat: number; phase: number }) {
                     />
                   </div>
                 </>
-              )}
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ── LEFT SIDE: AI Scheduling Engine (Mini-Calendar Hero) ── */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: phase === 0 ? 0 : 1, scale: phase === 0 ? 0.95 : 1, y: phase === 0 ? 20 : 0 }}
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: phase === 0 ? 0 : 1, scale: phase === 0 ? 0.98 : 1 }}
         transition={{ duration: 0.5, ease: EASE }}
         style={{
           width: "100%",
           height: "100%",
-          background: "#FFFFFF",
           display: "flex",
           flexDirection: "column",
           position: "relative",
-          flexShrink: 0,
-          overflow: "hidden",
+          zIndex: 10
         }}
       >
-        {/* Header: Calendars & Contact */}
-        <div style={{ background: "#F8FAFC", borderBottom: "1px solid #E2E8F0", padding: "12px 18px", display: "flex", alignItems: "center", justifyContent: "flex-end", flexShrink: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <motion.div
-              animate={{ opacity: (b4 && phase === 1) ? [0.4, 1, 0.4] : 1 }}
-              transition={{ repeat: (b4 && phase === 1) ? Infinity : 0, duration: 1 }}
-              style={{ display: "flex", alignItems: "center", gap: 4, background: "#EFF6FF", border: "1px solid #BFDBFE", padding: "4px 8px", borderRadius: 6, fontSize: 11, fontWeight: 600, color: "#1E3A8A" }}
-            >
-              <GoogleCalendarLogo size={14} /> Syncing
-            </motion.div>
-            <motion.div
-              animate={{ opacity: (b4 && phase === 1) ? [0.4, 1, 0.4] : 1 }}
-              transition={{ repeat: (b4 && phase === 1) ? Infinity : 0, duration: 1, delay: 0.2 }}
-              style={{ display: "flex", alignItems: "center", gap: 4, background: "#EFF6FF", border: "1px solid #BFDBFE", padding: "4px 8px", borderRadius: 6, fontSize: 11, fontWeight: 600, color: "#1E3A8A" }}
-            >
-              <OutlookLogo size={14} /> Synced
-            </motion.div>
+        {/* ── TOP HEADER (Google Calendar Style) ── */}
+        <div style={{ display: 'flex', alignItems: 'center', padding: '12px 16px', borderBottom: '1px solid #DADCE0', flexShrink: 0, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            {/* Hamburger */}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#5F6368"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" /></svg>
+
+            {/* Logo */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ width: 22, height: 22, position: 'relative' }}>
+                <svg viewBox="0 0 42 42" fill="none">
+                  <path d="M3 8C3 5.23858 5.23858 3 8 3H34C36.7614 3 39 5.23858 39 8V12H3V8Z" fill="#4285F4" />
+                  <path d="M3 12H39V34C39 36.7614 36.7614 39 34 39H8C5.23858 39 3 36.7614 3 34V12Z" fill="#E8EAED" />
+                  <text x="21" y="30" fontSize="20" fontWeight="bold" fill="#1A73E8" textAnchor="middle" fontFamily="sans-serif">31</text>
+                </svg>
+              </div>
+              <span style={{ fontSize: 18, color: '#3C4043', fontWeight: 400, letterSpacing: '-0.5px' }}>Calendar</span>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ display: 'flex', gap: 4 }}>
+              {/* Chevron Left */}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#5F6368"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" /></svg>
+              {/* Chevron Right */}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#5F6368"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" /></svg>
+            </div>
+            <div style={{ fontSize: 16, color: '#3C4043', fontWeight: 400, whiteSpace: 'nowrap' }}>
+              {sched.isTomorrow ? 'Tomorrow' : '31 August 2026'}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginLeft: 'auto' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#5F6368"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#5F6368"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z" /></svg>
+            <SettingsIcon style={{ width: 18, height: 18, color: '#5F6368' }} />
+
+            <div style={{ display: 'flex', alignItems: 'center', background: '#F1F3F4', borderRadius: 24, padding: '2px' }}>
+              <div style={{ background: '#D2E3FC', padding: '2px 8px', borderRadius: 20, color: '#1967D2' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 9h-2V7h-2v5H6v2h2v5h2v-5h2v-2z" /></svg></div>
+              <div style={{ padding: '2px 8px', color: '#5F6368' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" /></svg></div>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#5F6368"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z" /></svg>
           </div>
         </div>
 
-        {/* AI Status Overlay / Bar */}
-        <div style={{ background: b6 ? "#059669" : (showHighlight ? TEAL : "#0F172A"), color: "#FFF", padding: "12px 24px", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8, transition: "background 0.5s ease" }}>
-          {b6 ? (
-            <><CheckCircle2 style={{ width: 16, height: 16 }} /> <span>Meeting successfully booked & synced.</span></>
-          ) : showHighlight ? (
-            <><Sparkles style={{ width: 16, height: 16 }} /> <span>Optimal slot found. No calendar conflicts.</span></>
-          ) : showEvents ? (
-            <><Search style={{ width: 16, height: 16 }} /> <span>Scanning open slots...</span></>
-          ) : (
-            <><RefreshCw style={{ width: 16, height: 16 }} /> <span>Syncing Google & Outlook calendars...</span></>
-          )}
-        </div>
+        {/* ── MAIN CONTENT (No Sidebar + Grid) ── */}
+        <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
 
-        {/* Body: Mini Calendar & Recommendation */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", background: "#FFFFFF", position: "relative" }}>
+          {/* ── MAIN CALENDAR GRID ── */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
 
-          {/* Top: Minimal Date Strip (Google Calendar Style) */}
-          <div style={{ display: "flex", padding: "12px 0 8px", borderBottom: "1px solid #DADCE0", background: "#FFF" }}>
-            {/* Left gutter with timezone */}
-            <div style={{ width: 75, flexShrink: 0, display: "flex", alignItems: "flex-end", paddingLeft: 12, borderRight: "1px solid #DADCE0" }}>
-              <span style={{ fontSize: 9.5, color: "#70757A", fontWeight: 500, paddingBottom: 4 }}>GMT+05:30</span>
+            {/* AI Status Overlay / Bar (only shown during scanning/highlighting, not for b6 booked state) */}
+            <AnimatePresence>
+              {showEvents && !b6 && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  style={{ background: showHighlight ? TEAL : "#0F172A", color: "#FFF", padding: "10px 24px", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8, transition: "background 0.5s ease" }}
+                >
+                  {showHighlight ? (
+                    <><Sparkles style={{ width: 16, height: 16 }} /> <span>Optimal slot found. No calendar conflicts.</span></>
+                  ) : showEvents ? (
+                    <><Search style={{ width: 16, height: 16 }} /> <span>Scanning open slots...</span></>
+                  ) : (
+                    <><RefreshCw style={{ width: 16, height: 16 }} /> <span>Syncing Google & Outlook calendars...</span></>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Date Header Strip - Circle moved to left gutter */}
+            <div style={{ display: 'flex', borderBottom: '1px solid #DADCE0', paddingBottom: 4 }}>
+              <div style={{ width: 52, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRight: '1px solid #DADCE0', paddingTop: 3, paddingBottom: 2 }}>
+                <span style={{ fontSize: 9, color: '#70757A', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  {sched.isTomorrow ? 'TUE' : 'MON'}
+                </span>
+                <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1A73E8', color: '#FFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 400, marginTop: 1 }}>
+                  {sched.isTomorrow ? '1' : '31'}
+                </div>
+              </div>
+              <div style={{ flex: 1 }} />
             </div>
-            {/* Day label */}
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4, paddingLeft: 20 }}>
-              <span style={{ fontSize: 11, fontWeight: 500, color: "#70757A", textTransform: "uppercase" }}>MON</span>
-              <div style={{ fontSize: 26, color: "#1E293B", lineHeight: 1 }}>
-                31
+
+            {/* Timeline Scrollable Area */}
+            <div style={{ flex: 1, overflowY: 'auto', position: 'relative', display: 'flex' }}>
+
+              {/* Time Labels (Y-Axis) */}
+              <div style={{ width: 52, position: 'relative', borderRight: '1px solid #DADCE0', flexShrink: 0 }}>
+                {["2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM"].map((time, i) => (
+                  <div key={time} style={{ position: "absolute", top: `${(i / 6) * 100}%`, right: 6, fontSize: 10, color: "#70757A", fontWeight: 500, transform: "translateY(-50%)" }}>
+                    {time}
+                  </div>
+                ))}
+              </div>
+
+              {/* Grid Lines & Events Container */}
+              <div style={{ flex: 1, position: 'relative' }}>
+                {/* Horizontal Lines */}
+                {[...Array(7)].map((_, i) => (
+                  <div key={`h-${i}`} style={{ position: "absolute", top: `${(i / 6) * 100}%`, left: 0, right: 0, height: 1, background: "#DADCE0" }} />
+                ))}
+
+                <AnimatePresence>
+                  {showEvents && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: "absolute", inset: 0 }}>
+
+                      {/* Busy Event: Team Standup 3:30 PM - 4:00 PM */}
+                      <div style={{ position: "absolute", top: `${(1.5 / 6) * 100}%`, left: 12, right: 16, height: `${(0.5 / 6) * 100}%`, background: "#7986CB", borderRadius: 4, padding: "2px 8px", display: "flex", alignItems: "center", zIndex: 10, borderLeft: '3px solid #5C6BC0', color: '#FFF' }}>
+                        <div style={{ fontSize: 12, fontWeight: 600 }}>Team Standup</div>
+                      </div>
+
+                      {/* Current Time Indicator ~4:40 PM */}
+                      <div style={{ position: "absolute", top: `${(2.67 / 6) * 100}%`, left: 0, right: 0, display: "flex", alignItems: "center", zIndex: 15 }}>
+                        <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#EA4335", marginLeft: -5 }} />
+                        <div style={{ flex: 1, height: 2, background: "#EA4335" }} />
+                      </div>
+
+                      {/* The Recommended/Booked Slot: 5:30 PM - 6:00 PM */}
+                      <div style={{ position: "absolute", top: `${(3.5 / 6) * 100}%`, left: 12, right: 16, height: `${(0.5 / 6) * 100}%`, zIndex: 10 }}>
+                        <AnimatePresence mode="wait">
+                          {!b6 ? (
+                            <motion.div
+                              key="slot-recommended"
+                              initial={{ opacity: 0, scale: 0.95 }}
+                              animate={{ opacity: 1, scale: 1, background: showHighlight ? "#E8F0FE" : "transparent", border: showHighlight ? `2px solid #1A73E8` : "1.5px dashed #CBD5E1" }}
+                              transition={{ duration: 0.4 }}
+                              style={{ width: "100%", height: "100%", borderRadius: 4, display: "flex", alignItems: "center", padding: "0 8px" }}
+                            >
+                              <div style={{ fontSize: 12, fontWeight: 600, color: showHighlight ? "#1A73E8" : "#94A3B8", display: "flex", alignItems: "center", gap: 6 }}>
+                                {showHighlight && <Sparkles style={{ width: 13, height: 13 }} />}
+                                5:30 PM - 6:00 PM
+                              </div>
+                            </motion.div>
+                          ) : (
+                            <motion.div
+                              key="slot-booked"
+                              initial={{ opacity: 0, scale: 0.95 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              style={{ width: "100%", height: "100%", background: "#D50000", borderRadius: 4, padding: "2px 8px", display: "flex", alignItems: "center", borderLeft: '3px solid #B71C1C', color: '#FFF' }}
+                            >
+                              <div style={{ fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+                                <CheckCircle2 style={{ width: 13, height: 13 }} /> VIP Call - Product Walkthrough
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>
-
-          {/* Middle: Timeline Grid (Google Calendar Style) */}
-          <div style={{ flex: 1, display: "flex", position: "relative", overflow: "hidden", background: "#FFF" }}>
-            {/* Time labels axis */}
-            <div style={{ width: 75, position: "relative", borderRight: "1px solid #DADCE0" }}>
-              {["1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM"].map((time, i) => (
-                <div key={time} style={{ position: "absolute", top: `${(i / 6) * 100}%`, right: 10, fontSize: 10.5, color: "#70757A", fontWeight: 500, transform: "translateY(-50%)" }}>
-                  {time}
-                </div>
-              ))}
-            </div>
-
-            {/* Timeline Track */}
-            <div style={{ flex: 1, position: "relative" }}>
-              {/* Horizontal Grid Lines */}
-              {[...Array(7)].map((_, i) => (
-                <div key={`h-${i}`} style={{ position: "absolute", top: `${(i / 6) * 100}%`, left: 0, right: 0, height: 1, background: "#E8EAED" }} />
-              ))}
-
-              <AnimatePresence>
-                {showEvents && (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: "absolute", inset: 0 }}>
-                    {/* Busy Event: Client Onboarding 1:30 PM - 2:30 PM */}
-                    <div style={{ position: "absolute", top: `${(0.5 / 6) * 100}%`, left: 0, right: 15, height: `${(1 / 6) * 100}%`, background: "#039BE5", borderRadius: 4, padding: "6px 10px", zIndex: 10 }}>
-                      <div style={{ fontSize: 12, fontWeight: 600, color: "#FFF" }}>Client Onboarding</div>
-                      <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.85)", marginTop: 2 }}>1:30 – 2:30pm</div>
-                    </div>
-
-                    {/* Busy Event: Team Standup 3:00 PM - 3:30 PM */}
-                    <div style={{ position: "absolute", top: `${(2 / 6) * 100}%`, left: 0, right: 15, height: `${(0.5 / 6) * 100}%`, background: "#7986CB", borderRadius: 4, padding: "4px 10px", display: "flex", alignItems: "center", zIndex: 10 }}>
-                      <div style={{ fontSize: 12, fontWeight: 600, color: "#FFF" }}>Team Standup</div>
-                    </div>
-
-                    {/* Current Time Indicator ~4:40 PM */}
-                    <div style={{ position: "absolute", top: `${(3.67 / 6) * 100}%`, left: 0, right: 0, display: "flex", alignItems: "center", zIndex: 15 }}>
-                      <div style={{ width: 11, height: 11, borderRadius: "50%", background: "#EA4335", marginLeft: -5.5 }} />
-                      <div style={{ flex: 1, height: 2, background: "#EA4335" }} />
-                    </div>
-
-                    {/* The Recommended/Booked Slot: 5:30 PM - 6:00 PM */}
-                    <div style={{ position: "absolute", top: `${(4.5 / 6) * 100}%`, left: 0, right: 15, height: `${(0.5 / 6) * 100}%`, zIndex: 10 }}>
-                      <AnimatePresence mode="wait">
-                        {!b6 ? (
-                          <motion.div
-                            key="slot-recommended"
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1, background: showHighlight ? "#E8F0FE" : "transparent", border: showHighlight ? `2px solid #1A73E8` : "1.5px dashed #CBD5E1" }}
-                            transition={{ duration: 0.4 }}
-                            style={{ width: "100%", height: "100%", borderRadius: 4, display: "flex", alignItems: "center", padding: "0 10px" }}
-                          >
-                            <div style={{ fontSize: 12, fontWeight: 600, color: showHighlight ? "#1A73E8" : "#94A3B8", display: "flex", alignItems: "center", gap: 4 }}>
-                              {showHighlight && <Sparkles style={{ width: 12, height: 12 }} />}
-                              5:30 PM
-                            </div>
-                          </motion.div>
-                        ) : (
-                          <motion.div
-                            key="slot-booked"
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            style={{ width: "100%", height: "100%", background: "#B91C1C", borderRadius: 4, padding: "4px 10px", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}
-                          >
-                            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                              <div style={{ fontSize: 12, fontWeight: 600, color: "#FFF", display: "flex", alignItems: "center", gap: 4 }}>
-                                <CheckCircle2 style={{ width: 12, height: 12 }} /> VIP Call - Product Walkthrough
-                              </div>
-                              <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.85)" }}>5:30 – 6:00pm</div>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Scanning Animation */}
-              {showScan && (
-                <motion.div
-                  initial={{ top: "0%" }}
-                  animate={{ top: "100%" }}
-                  transition={{ duration: 1.5, ease: "linear" }}
-                  style={{ position: "absolute", left: 0, right: 0, height: 2, background: "#1A73E8", boxShadow: "0 0 10px 2px rgba(26,115,232,0.5)", zIndex: 20 }}
-                />
-
-              )}
-            </div>
-          </div>
-
-          {/* Bottom Overlay: AI Reasoning Checklist */}
-          <AnimatePresence>
-            {showReasoning && !b6 && (
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 40 }}
-                transition={{ duration: 0.5, ease: EASE }}
-                style={{
-                  position: "absolute",
-                  bottom: 0, left: 0, right: 0,
-                  background: "#FFF",
-                  borderTop: "1px solid #E2E8F0",
-                  padding: "16px 20px",
-                  boxShadow: "0 -4px 20px rgba(0,0,0,0.05)",
-                  zIndex: 30,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 12
-                }}
-              >
-                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  <div style={{ fontSize: 11, fontWeight: 800, color: "#0F172A", display: "flex", alignItems: "center", gap: 5 }}>
-                    <Sparkles style={{ width: 12, height: 12, color: TEAL }} /> Optimal Time Selected
-                  </div>
-                  <div style={{ fontSize: 9, color: "#64748B" }}>Frosty evaluated 4 open slots across 2 calendars.</div>
-                </div>
-
-                {/* Checklist */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-                  {[
-                    "Priya available",
-                    "Prospect available",
-                    "0 calendar conflicts",
-                    "30 min duration"
-                  ].map((text, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: -5 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 * i }}
-                      style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 8.5, color: "#334155", fontWeight: 500 }}
-                    >
-                      <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#DCFCE7", color: "#166534", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <Check style={{ width: 8, height: 8 }} />
-                      </div>
-                      {text}
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
         </div>
       </motion.div>
     </div>
   );
 }
+
 /* ═══════════════════════════════════════════════════════════════════
-   CONTENT GROUP: MERCHANT CHAOS & FROSTY CORE (Beat 7)
-   Scattered Organic Cards Canvas → Interactive Drag Pan Shift → Frosty AI Core
+   CONTENT GROUP: TRANSITION / CHAOS (Beat 7)
    ═══════════════════════════════════════════════════════════════════ */
 function MerchantChaosTransitionContent({ beat, phase }: { beat: number; phase: number }) {
   const isHook = phase === 0;
@@ -2564,7 +2487,7 @@ function DashboardGroupContent({ beat, phase }: { beat: number; phase: number })
         <CRMDashboardBeat phase={beat === 9 ? phase : -1} />
       </motion.div>
 
-      {/* Beat 10: Analytics Dashboard (Immediately after Step 10) */}
+      {/* Beat 10: Analytics Dashboard */}
       <motion.div
         animate={{ opacity: beat === 10 ? 1 : 0 }}
         transition={{ duration: 0.35 }}
@@ -6287,7 +6210,6 @@ function ClosingVerdictContent({ beat, phase }: { beat: number; phase: number })
               transition={{ duration: 0.3 }}
               style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}
             >
-              <KineticBadge text="✦ ZERO EFFORT · INSTANT DEPLOYMENT" variant="teal" delay={0.05} />
               <KineticWordHeadline
                 fontSize="clamp(21px, 2.5vw, 26px)"
                 delay={0.12}
@@ -6386,7 +6308,7 @@ function SplashGroupContent() {
     <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#FFFFFF", padding: 40, textAlign: "center" }}>
       <motion.div initial={{ opacity: 0, scale: 0.9, y: 15 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <h2 style={{ fontSize: 26, fontWeight: 900, color: "#111B21", lineHeight: 1.3, marginBottom: 28, letterSpacing: "-0.5px" }}>
-          Our system scans linked calendar<br />and books appointment for suitable time
+          Seamlessly transition<br />from AI to Human
         </h2>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
           <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0 }} style={{ width: 14, height: 14, borderRadius: "50%", background: "#0396A6", boxShadow: "0 4px 12px rgba(3,150,166,0.3)" }} />
