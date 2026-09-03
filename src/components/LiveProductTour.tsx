@@ -56,6 +56,7 @@ import {
   Palette,
   Eye,
   PieChart as PieChartIcon,
+  AlertTriangle,
 } from "lucide-react";
 
 import FrostyIcon from "./FrostyIcon";
@@ -123,18 +124,17 @@ interface BeatDef {
 
 const BEATS: BeatDef[] = [
   /* Beat 0 */ { id: "website-opens", label: "WEBSITE AGENT", heading: "Your site, instantly intelligent", frameGroup: "browser", phases: [800, 1500, 500, 1700] },
-  /* Beat 1 */ { id: "visitor-engages", label: "LIVE CHAT", heading: "Questions answered in real time", frameGroup: "browser", phases: [800, 600, 1800, 800, 1000, 600] },
+  /* Beat 1 */ { id: "visitor-engages", label: "LIVE CHAT", heading: "Questions answered in real time", frameGroup: "browser", phases: [800, 600, 3500, 1200, 2500, 1200] },
   /* Beat 2 */ { id: "channel-switch", label: "WHATSAPP AGENT", heading: "Same thread, now on WhatsApp", frameGroup: "whatsapp", phases: [2200, 1600] },
-  /* Beat 3 */ { id: "human-handoff", label: "HUMAN HANDOFF", heading: "A real person steps in", frameGroup: "whatsapp", phases: [1000, 1100, 1400, 1800, 1400, 1100] },
-  /* Beat 4 */ { id: "meeting-calendar", label: "CALENDAR ENGINE", heading: "Autonomous slot matching", frameGroup: "meeting", phases: [700, 1300, 1600, 1400] },
+  /* Beat 3 */ { id: "human-handoff", label: "HUMAN HANDOFF", heading: "A real person steps in", frameGroup: "whatsapp", phases: [3000, 1000, 1100, 1400, 1800, 1400, 1100] },
+  /* Beat 4 */ { id: "meeting-calendar", label: "CALENDAR ENGINE", heading: "Autonomous slot matching", frameGroup: "meeting", phases: [3000, 400, 600, 600, 400] },
   /* Beat 5 */ { id: "whatsapp-booking", label: "SLOT SELECTION", heading: "Pick time directly in WhatsApp", frameGroup: "whatsapp", phases: [800, 1000, 600, 1400, 1100] },
-  /* Beat 6 */ { id: "meeting-confirmed", label: "MEETING LOCKED", heading: "Instant Google Meet & CRM sync", frameGroup: "meeting", phases: [800, 1500, 1800, 1400] },
+  /* Beat 6 */ { id: "meeting-confirmed", label: "MEETING LOCKED", heading: "Instant Google Meet & CRM sync", frameGroup: "meeting", phases: [3000, 800, 1500, 1800, 1400] },
   /* Beat 7 */ { id: "merchant-chaos", label: "TOO MANY TOOLS", heading: "Fragmented tools vs. One unified AI", frameGroup: "transition", phases: [2000, 3200, 1800, 450] },
   /* Beat 8 */ { id: "shared-brain", label: "SHARED MEMORY", heading: "One brain across website & WhatsApp", frameGroup: "knowledge", phases: [1800, 2600, 2200] },
   /* Beat 9 */ { id: "crm-dashboard", label: "MERCHANT INBOX", heading: "Unified multi-channel command", frameGroup: "dashboard", phases: [1600, 1400, 1400, 1500, 3000, 2400] },
   /* Beat 10 */ { id: "analytics", label: "ANALYTICS", heading: "Turn every conversation into actionable insights", frameGroup: "dashboard", phases: [2200, 2200, 3400, 2600, 4400] },
-  /* Beat 11 */ { id: "enterprise-crm", label: "ENTERPRISE CRM", heading: "Autonomous lead segregation & deep pipeline", frameGroup: "dashboard", phases: [2400, 2600, 2600, 2400] },
-  /* Beat 12 */ { id: "closing-verdict", label: "THE CHOICE", heading: "Stay fragmented. Or scale with Frosty.", frameGroup: "closing", phases: [2400, 2600, 2600, 2400] },
+  /* Beat 11 */ { id: "closing-verdict", label: "THE CHOICE", heading: "Stay fragmented. Or scale with Frosty.", frameGroup: "closing", phases: [2400, 2600, 2600, 2400] },
 ];
 
 const TOTAL_BEATS = BEATS.length;
@@ -605,11 +605,13 @@ function KineticWordHeadline({
   highlightColor = TEAL,
   delay = 0.15,
   fontSize = "clamp(20px, 2.4vw, 26px)",
+  centered = false,
 }: {
   words: (string | KineticWordItem)[];
   highlightColor?: string;
   delay?: number;
   fontSize?: string | number;
+  centered?: boolean;
 }) {
   return (
     <motion.div
@@ -630,12 +632,13 @@ function KineticWordHeadline({
         fontWeight: 800,
         color: DARK,
         lineHeight: 1.16,
-        fontFamily: "'Inter', 'Outfit', system-ui, -apple-system, sans-serif",
+        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
         display: "flex",
         flexWrap: "wrap",
         rowGap: 2,
         columnGap: 5.5,
         alignItems: "baseline",
+        justifyContent: centered ? "center" : "flex-start",
       }}
     >
       {words.map((w, idx) => {
@@ -677,7 +680,7 @@ function KineticWordHeadline({
                 style={{
                   display: "inline-block",
                   color: isHigh ? highlightColor : isNum ? TEAL : "inherit",
-                  fontFamily: isNum ? "'Outfit', sans-serif" : undefined,
+                  fontFamily: isNum ? "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" : undefined,
                   fontWeight: 800,
                 }}
               >
@@ -719,7 +722,7 @@ function BrowserGroupContent({ beat, phase }: { beat: number; phase: number }) {
   const siteVisible = beat > 0 || phase >= 1;
   const chatOpen = beat >= 1 && phase >= 1;
   const urlText = useTypingText("www.techmart.in", beat === 0 && phase >= 1);
-  const questionText = useTypingText("Do you have these headphones in Platinum Silver?", beat === 1 && phase >= 2);
+  const questionText = useTypingText("I want sony silver headphone, can you update me on whatsapp +91 12345XXXXX", beat === 1 && phase >= 2);
   const showTypingDots = beat === 1 && phase === 3;
   const showReply = beat === 1 && phase >= 4;
 
@@ -727,31 +730,44 @@ function BrowserGroupContent({ beat, phase }: { beat: number; phase: number }) {
     <div style={{ height: "100%", display: "flex", flexDirection: "column", position: "relative" }}>
       {/* ── Browser Chrome ── */}
       {/* Tab bar */}
-      <div style={{ background: "#F1F3F5", borderBottom: "1px solid #E2E5E9", padding: "7px 14px 0", display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+      <div style={{ background: "#DFE1E5", padding: "8px 12px 0", display: "flex", alignItems: "flex-end", gap: 10, flexShrink: 0 }}>
         {/* Traffic lights */}
-        <div style={{ display: "flex", gap: 5, paddingBottom: 7 }}>
-          <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#FF5F56" }} />
-          <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#FFBD2E" }} />
-          <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#27C93F" }} />
+        <div style={{ display: "flex", gap: 6, paddingBottom: 10, paddingLeft: 4 }}>
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FF5F56", border: "0.5px solid #E0443E" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FFBD2E", border: "0.5px solid #DEA123" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#27C93F", border: "0.5px solid #1AAB29" }} />
         </div>
-        {/* Tab with smooth rounded top corners */}
-        <div style={{ background: "#FFF", borderRadius: "10px 10px 0 0", padding: "4.5px 16px", fontSize: 9.5, fontWeight: 700, color: "#1E293B", display: "flex", alignItems: "center", gap: 6, border: "1px solid #E2E5E9", borderBottom: "1px solid #FFF", marginBottom: -1, zIndex: 1, boxShadow: "0 -1px 3px rgba(0,0,0,0.02)" }}>
-          <Globe style={{ width: 11, height: 11, color: "#0284C7" }} />
-          <span>{siteVisible ? "TechMart — Electronics & Audio Gear" : "New Tab"}</span>
+        {/* Active Tab */}
+        <div style={{ background: "#FFF", borderRadius: "8px 8px 0 0", padding: "6px 16px", fontSize: 9.5, fontWeight: 400, color: "#333", display: "flex", alignItems: "center", gap: 8, zIndex: 1, boxShadow: "0 -1px 4px rgba(0,0,0,0.04)", minWidth: 160, position: "relative" }}>
+          <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#F1F5F9", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Globe style={{ width: 9, height: 9, color: "#64748B" }} />
+          </div>
+          <span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: 140 }}>
+            {siteVisible ? "TechMart — Electronics & Audio Gear" : "New Tab"}
+          </span>
+          <X style={{ width: 10, height: 10, color: "#94A3B8", marginLeft: "auto" }} />
         </div>
       </div>
-      {/* Address bar */}
-      <div style={{ background: "#FFF", borderBottom: "1px solid #E9ECEF", padding: "6px 14px", display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-        <div style={{ display: "flex", gap: 5, opacity: 0.35 }}>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2.2"><path d="M15 18l-6-6 6-6" /></svg>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2.2"><path d="M9 18l6-6-6-6" /></svg>
+      {/* Address bar area */}
+      <div style={{ background: "#FFF", borderBottom: "1px solid #DADCE0", padding: "6px 12px", display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+        {/* Nav controls */}
+        <div style={{ display: "flex", gap: 10, color: "#5F6368" }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DADCE0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+          <RotateCcw style={{ width: 12, height: 12, strokeWidth: 2.5 }} />
         </div>
-        <div style={{ flex: 1, background: "#F4F4F6", borderRadius: 8, padding: "4px 12px", fontSize: 10, color: "#475569", display: "flex", alignItems: "center", gap: 6, border: beat === 0 && phase === 1 ? `1.5px solid ${TEAL}` : "1px solid #E2E8F0", transition: "border-color 0.2s" }}>
-          {siteVisible && <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>}
-          <span style={{ fontWeight: 600, fontSize: 10 }}>{urlText || (siteVisible ? "www.techmart.in" : "")}</span>
+        {/* URL Input */}
+        <div style={{ flex: 1, background: "#F1F3F4", borderRadius: 999, padding: "5px 14px", fontSize: 10, color: "#202124", display: "flex", alignItems: "center", gap: 8, border: beat === 0 && phase === 1 ? `1.5px solid ${TEAL}` : "1px solid transparent", transition: "all 0.2s" }}>
+          {siteVisible ? (
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="#5F6368"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" /></svg>
+          ) : (
+            <Search style={{ width: 10, height: 10, color: "#5F6368" }} />
+          )}
+          <span style={{ fontWeight: 400, fontSize: 10, flex: 1 }}>{urlText || (siteVisible ? "techmart.in" : "")}</span>
           {beat === 0 && phase === 1 && urlText.length < 15 && (
             <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.45, repeat: Infinity }} style={{ width: 1.5, height: 11, background: TEAL, marginLeft: 1 }} />
           )}
+          {siteVisible && <span style={{ color: "#5F6368" }}>☆</span>}
         </div>
       </div>
 
@@ -768,80 +784,63 @@ function BrowserGroupContent({ beat, phase }: { beat: number; phase: number }) {
 
         {/* Faux TechMart-style website */}
         {siteVisible && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", fontFamily: "'Inter', system-ui, sans-serif", overflow: "hidden", background: "#F5F5F5" }}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif", overflow: "hidden", background: "#F5F5F5" }}>
 
             {/* ── TechMart Nav ── */}
-            <div style={{ background: "#0F172A", padding: "6px 12px", display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+            <div style={{ background: "#FFFFFF", padding: "10px 16px", display: "flex", alignItems: "center", gap: 16, flexShrink: 0, borderBottom: "1px solid #F1F5F9" }}>
               {/* Logo */}
-              <div style={{ display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
-                <Zap style={{ width: 11, height: 11, color: "#FF9900" }} />
-                <span style={{ color: "#FFF", fontWeight: 900, fontSize: 12, letterSpacing: "-0.3px" }}>TechMart</span>
-              </div>
-              {/* Search */}
-              <div style={{ flex: 1, background: "#1E293B", border: "1px solid #334155", borderRadius: 6, display: "flex", alignItems: "center", padding: "4px 10px", gap: 6 }}>
-                <Search style={{ width: 9, height: 9, color: "#64748B" }} />
-                <span style={{ fontSize: 8, color: "#64748B" }}>Search electronics…</span>
-              </div>
-              {/* Deals badge */}
               <div style={{ display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
-                <span style={{ color: "#94A3B8", fontSize: 8, fontWeight: 500 }}>Deals</span>
-                <span style={{ background: "#FF9900", color: "#0F172A", fontSize: 7, fontWeight: 900, width: 16, height: 16, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>2</span>
+                <div style={{ width: 22, height: 22, background: "#0F172A", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Zap style={{ width: 12, height: 12, color: "#38BDF8", fill: "#38BDF8" }} />
+                </div>
+                <span style={{ color: "#0F172A", fontWeight: 900, fontSize: 13, letterSpacing: "-0.4px" }}>TechMart</span>
+              </div>
+              {/* Modern Search */}
+              <div style={{ flex: 1, maxWidth: 300, margin: "0 auto", background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 999, display: "flex", alignItems: "center", padding: "6px 12px", gap: 8, boxShadow: "inset 0 1px 2px rgba(0,0,0,0.02)" }}>
+                <Search style={{ width: 11, height: 11, color: "#94A3B8" }} />
+                <span style={{ fontSize: 9.5, color: "#94A3B8", fontWeight: 500 }}>Search for anything...</span>
+              </div>
+              {/* Icons (Account, Cart) */}
+              <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0, color: "#475569" }}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+                  <UserIcon style={{ width: 14, height: 14 }} />
+                  <span style={{ fontSize: 6.5, fontWeight: 600 }}>Sign In</span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2, position: "relative" }}>
+                  <ShoppingBag style={{ width: 14, height: 14 }} />
+                  <span style={{ fontSize: 6.5, fontWeight: 600 }}>Cart</span>
+                  <span style={{ position: "absolute", top: -4, right: -4, background: "#EF4444", color: "#FFF", fontSize: 6, fontWeight: 800, width: 12, height: 12, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "1.5px solid #FFF" }}>2</span>
+                </div>
               </div>
             </div>
 
-            {/* ── Hero Banner ── */}
-            <div style={{ position: "relative", background: "linear-gradient(135deg, #1a2744 0%, #0F172A 40%, #0D4F4F 75%, #0D7070 100%)", padding: "10px 14px 10px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 58, overflow: "hidden" }}>
-              {/* Decorative glow */}
-              <div style={{ position: "absolute", right: 60, top: "50%", transform: "translateY(-50%)", width: 80, height: 80, borderRadius: "50%", background: "rgba(13,112,112,0.35)", filter: "blur(20px)", pointerEvents: "none" }} />
-              <div style={{ zIndex: 1 }}>
-                <div style={{ color: "#FFF", fontSize: 11, fontWeight: 800, lineHeight: 1.2 }}>Everything you need.</div>
-                <div style={{ color: "#FF9900", fontSize: 11, fontWeight: 800, lineHeight: 1.2 }}>One smarter store.</div>
-                <div style={{ marginTop: 5, display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ color: "#CBD5E1", fontSize: 7.5, display: "flex", alignItems: "center", gap: 3 }}>
-                    <Zap style={{ width: 8, height: 8, color: "#FF9900" }} /> Flash Sale
-                  </span>
-                  <span style={{ color: "#CBD5E1", fontSize: 7.5 }}>🚀 Free Express 24h Shipping</span>
-                </div>
-              </div>
-              {/* Product image */}
-              <img
-                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&auto=format&fit=crop&q=80"
-                alt="hero-product"
-                loading="eager"
-                style={{ width: 50, height: 50, objectFit: "cover", borderRadius: 10, zIndex: 1, boxShadow: "0 4px 14px rgba(0,0,0,0.4)", flexShrink: 0 }}
-              />
-            </div>
+
 
             {/* ── Product Grid ── */}
             <div style={{ flex: 1, padding: "8px 8px 6px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, overflow: "hidden" }}>
               {[
-                { n: "Sony WH-1000XM5 ANC", p: "₹24,990", mrp: "₹29,999", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=80", badge: "-17% OFF", badgeCol: "#E53935", rating: "4.9", reviews: "2.8k" },
-                { n: "Galaxy Watch Ultra", p: "₹44,999", mrp: "₹49,999", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=80", badge: "NEW", badgeCol: "#E53935", rating: "4.7", reviews: "1.2k" },
-                { n: "Marshall Stanmore III", p: "₹39,999", mrp: "₹44,999", img: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500&auto=format&fit=crop&q=80", badge: "HOT", badgeCol: "#E53935", rating: "4.8", reviews: "950" },
-                { n: "Canon EOS R6 Mark II", p: "₹1,69,990", mrp: "₹1,85,000", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&auto=format&fit=crop&q=80", badge: "PRO", badgeCol: "#E53935", rating: "4.9", reviews: "410" },
+                { n: "Sony WH-1000XM5", p: "₹24,990", mrp: "₹29,999", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=80", badge: "Sale", badgeCol: "#FEE2E2", badgeText: "#EF4444", rating: "4.9", reviews: "2.8k" },
+                { n: "Galaxy Watch Ultra", p: "₹44,999", mrp: "₹49,999", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=80", badge: "New", badgeCol: "#DCFCE7", badgeText: "#22C55E", rating: "4.7", reviews: "1.2k" },
+                { n: "Marshall Stanmore", p: "₹39,999", mrp: "₹44,999", img: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500&auto=format&fit=crop&q=80", badge: "Hot", badgeCol: "#FFEDD5", badgeText: "#F97316", rating: "4.8", reviews: "950" },
+                { n: "Canon EOS R6 Mark II", p: "₹1,69,990", mrp: "₹1,85,000", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&auto=format&fit=crop&q=80", badge: "Pro", badgeCol: "#F3E8FF", badgeText: "#A855F7", rating: "4.9", reviews: "410" },
               ].map((prod) => (
-                <div key={prod.n} style={{ background: "#FFF", borderRadius: 8, overflow: "hidden", border: "1px solid #E8EAED", display: "flex", flexDirection: "column", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+                <div key={prod.n} style={{ background: "#FFF", borderRadius: 8, overflow: "hidden", border: "1px solid #E2E8F0", display: "flex", flexDirection: "column", boxShadow: "0 2px 6px rgba(15, 23, 42, 0.04)" }}>
                   {/* Image block */}
-                  <div style={{ position: "relative", height: 78, overflow: "hidden", background: "#F0F0F0", flexShrink: 0 }}>
-                    <img src={prod.img} alt={prod.n} loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    {/* Badge top-left */}
-                    <span style={{ position: "absolute", top: 5, left: 5, background: prod.badgeCol, color: "#FFF", fontSize: 6.5, fontWeight: 800, padding: "2px 6px", borderRadius: 3, zIndex: 2 }}>{prod.badge}</span>
-                    {/* Rating top-right */}
-                    <span style={{ position: "absolute", top: 5, right: 5, background: "rgba(15,23,42,0.75)", color: "#FFF", fontSize: 6.5, fontWeight: 700, padding: "2px 5px", borderRadius: 4, display: "flex", alignItems: "center", gap: 2, zIndex: 2 }}>
-                      <span style={{ color: "#FACC15" }}>★</span>{prod.rating}
-                    </span>
+                  <div style={{ position: "relative", flex: 1, minHeight: 0, overflow: "hidden", background: "#F8FAFC" }}>
+                    <img src={prod.img} alt={prod.n} loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", mixBlendMode: "multiply" }} />
                   </div>
                   {/* Info block */}
-                  <div style={{ padding: "6px 7px 5px", flex: 1, display: "flex", flexDirection: "column", gap: 3 }}>
-                    <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 2 }}>
-                      <span style={{ fontSize: 7.5, fontWeight: 600, color: "#1C1C1E", lineHeight: 1.3, flex: 1 }}>{prod.n}</span>
-                      <span style={{ fontSize: 7, color: "#94A3B8", whiteSpace: "nowrap", flexShrink: 0 }}>({prod.reviews})</span>
+                  <div style={{ padding: "8px 10px", display: "flex", flexDirection: "column", gap: 2, flexShrink: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+                      <span style={{ color: "#FACC15", fontSize: 8 }}>★</span>
+                      <span style={{ fontSize: 7.5, fontWeight: 700, color: "#475569" }}>{prod.rating}</span>
+                      <span style={{ fontSize: 7.5, color: "#94A3B8" }}>({prod.reviews})</span>
                     </div>
-                    <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-                      <span style={{ fontSize: 10, fontWeight: 800, color: "#1C1C1E" }}>{prod.p}</span>
-                      <span style={{ fontSize: 7, color: "#94A3B8", textDecoration: "line-through" }}>{prod.mrp}</span>
+                    <span style={{ fontSize: 8, fontWeight: 600, color: "#1E293B", lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginTop: 2 }}>{prod.n}</span>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginTop: 4 }}>
+                      <span style={{ fontSize: 11, fontWeight: 800, color: "#0F172A" }}>{prod.p}</span>
+                      <span style={{ fontSize: 7.5, color: "#94A3B8", textDecoration: "line-through" }}>{prod.mrp}</span>
                     </div>
-                    <div style={{ background: "#FF9900", color: "#1C1C1E", fontSize: 7, fontWeight: 800, padding: "3px 0", borderRadius: 5, textAlign: "center", cursor: "pointer", marginTop: 1 }}>Add to Cart</div>
                   </div>
                 </div>
               ))}
@@ -852,8 +851,8 @@ function BrowserGroupContent({ beat, phase }: { beat: number; phase: number }) {
         {/* Frosty widget button */}
         {siteVisible && !chatOpen && (
           <motion.div animate={{ boxShadow: [`0 4px 18px ${TEAL}35, 0 0 0 0px ${TEAL}20`, `0 4px 18px ${TEAL}35, 0 0 0 7px ${TEAL}06`, `0 4px 18px ${TEAL}35, 0 0 0 0px ${TEAL}20`] }} transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            style={{ position: "absolute", bottom: 12, right: 12, width: 38, height: 38, borderRadius: "50%", background: `linear-gradient(135deg, ${TEAL}, #0284C7)`, display: "flex", alignItems: "center", justifyContent: "center", zIndex: 95, color: "#FFF", boxShadow: `0 4px 18px ${TEAL}35` }}>
-            <Bot style={{ width: 19, height: 19 }} />
+            style={{ position: "absolute", bottom: 12, right: 12, width: 38, height: 38, borderRadius: "50%", background: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 95, boxShadow: `0 4px 18px ${TEAL}35`, border: "1px solid rgba(0,0,0,0.04)" }}>
+            <img src="/logo-small.png" alt="Chat" style={{ width: 22, height: 22, objectFit: "contain" }} />
           </motion.div>
         )}
 
@@ -880,7 +879,7 @@ function BrowserGroupContent({ beat, phase }: { beat: number; phase: number }) {
               {/* Chat header */}
               <div style={{ background: `linear-gradient(135deg, ${TEAL}, #0284C7)`, color: "#FFF", padding: "10px 14px", display: "flex", alignItems: "center", gap: 8, fontSize: 11, fontWeight: 700, flexShrink: 0 }}>
                 <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Bot style={{ width: 13, height: 13 }} />
+                  <img src="/logo-small.png" alt="Frosty Agent" style={{ width: 14, height: 14, objectFit: "contain" }} />
                 </div>
                 <span>Frosty Agent</span>
                 <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 4, fontSize: 8, color: "#A7F3D0", fontWeight: 700 }}>
@@ -889,7 +888,7 @@ function BrowserGroupContent({ beat, phase }: { beat: number; phase: number }) {
               </div>
               {/* Chat body */}
               <div style={{ padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8, flex: 1, overflowY: "auto" }}>
-                <ChatBubble side="left" variant="ai" style={{ fontSize: 10.5, padding: "8px 12px" }}>Hi! 👋 Ask me anything about our products!</ChatBubble>
+                <ChatBubble side="left" variant="ai" style={{ fontSize: 10.5, padding: "8px 12px" }}>Hi! Ask me anything about our products!</ChatBubble>
 
                 {questionText && (
                   <ChatBubble side="right" variant="user" style={{ fontSize: 10.5, padding: "8px 12px" }}>{questionText}</ChatBubble>
@@ -899,13 +898,7 @@ function BrowserGroupContent({ beat, phase }: { beat: number; phase: number }) {
 
                 {showReply && (
                   <ChatBubble side="left" variant="ai" delay={0} style={{ fontSize: 10.5, padding: "8px 12px" }}>
-                    <div>Yes! The Sony WH-1000XM5 is in stock in Platinum Silver — same-day delivery! ✅</div>
-                    {/* The CTA button */}
-                    <div style={{ marginTop: 8, background: "linear-gradient(135deg, #25D366, #128C7E)", color: "#FFF", padding: "6.5px 13px", borderRadius: 8, fontSize: 10, fontWeight: 800, display: "flex", alignItems: "center", gap: 6, cursor: "pointer", width: "fit-content", boxShadow: "0 3px 10px rgba(37,211,102,0.35)" }}>
-                      <MessageCircle style={{ width: 12, height: 12 }} />
-                      <span>Continue on WhatsApp</span>
-                      <ArrowRight style={{ width: 11, height: 11 }} />
-                    </div>
+                    <div>sure, yes its in stock. You can further continue from whatsapp on you number 1234XXXXX</div>
                   </ChatBubble>
                 )}
               </div>
@@ -1018,7 +1011,7 @@ function WhatsAppAgentBeat({ phase }: { phase: number }) {
                 <div style={{ width: 1.5, height: 5.5, background: "#FFF", borderRadius: 0.5 }} />
                 <div style={{ width: 1.5, height: 7, background: "#FFF", borderRadius: 0.5 }} />
               </div>
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="#FFF"><path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0 0 12 4z"/></svg>
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="#FFF"><path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0 0 12 4z" /></svg>
               <div style={{ width: 14, height: 7, border: "1px solid #FFF", borderRadius: 2, padding: 0.5, display: "flex", alignItems: "center" }}>
                 <div style={{ width: "90%", height: "100%", background: "#34D399", borderRadius: 1 }} />
               </div>
@@ -1045,7 +1038,7 @@ function WhatsAppAgentBeat({ phase }: { phase: number }) {
             {/* Lock Icon & Time */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 6 }}>
               <div style={{ width: 14, height: 14, borderRadius: "50%", background: "rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 3 }}>
-                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
               </div>
               <div style={{ fontSize: 28, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em", lineHeight: 1 }}>10:04</div>
               <div style={{ fontSize: 7, color: "#94A3B8", fontWeight: 600, marginTop: 2 }}>Tuesday, September 1</div>
@@ -1087,7 +1080,7 @@ function WhatsAppAgentBeat({ phase }: { phase: number }) {
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                   <div style={{ width: 15, height: 15, borderRadius: 4, background: "#25D366", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFF", boxShadow: "0 2px 6px rgba(37,211,102,0.4)" }}>
-                    <svg width="9" height="9" viewBox="0 0 24 24" fill="#FFF"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="#FFF"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z" /></svg>
                   </div>
                   <span style={{ fontSize: 7.5, fontWeight: 850, color: "#F1F5F9", letterSpacing: "0.03em" }}>WHATSAPP</span>
                 </div>
@@ -1172,12 +1165,12 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
 
   const showWAThread = true;
   const showNewReply = b3 || b5;
-  const showComplexQ = (b3 && phase >= 0) || b5;
-  const showHandoff = (b3 && phase >= 1) || b5;
-  const showHumanReply = (b3 && phase >= 2) || b5;
-  const showUserCounterQ = (b3 && phase >= 3) || b5;
-  const showPriyaCallReply = (b3 && phase >= 4) || b5;
-  const showCalendarScan = (b3 && phase >= 5) || (b5 && phase === 0);
+  const showComplexQ = (b3 && phase >= 1) || b5;
+  const showHandoff = (b3 && phase >= 2) || b5;
+  const showHumanReply = (b3 && phase >= 3) || b5;
+  const showUserCounterQ = (b3 && phase >= 4) || b5;
+  const showPriyaCallReply = (b3 && phase >= 5) || b5;
+  const showCalendarScan = (b3 && phase >= 6) || (b5 && phase >= 0);
 
   // In Beat 5 (WhatsApp slot booking):
   const showSlotOptions = b5 && phase >= 0;
@@ -1205,90 +1198,98 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
       height: "100%",
       display: "flex",
       alignItems: "center",
-      justifyContent: "space-between",
+      justifyContent: "center",
       padding: "14px 24px",
       background: "#FFFFFF",
-      gap: 24,
+      position: "relative",
       overflow: "hidden"
     }}>
-      {/* ── LEFT SIDE: Pure Kinetic Storytelling Typography ── */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14, maxWidth: 290 }}>
-        {/* Dynamic Problem & Solution Kinetic Text */}
-        <AnimatePresence mode="wait">
-          {b3 ? (
-            <motion.div
-              key="text-human-handoff"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: EASE }}
-              style={{ display: "flex", flexDirection: "column", gap: 9 }}
-            >
-              <KineticBadge
-                text="Complex B2B negotiations get stuck with dumb bots"
-                variant="error"
-                delay={0.05}
-              />
-              <KineticWordHeadline
-                delay={0.15}
-                words={[
-                  { text: "Smart" },
-                  { text: "Human" },
-                  { text: "Handoff.", breakAfter: true },
-                  { text: "Priya", highlight: true },
-                  { text: "steps", highlight: true },
-                  { text: "in", highlight: true },
-                  { text: "&", highlight: true },
-                  { text: "customizes", highlight: true },
-                  { text: "terms.", highlight: true },
-                ]}
-              />
-              <KineticDescription
-                delay={0.32}
-                text="When custom volume pricing is negotiated, Frosty loops in your sales executive with live calendar scheduling."
-              />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="text-whatsapp-slot"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: EASE }}
-              style={{ display: "flex", flexDirection: "column", gap: 9 }}
-            >
-              <KineticBadge
-                text="Scheduling delays kill high-intent buyers"
-                variant="error"
-                delay={0.05}
-              />
-              <KineticWordHeadline
-                delay={0.15}
-                words={[
-                  { text: "1-Tap" },
-                  { text: "WhatsApp" },
-                  { text: "Booking.", breakAfter: true },
-                  { text: "Locks", highlight: true },
-                  { text: "executive", highlight: true },
-                  { text: "slots", highlight: true },
-                  { text: "without", highlight: true },
-                  { text: "leaving", highlight: true },
-                  { text: "chat.", highlight: true },
-                ]}
-              />
-              <KineticDescription
-                delay={0.32}
-                text="Buyers pick their preferred meeting time directly in WhatsApp with zero friction."
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      {/* ── SPLASH SCREEN OVERLAY ── */}
+      <AnimatePresence mode="wait">
+        {phase === 0 && b3 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "#FFFFFF",
+              zIndex: 50,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              padding: 40,
+            }}
+          >
+            {b3 ? (
+              <motion.div
+                key="text-human-handoff"
+                style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, maxWidth: 500 }}
+              >
+                <KineticWordHeadline
+                  delay={0.15}
+                  fontSize="clamp(32px, 4.5vw, 44px)"
+                  centered={true}
+                  words={[
+                    { text: "Smart" },
+                    { text: "Human" },
+                    { text: "Handoff.", breakAfter: true },
+                    { text: "Priya", highlight: true },
+                    { text: "steps", highlight: true },
+                    { text: "in", highlight: true },
+                    { text: "&", highlight: true },
+                    { text: "customizes", highlight: true },
+                    { text: "terms.", highlight: true },
+                  ]}
+                />
+                <div style={{ marginTop: 8 }}>
+                  <KineticDescription
+                    delay={0.32}
+                    text="When custom volume pricing is negotiated, Frosty loops in your sales executive with live calendar scheduling."
+                  />
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="text-whatsapp-slot"
+                style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, maxWidth: 500 }}
+              >
+                <KineticWordHeadline
+                  delay={0.15}
+                  fontSize="clamp(32px, 4.5vw, 44px)"
+                  centered={true}
+                  words={[
+                    { text: "1-Tap" },
+                    { text: "WhatsApp" },
+                    { text: "Booking.", breakAfter: true },
+                    { text: "Locks", highlight: true },
+                    { text: "executive", highlight: true },
+                    { text: "slots", highlight: true },
+                    { text: "without", highlight: true },
+                    { text: "leaving", highlight: true },
+                    { text: "chat.", highlight: true },
+                  ]}
+                />
+                <div style={{ marginTop: 8 }}>
+                  <KineticDescription
+                    delay={0.32}
+                    text="Buyers pick their preferred meeting time directly in WhatsApp with zero friction."
+                  />
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* ── RIGHT SIDE: Hyper-Realistic WhatsApp Smartphone Device Frame ── */}
+      {/* ── HYPER-REALISTIC WHATSAPP SMARTPHONE DEVICE FRAME ── */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.94, x: 20 }}
-        animate={{ opacity: 1, scale: 1, x: 0 }}
+        initial={{ opacity: 0, scale: 0.94 }}
+        animate={{ opacity: (b3 && phase === 0) ? 0 : 1, scale: (b3 && phase === 0) ? 0.94 : 1 }}
         transition={{ duration: 0.5, ease: EASE }}
         style={{
           width: 250,
@@ -1323,7 +1324,7 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
                 <div style={{ width: 1.5, height: 7, background: "#FFF", borderRadius: 0.5 }} />
               </div>
               {/* Wifi */}
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="#FFF"><path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0 0 12 4z"/></svg>
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="#FFF"><path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0 0 12 4z" /></svg>
               {/* Battery */}
               <div style={{ width: 14, height: 7, border: "1px solid #FFF", borderRadius: 2, padding: 0.5, display: "flex", alignItems: "center" }}>
                 <div style={{ width: "85%", height: "100%", background: "#34D399", borderRadius: 1 }} />
@@ -1354,11 +1355,11 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
             {/* Action Icons */}
             <div style={{ display: "flex", alignItems: "center", gap: 8, opacity: 0.95, flexShrink: 0 }}>
               {/* Video Call */}
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFF"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFF"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z" /></svg>
               {/* Voice Call */}
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="#FFF"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.44-5.15-3.75-6.59-6.59l1.97-1.57c.28-.27.36-.66.25-1.01A11.36 11.36 0 0 1 9 4.38c0-.55-.45-1-1-1H4.5c-.55 0-1 .45-1 1C3.5 13.06 10.94 20.5 20.01 20.5c.55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-.12z"/></svg>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="#FFF"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.44-5.15-3.75-6.59-6.59l1.97-1.57c.28-.27.36-.66.25-1.01A11.36 11.36 0 0 1 9 4.38c0-.55-.45-1-1-1H4.5c-.55 0-1 .45-1 1C3.5 13.06 10.94 20.5 20.01 20.5c.55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-.12z" /></svg>
               {/* 3 Vertical Dots */}
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="#FFF"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="#FFF"><circle cx="12" cy="5" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="12" cy="19" r="1.5" /></svg>
             </div>
           </div>
 
@@ -1377,14 +1378,14 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
                 {/* 1. Context message from website */}
                 <div style={{ alignSelf: "flex-end", maxWidth: "86%" }}>
                   <div style={{ background: "#D9FDD3", borderRadius: "8px 8px 2px 8px", padding: "5px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)" }}>
-                    Do you have these headphones in Platinum Silver?
+                    I want sony silver headphone, can you update me on whatsapp +91 12345XXXXX
                     <div style={{ fontSize: 6.5, color: "#53BDEB", textAlign: "right", marginTop: 2, fontWeight: 700 }}>{sched.msgTime1} <span style={{ color: "#53BDEB" }}>✓✓</span></div>
                   </div>
                 </div>
 
                 {/* 2. Frosty answer */}
                 <div style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "5px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)" }}>
-                  Yes! Sony WH-1000XM5 in Platinum Silver is in stock.
+                  sure, yes its in stock..you canfurther continue from whatsapp on you number 1234XXXXX
                   <div style={{ fontSize: 6.5, color: "#667781", textAlign: "right", marginTop: 2 }}>{sched.msgTime1}</div>
                 </div>
 
@@ -1405,27 +1406,13 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
                   </motion.div>
                 )}
 
-                {/* 5. Priya Handoff Card */}
-                {showHandoff && (
-                  <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
-                    style={{ alignSelf: "center", background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 10px", display: "flex", alignItems: "center", gap: 7, boxShadow: "0 1px 3px rgba(11,20,26,0.1)" }}>
-                    <div style={{ width: 22, height: 22, borderRadius: "50%", background: "linear-gradient(135deg, #3B82F6, #1D4ED8)", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFF", boxShadow: "0 2px 6px rgba(59,130,246,0.3)" }}>
-                      <UserCheck style={{ width: 12, height: 12 }} />
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 8, fontWeight: 800, color: DARK }}>Handed to Priya · Sales Lead</div>
-                      <div style={{ fontSize: 6.5, color: "#059669", fontWeight: 700, display: "flex", alignItems: "center", gap: 3 }}>
-                        <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#10B981" }} /> Human Agent Connected
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
+                {/* 5. Priya Handoff Card (Removed per user request) */}
 
                 {/* 6. Priya: 14% offer */}
                 {showHumanReply && (
-                  <div style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "6px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)", borderLeft: "3px solid #3B82F6" }}>
-                    <div style={{ fontSize: 7, fontWeight: 800, color: "#2563EB", marginBottom: 2, display: "flex", alignItems: "center", gap: 3 }}>
-                      <UserCheck style={{ width: 8, height: 8 }} /> Priya (Sales Lead)
+                  <div style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "6px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)" }}>
+                    <div style={{ fontSize: 7, fontWeight: 800, color: "#0ea5e9", marginBottom: 2 }}>
+                      Priya (Sales Lead)
                     </div>
                     Hi! For 50 units I can offer ₹21,500/unit — 14% off. Shall I send a formal quote?
                     <div style={{ fontSize: 6.5, color: "#667781", textAlign: "right", marginTop: 2 }}>{sched.msgTime2}</div>
@@ -1443,87 +1430,26 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
 
                 {/* 8. Priya: Let me check VIP calendar */}
                 {showPriyaCallReply && (
-                  <div style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "6px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)", borderLeft: "3px solid #3B82F6" }}>
-                    <div style={{ fontSize: 7, fontWeight: 800, color: "#2563EB", marginBottom: 2, display: "flex", alignItems: "center", gap: 3 }}>
-                      <UserCheck style={{ width: 8, height: 8 }} /> Priya (Sales Lead)
+                  <div style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "6px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)" }}>
+                    <div style={{ fontSize: 7, fontWeight: 800, color: "#0ea5e9", marginBottom: 2 }}>
+                      Priya (Sales Lead)
                     </div>
                     Let me check our VIP sales calendar for an open slot with me {sched.isTomorrow ? "tomorrow" : "today"}…
                     <div style={{ fontSize: 6.5, color: "#667781", textAlign: "right", marginTop: 2 }}>{sched.msgTime3}</div>
                   </div>
                 )}
 
-                {/* 9. Scanning Live Calendar */}
-                {showCalendarScan && (
-                  <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-                    style={{ alignSelf: "center", background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 999, padding: "3px 10px", fontSize: 7, fontWeight: 800, color: "#1D4ED8", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
-                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} style={{ display: "flex" }}>
-                      <Sparkles style={{ width: 9, height: 9, color: "#2563EB" }} />
-                    </motion.div>
-                    <span>Scanning live calendar slots…</span>
-                    <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
-                      <GoogleCalendarLogo size={10} />
-                      <OutlookLogo size={10} />
-                    </div>
-                  </motion.div>
-                )}
+                {/* 9. Scanning Live Calendar (Removed per user request) */}
 
-                {/* 10. (Beat 5) Available Slots Selector in WhatsApp with professional icons */}
-                {showSlotOptions && (
-                  <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
-                    style={{ alignSelf: "flex-start", maxWidth: "90%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "7px 8px", color: "#111B21", fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 3px rgba(11,20,26,0.12)", borderLeft: `3px solid ${TEAL}` }}>
-                    <div style={{ fontSize: 7, fontWeight: 800, color: TEAL, marginBottom: 3, display: "flex", alignItems: "center", gap: 3 }}>
-                      <Calendar style={{ width: 9, height: 9 }} />
-                      <span>Available Slots {sched.targetDayLabel}</span>
-                    </div>
-                    <div style={{ fontSize: 8, color: "#475569", marginBottom: 5 }}>Pick a convenient time for our VIP negotiation call:</div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 3.5 }}>
-                      <div style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", padding: "4px 7px", borderRadius: 5, fontSize: 8, fontWeight: 700, color: DARK, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <span style={{ display: "flex", alignItems: "center", gap: 3.5 }}>
-                          <Clock style={{ width: 9, height: 9, color: "#64748B" }} />
-                          <span>{sched.slots[0]?.shortLabel}</span>
-                        </span>
-                        <span style={{ fontSize: 6.5, color: "#94A3B8" }}>30m</span>
-                      </div>
-                      <motion.div
-                        animate={{
-                          background: slotSelected ? TEAL : "linear-gradient(135deg, #ECFDF5, #F0FDF4)",
-                          borderColor: slotSelected ? TEAL : "#86EFAC",
-                          color: slotSelected ? "#FFF" : "#166534",
-                          scale: slotSelected ? 1.02 : 1,
-                        }}
-                        transition={{ duration: 0.25 }}
-                        style={{ border: "1.5px solid #86EFAC", padding: "4px 7px", borderRadius: 5, fontSize: 8, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 1px 4px rgba(34,197,94,0.15)", cursor: "pointer" }}
-                      >
-                        <span style={{ display: "flex", alignItems: "center", gap: 3.5 }}>
-                          <Sparkles style={{ width: 10, height: 10, color: slotSelected ? "#FFF" : "#059669" }} />
-                          <span>{sched.slots[1]?.shortLabel} (Recommended)</span>
-                        </span>
-                        <span style={{ fontSize: 6.5, fontWeight: 800, display: "flex", alignItems: "center", gap: 2 }}>
-                          {slotSelected ? <><Check style={{ width: 7, height: 7, strokeWidth: 3 }} /> SELECTED</> : <>SELECT <ArrowRight style={{ width: 7, height: 7 }} /></>}
-                        </span>
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* 11. User confirmed message */}
-                {showUserConfirmedMsg && (
+                {/* 10. (Beat 5) Automated Booking Confirmation */}
+                {b5 && phase >= 0 && (
                   <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
-                    style={{ alignSelf: "flex-end", maxWidth: "86%", background: "#D9FDD3", borderRadius: "8px 8px 2px 8px", padding: "5px 8px", color: "#111B21", fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)" }}>
-                    {sched.selectedSlot?.userConfirmMsg}
-                    <div style={{ fontSize: 6.5, color: "#53BDEB", textAlign: "right", marginTop: 2, fontWeight: 700 }}>{sched.msgTime3} <span style={{ color: "#53BDEB" }}>✓✓</span></div>
-                  </motion.div>
-                )}
-
-                {/* 12. Priya locking confirmation */}
-                {showPriyaLockingMsg && (
-                  <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
-                    style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "10px 10px 10px 2px", padding: "7px 10px", color: "#0F172A", fontSize: 9.5, lineHeight: 1.35, boxShadow: "0 1px 3px rgba(0,0,0,0.06)", borderLeft: "3px solid #3B82F6" }}>
-                    <div style={{ fontSize: 7, fontWeight: 800, color: "#2563EB", marginBottom: 2, display: "flex", alignItems: "center", gap: 3 }}>
-                      <UserCheck style={{ width: 9, height: 9 }} /> Priya (Sales Lead)
+                    style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "6px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)" }}>
+                    <div style={{ fontSize: 7, fontWeight: 800, color: TEAL, marginBottom: 2 }}>
+                      Frosty Agent
                     </div>
-                    {sched.selectedSlot.lockMsg}
-                    <div style={{ fontSize: 6.5, color: "#94A3B8", textAlign: "right", marginTop: 2 }}>{sched.msgTime3}</div>
+                    Your meeting has been booked for 5:30 pm....
+                    <div style={{ fontSize: 6.5, color: "#667781", textAlign: "right", marginTop: 2 }}>{sched.msgTime3}</div>
                   </motion.div>
                 )}
               </motion.div>
@@ -1549,13 +1475,13 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
                 </svg>
                 {/* Outline Camera Icon */}
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8696A0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, cursor: "pointer" }}>
-                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                  <circle cx="12" cy="13" r="4"/>
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                  <circle cx="12" cy="13" r="4" />
                 </svg>
               </div>
               {/* Circular Green Audio Record Action Button */}
               <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#00A884", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 1.5px 4px rgba(0,168,132,0.3)", flexShrink: 0, cursor: "pointer" }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFF"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFF"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" /><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" /></svg>
               </div>
             </div>
             {/* Subtle Home Indicator Bar */}
@@ -1595,34 +1521,110 @@ function MeetingGroupContent({ beat, phase }: { beat: number; phase: number }) {
   // phase 3: Frosty highlights best slot & reasoning
 
   const showTimeline = b4 || b6;
-  const showEvents = (b4 && phase >= 1) || b6;
-  const showScan = b4 && phase === 1;
-  const showHighlight = (b4 && phase >= 2) || b6;
-  const showReasoning = (b4 && phase >= 3) || b6;
+  const showEvents = (b4 && phase >= 2) || b6;
+  const showScan = b4 && phase === 2;
+  const showHighlight = (b4 && phase >= 3) || b6;
+  const showReasoning = (b4 && phase >= 4) || b6;
 
   return (
     <div style={{
       height: "100%",
       display: "flex",
       alignItems: "center",
-      justifyContent: "space-between",
-      padding: "14px 24px",
+      justifyContent: "center",
+      padding: 0,
       background: "#FFFFFF",
-      gap: 24,
+      position: "relative",
       overflow: "hidden",
     }}>
+      {/* ── SPLASH SCREEN OVERLAY ── */}
+      <AnimatePresence mode="wait">
+        {phase === 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "#FFFFFF",
+              zIndex: 50,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              padding: 40,
+            }}
+          >
+            <motion.div
+              key={b4 ? "text-meeting-scanning" : "text-meeting-locked"}
+              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, maxWidth: 500 }}
+            >
+              {b4 ? (
+                <>
+                  <KineticWordHeadline
+                    delay={0.15}
+                    fontSize="clamp(32px, 4.5vw, 44px)"
+                    centered={true}
+                    words={[
+                      { text: "Autonomous" },
+                      { text: "Scheduling.", breakAfter: true },
+                      { text: "Real-time", highlight: true },
+                      { text: "calendar", highlight: true },
+                      { text: "sync", highlight: true },
+                      { text: "&", highlight: true },
+                      { text: "slot", highlight: true },
+                      { text: "engine.", highlight: true },
+                    ]}
+                  />
+                  <div style={{ marginTop: 8 }}>
+                    <KineticDescription
+                      delay={0.32}
+                      text="Frosty checks live executive calendars, proposes conflict-free slots directly inside chat, and books without human lag."
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <KineticWordHeadline
+                    delay={0.15}
+                    fontSize="clamp(32px, 4.5vw, 44px)"
+                    centered={true}
+                    words={[
+                      // { text: "Instant" },
+                      { text: "Lead" },
+                      { text: "Conversion.", breakAfter: true },
+                      { text: "From", highlight: true },
+                      { text: "WhatsApp", highlight: true },
+                      { text: "to", highlight: true },
+                      { text: "calendar", highlight: true },
+                      { text: "invite.", highlight: true },
+                    ]}
+                  />
+                  <div style={{ marginTop: 8 }}>
+                    <KineticDescription
+                      delay={0.32}
+                      text="Meeting locked in 10 seconds. Automated Google Meet links generated, calendar invites dispatched, and CRM pipeline updated."
+                    />
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ── LEFT SIDE: AI Scheduling Engine (Mini-Calendar Hero) ── */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, x: -20 }}
-        animate={{ opacity: 1, scale: 1, x: 0 }}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: phase === 0 ? 0 : 1, scale: phase === 0 ? 0.95 : 1, y: phase === 0 ? 20 : 0 }}
         transition={{ duration: 0.5, ease: EASE }}
         style={{
-          width: 340,
-          height: 460,
-          borderRadius: 24,
-          border: "1px solid #E2E8F0",
+          width: "100%",
+          height: "100%",
           background: "#FFFFFF",
-          boxShadow: "0 20px 60px -10px rgba(15,23,42,0.1), 0 10px 20px -5px rgba(15,23,42,0.05)",
           display: "flex",
           flexDirection: "column",
           position: "relative",
@@ -1631,121 +1633,123 @@ function MeetingGroupContent({ beat, phase }: { beat: number; phase: number }) {
         }}
       >
         {/* Header: Calendars & Contact */}
-        <div style={{ background: "#F8FAFC", borderBottom: "1px solid #E2E8F0", padding: "14px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            {/* Avatar */}
-            <div style={{ width: 34, height: 34, borderRadius: "50%", background: "linear-gradient(135deg, #1E293B, #0F172A)", display: "flex", alignItems: "center", justifyContent: "center", color: "#FFF", position: "relative" }}>
-              <UserCheck style={{ width: 16, height: 16 }} />
-              <div style={{ position: "absolute", bottom: -2, right: -2, width: 12, height: 12, borderRadius: "50%", background: "#10B981", border: "2px solid #FFF" }} />
-            </div>
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#0F172A" }}>Priya Sharma</div>
-              <div style={{ fontSize: 9, color: "#64748B", fontWeight: 500 }}>Sales Lead</div>
-            </div>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <motion.div 
-              animate={{ opacity: (b4 && phase === 0) ? [0.4, 1, 0.4] : 1 }}
-              transition={{ repeat: (b4 && phase === 0) ? Infinity : 0, duration: 1 }}
-              style={{ display: "flex", alignItems: "center", gap: 3, background: "#EFF6FF", border: "1px solid #BFDBFE", padding: "3px 6px", borderRadius: 6 }}
+        <div style={{ background: "#F8FAFC", borderBottom: "1px solid #E2E8F0", padding: "12px 18px", display: "flex", alignItems: "center", justifyContent: "flex-end", flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <motion.div
+              animate={{ opacity: (b4 && phase === 1) ? [0.4, 1, 0.4] : 1 }}
+              transition={{ repeat: (b4 && phase === 1) ? Infinity : 0, duration: 1 }}
+              style={{ display: "flex", alignItems: "center", gap: 4, background: "#EFF6FF", border: "1px solid #BFDBFE", padding: "4px 8px", borderRadius: 6, fontSize: 11, fontWeight: 600, color: "#1E3A8A" }}
             >
-              <GoogleCalendarLogo size={11} />
+              <GoogleCalendarLogo size={14} /> Syncing
             </motion.div>
             <motion.div
-              animate={{ opacity: (b4 && phase === 0) ? [0.4, 1, 0.4] : 1 }}
-              transition={{ repeat: (b4 && phase === 0) ? Infinity : 0, duration: 1, delay: 0.2 }}
-              style={{ display: "flex", alignItems: "center", gap: 3, background: "#EFF6FF", border: "1px solid #BFDBFE", padding: "3px 6px", borderRadius: 6 }}
+              animate={{ opacity: (b4 && phase === 1) ? [0.4, 1, 0.4] : 1 }}
+              transition={{ repeat: (b4 && phase === 1) ? Infinity : 0, duration: 1, delay: 0.2 }}
+              style={{ display: "flex", alignItems: "center", gap: 4, background: "#EFF6FF", border: "1px solid #BFDBFE", padding: "4px 8px", borderRadius: 6, fontSize: 11, fontWeight: 600, color: "#1E3A8A" }}
             >
-              <OutlookLogo size={11} />
+              <OutlookLogo size={14} /> Synced
             </motion.div>
           </div>
         </div>
 
         {/* AI Status Overlay / Bar */}
-        <div style={{ background: b6 ? "#059669" : (showHighlight ? TEAL : "#0F172A"), color: "#FFF", padding: "8px 18px", fontSize: 9, fontWeight: 600, display: "flex", alignItems: "center", gap: 6, transition: "background 0.5s ease" }}>
+        <div style={{ background: b6 ? "#059669" : (showHighlight ? TEAL : "#0F172A"), color: "#FFF", padding: "12px 24px", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8, transition: "background 0.5s ease" }}>
           {b6 ? (
-            <><CheckCircle2 style={{ width: 12, height: 12 }} /> <span>Meeting successfully booked & synced.</span></>
+            <><CheckCircle2 style={{ width: 16, height: 16 }} /> <span>Meeting successfully booked & synced.</span></>
           ) : showHighlight ? (
-            <><Sparkles style={{ width: 12, height: 12 }} /> <span>Optimal slot found. No calendar conflicts.</span></>
+            <><Sparkles style={{ width: 16, height: 16 }} /> <span>Optimal slot found. No calendar conflicts.</span></>
           ) : showEvents ? (
-            <><Search style={{ width: 12, height: 12 }} /> <span>Scanning open slots...</span></>
+            <><Search style={{ width: 16, height: 16 }} /> <span>Scanning open slots...</span></>
           ) : (
-            <><RefreshCw style={{ width: 12, height: 12 }} /> <span>Syncing Google & Outlook calendars...</span></>
+            <><RefreshCw style={{ width: 16, height: 16 }} /> <span>Syncing Google & Outlook calendars...</span></>
           )}
         </div>
 
         {/* Body: Mini Calendar & Recommendation */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", background: "#F8FAFC", position: "relative" }}>
-          
-          {/* Top: Minimal Date Strip */}
-          <div style={{ display: "flex", padding: "8px 18px", borderBottom: "1px solid #E2E8F0", background: "#FFF", gap: 12 }}>
-            {["Sun 30", "Mon 31", "Tue 1", "Wed 2"].map((d, i) => (
-              <div key={d} style={{ flex: 1, textAlign: "center", fontSize: 9, fontWeight: i === 1 ? 700 : 500, color: i === 1 ? TEAL : "#94A3B8", background: i === 1 ? "#ECFDF5" : "transparent", padding: "4px 0", borderRadius: 4, cursor: "pointer", transition: "0.2s" }}>
-                {d}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", background: "#FFFFFF", position: "relative" }}>
+
+          {/* Top: Minimal Date Strip (Google Calendar Style) */}
+          <div style={{ display: "flex", padding: "12px 0 8px", borderBottom: "1px solid #DADCE0", background: "#FFF" }}>
+            {/* Left gutter with timezone */}
+            <div style={{ width: 75, flexShrink: 0, display: "flex", alignItems: "flex-end", paddingLeft: 12, borderRight: "1px solid #DADCE0" }}>
+              <span style={{ fontSize: 9.5, color: "#70757A", fontWeight: 500, paddingBottom: 4 }}>GMT+05:30</span>
+            </div>
+            {/* Day label */}
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4, paddingLeft: 20 }}>
+              <span style={{ fontSize: 11, fontWeight: 500, color: "#70757A", textTransform: "uppercase" }}>MON</span>
+              <div style={{ fontSize: 26, color: "#1E293B", lineHeight: 1 }}>
+                31
               </div>
-            ))}
+            </div>
           </div>
 
-          {/* Middle: Timeline Grid */}
-          <div style={{ flex: 1, padding: "12px 18px", display: "flex", gap: 10, position: "relative", overflow: "hidden" }}>
-            {/* Time labels */}
-            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", fontSize: 8, color: "#94A3B8", fontWeight: 500, paddingBottom: 10, paddingTop: 4 }}>
-              <span>09 AM</span>
-              <span>11 AM</span>
-              <span>01 PM</span>
-              <span>03 PM</span>
-              <span>05 PM</span>
+          {/* Middle: Timeline Grid (Google Calendar Style) */}
+          <div style={{ flex: 1, display: "flex", position: "relative", overflow: "hidden", background: "#FFF" }}>
+            {/* Time labels axis */}
+            <div style={{ width: 75, position: "relative", borderRight: "1px solid #DADCE0" }}>
+              {["1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM"].map((time, i) => (
+                <div key={time} style={{ position: "absolute", top: `${(i / 6) * 100}%`, right: 10, fontSize: 10.5, color: "#70757A", fontWeight: 500, transform: "translateY(-50%)" }}>
+                  {time}
+                </div>
+              ))}
             </div>
-            
+
             {/* Timeline Track */}
-            <div style={{ flex: 1, position: "relative", borderLeft: "1px dashed #E2E8F0", paddingLeft: 12 }}>
-              
+            <div style={{ flex: 1, position: "relative" }}>
+              {/* Horizontal Grid Lines */}
+              {[...Array(7)].map((_, i) => (
+                <div key={`h-${i}`} style={{ position: "absolute", top: `${(i / 6) * 100}%`, left: 0, right: 0, height: 1, background: "#E8EAED" }} />
+              ))}
+
               <AnimatePresence>
                 {showEvents && (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: "absolute", top: 0, left: 12, right: 0, bottom: 0 }}>
-                    {/* Busy Event 1 */}
-                    <div style={{ position: "absolute", top: "5%", left: 0, right: 0, height: "18%", background: "#F1F5F9", borderRadius: 6, borderLeft: "3px solid #94A3B8", padding: "6px", opacity: 0.8 }}>
-                      <div style={{ fontSize: 8, fontWeight: 600, color: "#64748B" }}>Team Sync</div>
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: "absolute", inset: 0 }}>
+                    {/* Busy Event: Client Onboarding 1:30 PM - 2:30 PM */}
+                    <div style={{ position: "absolute", top: `${(0.5 / 6) * 100}%`, left: 0, right: 15, height: `${(1 / 6) * 100}%`, background: "#039BE5", borderRadius: 4, padding: "6px 10px", zIndex: 10 }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: "#FFF" }}>Client Onboarding</div>
+                      <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.85)", marginTop: 2 }}>1:30 – 2:30pm</div>
                     </div>
-                    {/* Busy Event 2 */}
-                    <div style={{ position: "absolute", top: "30%", left: 0, right: 0, height: "25%", background: "#F1F5F9", borderRadius: 6, borderLeft: "3px solid #94A3B8", padding: "6px", opacity: 0.8 }}>
-                      <div style={{ fontSize: 8, fontWeight: 600, color: "#64748B" }}>Client Onboarding</div>
+
+                    {/* Busy Event: Team Standup 3:00 PM - 3:30 PM */}
+                    <div style={{ position: "absolute", top: `${(2 / 6) * 100}%`, left: 0, right: 15, height: `${(0.5 / 6) * 100}%`, background: "#7986CB", borderRadius: 4, padding: "4px 10px", display: "flex", alignItems: "center", zIndex: 10 }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: "#FFF" }}>Team Standup</div>
                     </div>
-                    {/* Available Slot 1 */}
-                    <div style={{ position: "absolute", top: "60%", left: 0, right: 0, height: "15%", border: "1px dashed #CBD5E1", borderRadius: 6, background: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", color: "#94A3B8", fontSize: 8, fontWeight: 500 }}>
-                      03:00 PM Open
+
+                    {/* Current Time Indicator ~4:40 PM */}
+                    <div style={{ position: "absolute", top: `${(3.67 / 6) * 100}%`, left: 0, right: 0, display: "flex", alignItems: "center", zIndex: 15 }}>
+                      <div style={{ width: 11, height: 11, borderRadius: "50%", background: "#EA4335", marginLeft: -5.5 }} />
+                      <div style={{ flex: 1, height: 2, background: "#EA4335" }} />
                     </div>
-                    
-                    {/* The Recommended Slot Area */}
-                    <div style={{ position: "absolute", top: "82%", left: 0, right: 0, height: "18%", zIndex: 10 }}>
+
+                    {/* The Recommended/Booked Slot: 5:30 PM - 6:00 PM */}
+                    <div style={{ position: "absolute", top: `${(4.5 / 6) * 100}%`, left: 0, right: 15, height: `${(0.5 / 6) * 100}%`, zIndex: 10 }}>
                       <AnimatePresence mode="wait">
                         {!b6 ? (
                           <motion.div
                             key="slot-recommended"
                             initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1, background: showHighlight ? "#DCFCE7" : "#FFF", border: showHighlight ? `1.5px solid ${TEAL}` : "1px dashed #CBD5E1" }}
+                            animate={{ opacity: 1, scale: 1, background: showHighlight ? "#E8F0FE" : "transparent", border: showHighlight ? `2px solid #1A73E8` : "1.5px dashed #CBD5E1" }}
                             transition={{ duration: 0.4 }}
-                            style={{ width: "100%", height: "100%", borderRadius: 6, display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 10px", boxShadow: showHighlight ? "0 4px 12px rgba(13, 148, 136, 0.15)" : "none" }}
+                            style={{ width: "100%", height: "100%", borderRadius: 4, display: "flex", alignItems: "center", padding: "0 10px" }}
                           >
-                            <div style={{ fontSize: 9, fontWeight: 700, color: showHighlight ? "#065F46" : "#94A3B8", display: "flex", alignItems: "center", gap: 4 }}>
-                              {showHighlight && <Sparkles style={{ width: 10, height: 10, color: TEAL }} />}
-                              05:30 PM - 06:00 PM
+                            <div style={{ fontSize: 12, fontWeight: 600, color: showHighlight ? "#1A73E8" : "#94A3B8", display: "flex", alignItems: "center", gap: 4 }}>
+                              {showHighlight && <Sparkles style={{ width: 12, height: 12 }} />}
+                              5:30 PM
                             </div>
-                            {showHighlight && (
-                              <div style={{ fontSize: 7, color: TEAL, fontWeight: 600, marginTop: 2 }}>Best AI Match</div>
-                            )}
                           </motion.div>
                         ) : (
                           <motion.div
                             key="slot-booked"
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            style={{ width: "100%", height: "100%", background: "#059669", borderRadius: 6, padding: "0 10px", display: "flex", flexDirection: "column", justifyContent: "center", boxShadow: "0 4px 12px rgba(5, 150, 105, 0.2)" }}
+                            style={{ width: "100%", height: "100%", background: "#B91C1C", borderRadius: 4, padding: "4px 10px", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}
                           >
-                            <div style={{ fontSize: 9, fontWeight: 700, color: "#FFF", display: "flex", alignItems: "center", gap: 4 }}>
-                              <CheckCircle2 style={{ width: 10, height: 10 }} /> 05:30 PM - 06:00 PM
+                            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                              <div style={{ fontSize: 12, fontWeight: 600, color: "#FFF", display: "flex", alignItems: "center", gap: 4 }}>
+                                <CheckCircle2 style={{ width: 12, height: 12 }} /> VIP Call - Product Walkthrough
+                              </div>
+                              <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.85)" }}>5:30 – 6:00pm</div>
                             </div>
-                            <div style={{ fontSize: 7, color: "#D1FAE5", fontWeight: 600, marginTop: 2 }}>Meeting Confirmed</div>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -1761,8 +1765,9 @@ function MeetingGroupContent({ beat, phase }: { beat: number; phase: number }) {
                   initial={{ top: "0%" }}
                   animate={{ top: "100%" }}
                   transition={{ duration: 1.5, ease: "linear" }}
-                  style={{ position: "absolute", left: 0, right: 0, height: 2, background: TEAL, boxShadow: "0 0 10px 2px rgba(13,148,136,0.5)", zIndex: 20 }}
+                  style={{ position: "absolute", left: 0, right: 0, height: 2, background: "#1A73E8", boxShadow: "0 0 10px 2px rgba(26,115,232,0.5)", zIndex: 20 }}
                 />
+
               )}
             </div>
           </div>
@@ -1823,79 +1828,6 @@ function MeetingGroupContent({ beat, phase }: { beat: number; phase: number }) {
 
         </div>
       </motion.div>
-
-      {/* ── RIGHT SIDE: Pure Kinetic Storytelling Typography ── */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14, maxWidth: 290 }}>
-        <AnimatePresence mode="wait">
-          {b4 ? (
-            <motion.div
-              key="text-meeting-scanning"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: EASE }}
-              style={{ display: "flex", flexDirection: "column", gap: 9 }}
-            >
-              <KineticBadge
-                text="Back-and-forth scheduling loses 42% of warm leads"
-                variant="error"
-                delay={0.05}
-              />
-              <KineticWordHeadline
-                delay={0.15}
-                words={[
-                  { text: "Autonomous" },
-                  { text: "Scheduling.", breakAfter: true },
-                  { text: "Real-time", highlight: true },
-                  { text: "calendar", highlight: true },
-                  { text: "sync", highlight: true },
-                  { text: "&", highlight: true },
-                  { text: "slot", highlight: true },
-                  { text: "engine.", highlight: true },
-                ]}
-              />
-              <KineticDescription
-                delay={0.32}
-                text="Frosty checks live executive calendars, proposes conflict-free slots directly inside chat, and books without human lag."
-              />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="text-meeting-locked"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: EASE }}
-              style={{ display: "flex", flexDirection: "column", gap: 9 }}
-            >
-              <KineticBadge
-                text="Zero scheduling friction · Lead secured"
-                variant="success"
-                delay={0.05}
-              />
-              <KineticWordHeadline
-                delay={0.15}
-                words={[
-                  { text: "Instant" },
-                  { text: "Lead" },
-                  { text: "Conversion.", breakAfter: true },
-                  { text: "From", highlight: true },
-                  { text: "WhatsApp", highlight: true },
-                  { text: "chat", highlight: true },
-                  { text: "to", highlight: true },
-                  { text: "confirmed", highlight: true },
-                  { text: "calendar", highlight: true },
-                  { text: "invite.", highlight: true },
-                ]}
-              />
-              <KineticDescription
-                delay={0.32}
-                text="Meeting locked in 10 seconds. Automated Google Meet links generated, calendar invites dispatched, and CRM pipeline updated."
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
     </div>
   );
 }
@@ -1965,14 +1897,28 @@ function MerchantChaosTransitionContent({ beat, phase }: { beat: number; phase: 
               transition={{ duration: 0.35, ease: EASE }}
               style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}
             >
-              <KineticBadge
-                text="✦ BEHIND THE SCENES · BUSINESS OWNER VIEW"
-                variant="success"
-                delay={0.05}
-              />
+              <motion.div
+                initial={{ opacity: 0, x: -12, filter: "blur(4px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontSize: 11,
+                  fontWeight: 800,
+                  color: "#64748B",
+                  letterSpacing: "0.04em",
+                  textTransform: "uppercase"
+                }}
+              >
+                <Eye style={{ width: 13, height: 13, strokeWidth: 2.5 }} />
+                <span>Behind the scenes · Business owner view</span>
+              </motion.div>
               <KineticWordHeadline
                 fontSize="clamp(22px, 2.5vw, 28px)"
                 delay={0.15}
+                centered={true}
                 words={[
                   { text: "How" },
                   { text: "Do" },
@@ -1999,14 +1945,28 @@ function MerchantChaosTransitionContent({ beat, phase }: { beat: number; phase: 
               transition={{ duration: 0.35, ease: EASE }}
               style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}
             >
-              <KineticBadge
-                text="✦ ONE SINGLE UNIFIED AI PLATFORM"
-                variant="success"
-                delay={0.05}
-              />
+              <motion.div
+                initial={{ opacity: 0, x: -12, filter: "blur(4px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontSize: 11,
+                  fontWeight: 800,
+                  color: TEAL,
+                  letterSpacing: "0.04em",
+                  textTransform: "uppercase"
+                }}
+              >
+                <Layers style={{ width: 13, height: 13, strokeWidth: 2.5 }} />
+                <span>One single unified AI platform</span>
+              </motion.div>
               <KineticWordHeadline
                 fontSize="clamp(22px, 2.5vw, 28px)"
                 delay={0.15}
+                centered={true}
                 words={[
                   { text: "Let" },
                   { text: "Frosty" },
@@ -2085,152 +2045,120 @@ function MerchantChaosTransitionContent({ beat, phase }: { beat: number; phase: 
                   {[
                     // ── Card 1: Lead Scoring ──
                     {
-                      icon: <Flame style={{ width: 14, height: 14, color: "#EA580C" }} />,
-                      iconBg: "#FFEDD5",
+                      icon: <Flame style={{ width: 14, height: 14, color: "#64748B" }} />,
                       badge: "124 LEADS",
-                      badgeBg: "#FFEDD5",
-                      badgeColor: "#C2410C",
-                      border: "rgba(254,215,170,0.55)",
-                      shadow: "0 10px 30px -8px rgba(234,88,12,0.16), 0 4px 12px -5px rgba(15,23,42,0.05), inset 0 1px 0 rgba(255,255,255,1)",
+                      badgeColor: "#475569",
                       content: (
                         <div style={{ marginTop: 10 }}>
                           <div style={{ fontSize: 11, fontWeight: 800, color: DARK }}>Lead Scoring</div>
-                          <div style={{ fontSize: 9, color: "#C2410C", fontWeight: 700, marginTop: 3 }}>🔥 85% Enterprise B2B</div>
-                          <div style={{ width: "100%", height: 5, background: "#FED7AA", borderRadius: 3, marginTop: 6, overflow: "hidden" }}>
-                            <div style={{ width: "85%", height: "100%", background: "#EA580C", borderRadius: 3 }} />
+                          <div style={{ fontSize: 9, color: "#475569", fontWeight: 600, marginTop: 3 }}>85% Enterprise B2B</div>
+                          <div style={{ width: "100%", height: 4, background: "#E2E8F0", borderRadius: 3, marginTop: 6, overflow: "hidden" }}>
+                            <div style={{ width: "85%", height: "100%", background: "#334155", borderRadius: 3 }} />
                           </div>
-                          <div style={{ fontSize: 8, color: "#64748B", fontWeight: 600, borderTop: "1px solid #FFF7ED", paddingTop: 8, marginTop: 10 }}>⚡ 32 Warm Retailers</div>
+                          <div style={{ fontSize: 8, color: "#94A3B8", fontWeight: 500, paddingTop: 8, marginTop: 10 }}>32 Warm Retailers</div>
                         </div>
                       ),
                     },
                     // ── Card 2: Smart Quotes ──
                     {
-                      icon: <Receipt style={{ width: 14, height: 14, color: "#7C3AED" }} />,
-                      iconBg: "#F5F3FF",
+                      icon: <Receipt style={{ width: 14, height: 14, color: "#64748B" }} />,
                       badge: "14% OFF",
-                      badgeBg: "#F5F3FF",
-                      badgeColor: "#6D28D9",
-                      border: "rgba(221,214,254,0.55)",
-                      shadow: "0 10px 30px -8px rgba(124,58,237,0.16), 0 4px 12px -5px rgba(15,23,42,0.05), inset 0 1px 0 rgba(255,255,255,1)",
+                      badgeColor: "#475569",
                       content: (
                         <div style={{ marginTop: 10 }}>
                           <div style={{ fontSize: 11, fontWeight: 800, color: DARK }}>Smart Quotes</div>
                           <div style={{ fontSize: 9, color: "#64748B", marginTop: 3, fontWeight: 500 }}>50x Sony XM5</div>
-                          <div style={{ fontSize: 13, fontWeight: 900, color: TEAL, marginTop: 2 }}>₹21,500<span style={{ fontSize: 9.5 }}>/unit</span></div>
-                          <div style={{ fontSize: 8, color: "#7C3AED", fontWeight: 700, background: "#F5F3FF", padding: "4px 6px", borderRadius: 4, textAlign: "center", marginTop: 8 }}>Draft #Q-849 Auto-Generated</div>
+                          <div style={{ fontSize: 13, fontWeight: 900, color: DARK, marginTop: 2 }}>₹21,500<span style={{ fontSize: 9.5, color: "#64748B" }}>/unit</span></div>
+                          <div style={{ fontSize: 8, color: "#64748B", fontWeight: 600, marginTop: 8 }}>Draft #Q-849 Auto-Generated</div>
                         </div>
                       ),
                     },
                     // ── Card 3: Catalog Sync ──
                     {
-                      icon: <ShoppingBag style={{ width: 14, height: 14, color: "#65A30D" }} />,
-                      iconBg: "#ECFCCB",
+                      icon: <ShoppingBag style={{ width: 14, height: 14, color: "#64748B" }} />,
                       badge: "18 IN STOCK",
-                      badgeBg: "#ECFCCB",
-                      badgeColor: "#4D7C0F",
-                      border: "rgba(217,249,157,0.55)",
-                      shadow: "0 10px 30px -8px rgba(101,163,13,0.16), 0 4px 12px -5px rgba(15,23,42,0.05), inset 0 1px 0 rgba(255,255,255,1)",
+                      badgeColor: "#475569",
                       content: (
                         <div style={{ marginTop: 10 }}>
                           <div style={{ fontSize: 11, fontWeight: 800, color: DARK }}>Catalog Sync</div>
                           <div style={{ fontSize: 9, color: "#334155", fontWeight: 600, marginTop: 3 }}>Sony WH-1000XM5</div>
-                          <div style={{ fontSize: 8, color: "#4D7C0F", fontWeight: 700, borderTop: "1px solid #F7FEE7", paddingTop: 8, marginTop: 14 }}>✓ Real-Time Stock Matched</div>
+                          <div style={{ fontSize: 8, color: "#64748B", fontWeight: 500, paddingTop: 8, marginTop: 14 }}>✓ Real-Time Stock Matched</div>
                         </div>
                       ),
                     },
                     // ── Card 4: Omnichannel CRM ──
                     {
-                      icon: <Layers style={{ width: 14, height: 14, color: "#0284C7" }} />,
-                      iconBg: "#E0F2FE",
+                      icon: <Layers style={{ width: 14, height: 14, color: "#64748B" }} />,
                       badge: "₹48.5L ACTIVE",
-                      badgeBg: "#E0F2FE",
-                      badgeColor: "#0369A1",
-                      border: "rgba(186,230,253,0.65)",
-                      shadow: "0 10px 30px -8px rgba(2,132,199,0.18), 0 4px 12px -5px rgba(15,23,42,0.05), inset 0 1px 0 rgba(255,255,255,1)",
+                      badgeColor: "#475569",
                       content: (
                         <div style={{ marginTop: 10 }}>
                           <div style={{ fontSize: 11, fontWeight: 800, color: DARK }}>Omnichannel CRM</div>
-                          <div style={{ fontSize: 9, color: "#0284C7", fontWeight: 700, marginTop: 3 }}>6 Deals Won Today</div>
+                          <div style={{ fontSize: 9, color: "#475569", fontWeight: 600, marginTop: 3 }}>6 Deals Won Today</div>
                           <div style={{ display: "flex", gap: 4, marginTop: 6 }}>
-                            <div style={{ flex: 1, height: 4, background: "#0284C7", borderRadius: 3 }} />
-                            <div style={{ flex: 1, height: 4, background: "#0284C7", borderRadius: 3 }} />
-                            <div style={{ flex: 1, height: 4, background: "#BAE6FD", borderRadius: 3 }} />
+                            <div style={{ flex: 1, height: 4, background: "#334155", borderRadius: 3 }} />
+                            <div style={{ flex: 1, height: 4, background: "#334155", borderRadius: 3 }} />
+                            <div style={{ flex: 1, height: 4, background: "#E2E8F0", borderRadius: 3 }} />
                           </div>
-                          <div style={{ fontSize: 8, color: "#64748B", fontWeight: 600, borderTop: "1px solid #F0F9FF", paddingTop: 8, marginTop: 10 }}>Auto-Synced Across Channels</div>
+                          <div style={{ fontSize: 8, color: "#94A3B8", fontWeight: 500, paddingTop: 8, marginTop: 10 }}>Auto-Synced Across Channels</div>
                         </div>
                       ),
                     },
                     // ── Card 5: Conversion Radar ──
                     {
-                      icon: <TrendingUp style={{ width: 14, height: 14, color: "#059669" }} />,
-                      iconBg: "#D1FAE5",
+                      icon: <TrendingUp style={{ width: 14, height: 14, color: "#64748B" }} />,
                       badge: "+28% REV",
-                      badgeBg: "#D1FAE5",
-                      badgeColor: "#047857",
-                      border: "rgba(167,243,208,0.55)",
-                      shadow: "0 10px 30px -8px rgba(5,150,105,0.16), 0 4px 12px -5px rgba(15,23,42,0.05), inset 0 1px 0 rgba(255,255,255,1)",
+                      badgeColor: "#475569",
                       content: (
                         <div style={{ marginTop: 10 }}>
                           <div style={{ fontSize: 11, fontWeight: 800, color: DARK }}>Conversion Radar</div>
-                          <div style={{ fontSize: 9, color: "#047857", fontWeight: 700, marginTop: 3 }}>45% Lead Rate</div>
-                          <div style={{ width: "100%", height: 5, background: "#A7F3D0", borderRadius: 3, marginTop: 6, overflow: "hidden" }}>
-                            <div style={{ width: "45%", height: "100%", background: "#059669", borderRadius: 3 }} />
+                          <div style={{ fontSize: 9, color: "#475569", fontWeight: 600, marginTop: 3 }}>45% Lead Rate</div>
+                          <div style={{ width: "100%", height: 4, background: "#E2E8F0", borderRadius: 3, marginTop: 6, overflow: "hidden" }}>
+                            <div style={{ width: "45%", height: "100%", background: "#334155", borderRadius: 3 }} />
                           </div>
-                          <div style={{ fontSize: 8, color: "#64748B", fontWeight: 600, borderTop: "1px solid #ECFDF5", paddingTop: 8, marginTop: 10 }}>⚡ 1.1s Avg AI Response Time</div>
+                          <div style={{ fontSize: 8, color: "#94A3B8", fontWeight: 500, paddingTop: 8, marginTop: 10 }}>1.1s Avg AI Response Time</div>
                         </div>
                       ),
                     },
                     // ── Card 6: Inbox Router ──
                     {
-                      icon: <Radio style={{ width: 14, height: 14, color: "#2563EB" }} />,
-                      iconBg: "#DBEAFE",
+                      icon: <Radio style={{ width: 14, height: 14, color: "#64748B" }} />,
                       badge: "32 NEW",
-                      badgeBg: "#DBEAFE",
-                      badgeColor: "#1D4ED8",
-                      border: "rgba(191,219,254,0.6)",
-                      shadow: "0 10px 30px -8px rgba(37,99,235,0.16), 0 4px 12px -5px rgba(15,23,42,0.05), inset 0 1px 0 rgba(255,255,255,1)",
+                      badgeColor: "#475569",
                       content: (
                         <div style={{ marginTop: 10 }}>
                           <div style={{ fontSize: 11, fontWeight: 800, color: DARK }}>Inbox Router</div>
-                          <div style={{ fontSize: 9, color: "#1E293B", fontWeight: 600, marginTop: 3 }}>WhatsApp · Web · Email</div>
-                          <div style={{ fontSize: 8, color: "#2563EB", fontWeight: 700, borderTop: "1px solid #EFF6FF", paddingTop: 8, marginTop: 14 }}>✓ Zero Context Lost</div>
+                          <div style={{ fontSize: 9, color: "#475569", fontWeight: 600, marginTop: 3 }}>WhatsApp · Web · Email</div>
+                          <div style={{ fontSize: 8, color: "#64748B", fontWeight: 500, paddingTop: 8, marginTop: 14 }}>✓ Zero Context Lost</div>
                         </div>
                       ),
                     },
                     // ── Card 7: Team Dispatch ──
                     {
-                      icon: <UserCheck style={{ width: 14, height: 14, color: "#9333EA" }} />,
-                      iconBg: "#F3E8FF",
+                      icon: <UserCheck style={{ width: 14, height: 14, color: "#64748B" }} />,
                       badge: "CO-PILOT",
-                      badgeBg: "#F3E8FF",
-                      badgeColor: "#7E22CE",
-                      border: "rgba(233,213,255,0.55)",
-                      shadow: "0 10px 30px -8px rgba(147,51,234,0.16), 0 4px 12px -5px rgba(15,23,42,0.05), inset 0 1px 0 rgba(255,255,255,1)",
+                      badgeColor: "#475569",
                       content: (
                         <div style={{ marginTop: 10 }}>
                           <div style={{ fontSize: 11, fontWeight: 800, color: DARK }}>Team Dispatch</div>
-                          <div style={{ fontSize: 9, color: "#7E22CE", fontWeight: 700, marginTop: 3, display: "flex", alignItems: "center", gap: 4 }}>
+                          <div style={{ fontSize: 9, color: "#475569", fontWeight: 600, marginTop: 3, display: "flex", alignItems: "center", gap: 4 }}>
                             <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#22C55E" }} />
                             <span>Assigned: Priya S.</span>
                           </div>
-                          <div style={{ fontSize: 8, color: "#64748B", fontWeight: 600, borderTop: "1px solid #FAF5FF", paddingTop: 8, marginTop: 11 }}>Full Chat Journey Synced</div>
+                          <div style={{ fontSize: 8, color: "#94A3B8", fontWeight: 500, paddingTop: 8, marginTop: 11 }}>Full Chat Journey Synced</div>
                         </div>
                       ),
                     },
                     // ── Card 8: Slot Engine ──
                     {
-                      icon: <CalendarDays style={{ width: 14, height: 14, color: "#D97706" }} />,
-                      iconBg: "#FEF3C7",
+                      icon: <CalendarDays style={{ width: 14, height: 14, color: "#64748B" }} />,
                       badge: "1-TAP",
-                      badgeBg: "#FEF3C7",
-                      badgeColor: "#B45309",
-                      border: "rgba(253,230,138,0.6)",
-                      shadow: "0 10px 30px -8px rgba(217,119,6,0.16), 0 2px 6px rgba(15,23,42,0.04), inset 0 1px 0 rgba(255,255,255,1)",
+                      badgeColor: "#475569",
                       content: (
                         <div style={{ marginTop: 10 }}>
                           <div style={{ fontSize: 11, fontWeight: 800, color: DARK }}>Slot Engine</div>
-                          <div style={{ fontSize: 9, color: "#334155", fontWeight: 600, marginTop: 3 }}>Google Meet &amp; Cal</div>
-                          <div style={{ fontSize: 8, color: "#B45309", fontWeight: 700, borderTop: "1px solid #FFFBEB", paddingTop: 8, marginTop: 14 }}>Today · 5:30 PM Locked</div>
+                          <div style={{ fontSize: 9, color: "#334155", fontWeight: 600, marginTop: 3 }}>Google Meet & Cal</div>
+                          <div style={{ fontSize: 8, color: "#64748B", fontWeight: 500, paddingTop: 8, marginTop: 14 }}>Today · 5:30 PM Locked</div>
                         </div>
                       ),
                     },
@@ -2244,12 +2172,11 @@ function MerchantChaosTransitionContent({ beat, phase }: { beat: number; phase: 
                         flex: "0 0 182px",
                         width: 182,
                         minHeight: 180,
-                        background: "rgba(255,255,255,0.95)",
-                        backdropFilter: "blur(10px)",
-                        borderRadius: 18,
-                        border: `1.5px solid ${card.border}`,
+                        background: "#FFFFFF",
+                        borderRadius: 12,
+                        border: "1px solid #E2E8F0",
                         padding: "13px 14px",
-                        boxShadow: card.shadow,
+                        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
                         boxSizing: "border-box",
                         display: "flex",
                         flexDirection: "column",
@@ -2258,10 +2185,8 @@ function MerchantChaosTransitionContent({ beat, phase }: { beat: number; phase: 
                       }}
                     >
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <div style={{ width: 28, height: 28, borderRadius: 8, background: card.iconBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                          {card.icon}
-                        </div>
-                        <span style={{ background: card.badgeBg, color: card.badgeColor, fontSize: 7.5, fontWeight: 800, padding: "3px 7px", borderRadius: 6, whiteSpace: "nowrap", marginLeft: 4 }}>{card.badge}</span>
+                        {card.icon}
+                        <span style={{ color: card.badgeColor, fontSize: 7.5, fontWeight: 700, padding: "2px 6px", borderRadius: 4, border: "1px solid #E2E8F0", whiteSpace: "nowrap", marginLeft: 4 }}>{card.badge}</span>
                       </div>
                       {card.content}
                     </motion.div>
@@ -2369,7 +2294,6 @@ function MerchantChaosTransitionContent({ beat, phase }: { beat: number; phase: 
 
       {/* Bottom Subtle Indicator */}
       <div style={{ fontSize: 9, color: "#94A3B8", fontWeight: 600, display: "flex", alignItems: "center", gap: 6, zIndex: 30 }}>
-        <Sparkles style={{ width: 12, height: 12, color: TEAL }} />
         <span>Unified Merchant Intelligence</span>
       </div>
     </div>
@@ -2390,107 +2314,41 @@ function SharedBrainKnowledgeContent({ beat, phase }: { beat: number; phase: num
         alignItems: "center",
         justifyContent: "space-between",
         padding: "16px 20px 14px",
-        background: "radial-gradient(ellipse at 50% 25%, #F8FAFC 0%, #FFFFFF 75%)",
+        background: "#FFFFFF",
         position: "relative",
         overflow: "hidden",
         boxSizing: "border-box",
       }}
     >
-      {/* Background Subtle Organic Wave Texture Accent */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: "radial-gradient(#E2E8F0 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-          opacity: 0.35,
-          pointerEvents: "none",
-        }}
-      />
-
       {/* ── Top Header Section ── */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", zIndex: 10, gap: 4 }}>
-        {/* Top Badge */}
-        <div
+        {/* Top Badge - Clean uppercase text */}
+        <motion.div
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            background: "#FFFFFF",
-            border: "1px solid #E2E8F0",
-            borderRadius: 9999,
-            padding: "3.5px 13px",
-            boxShadow: "0 2px 6px rgba(15,23,42,0.03)",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            fontSize: 8.5,
+            fontSize: 9,
             fontWeight: 800,
-            color: "#0F172A",
-            letterSpacing: "0.04em",
+            color: "#64748B",
+            letterSpacing: "0.06em",
+            textTransform: "uppercase",
           }}
         >
-          <Sparkles style={{ width: 11, height: 11, color: "#2563EB" }} />
-          <span>ONE SHARED KNOWLEDGE BASE • REAL-TIME SYNC</span>
-        </div>
+          One shared knowledge base · Real-time sync
+        </motion.div>
 
         {/* Hero Title */}
         <div style={{ marginTop: 2 }}>
-          <h2
-            style={{
-              fontSize: "clamp(20px, 2.4vw, 28px)",
-              fontWeight: 900,
-              color: "#0F172A",
-              margin: 0,
-              lineHeight: 1.15,
-              letterSpacing: "-0.025em",
-            }}
-          >
+          <h2 style={{ fontSize: "clamp(20px, 2.4vw, 28px)", fontWeight: 900, color: "#0F172A", margin: 0, lineHeight: 1.15, letterSpacing: "-0.025em" }}>
             One Shared Brain.
           </h2>
-          <h2
-            style={{
-              fontSize: "clamp(20px, 2.4vw, 28px)",
-              fontWeight: 900,
-              margin: "1px 0 0",
-              lineHeight: 1.15,
-              letterSpacing: "-0.025em",
-              background: "linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
+          <h2 style={{ fontSize: "clamp(20px, 2.4vw, 28px)", fontWeight: 900, margin: "1px 0 0", lineHeight: 1.15, letterSpacing: "-0.025em", color: TEAL }}>
             Instant Cross-Channel Memory.
           </h2>
-          <p
-            style={{
-              fontSize: 9.5,
-              color: "#64748B",
-              fontWeight: 500,
-              margin: "4px 0 0",
-              maxWidth: 500,
-            }}
-          >
+          <p style={{ fontSize: 9.5, color: "#64748B", fontWeight: 500, margin: "4px 0 0", maxWidth: 500 }}>
             Both Website and WhatsApp agents think from the exact same real-time memory matrix.
           </p>
-        </div>
-
-        {/* Pill Below Subtitle */}
-        <div
-          style={{
-            marginTop: 4,
-            background: "#FFFFFF",
-            border: "1px solid #E2E8F0",
-            borderRadius: 9999,
-            padding: "3px 12px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.02)",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 5,
-            fontSize: 8,
-            fontWeight: 700,
-            color: "#1E293B",
-          }}
-        >
-          <Zap style={{ width: 10, height: 10, color: "#2563EB" }} />
-          <span>Unified Vector Intelligence • 0.0ms Sync</span>
         </div>
       </div>
 
@@ -2516,10 +2374,10 @@ function SharedBrainKnowledgeContent({ beat, phase }: { beat: number; phase: num
             flex: "0 0 178px",
             width: 178,
             background: "#FFFFFF",
-            borderRadius: 22,
-            border: "1.2px solid #E2E8F0",
+            borderRadius: 12,
+            border: "1px solid #E2E8F0",
             padding: "13px 13px",
-            boxShadow: "0 10px 30px -6px rgba(15,23,42,0.06), 0 2px 8px rgba(0,0,0,0.02)",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
             display: "flex",
             flexDirection: "column",
             gap: 9,
@@ -2529,234 +2387,78 @@ function SharedBrainKnowledgeContent({ beat, phase }: { beat: number; phase: num
         >
           {/* Top Header Row */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 10,
-                background: "#F1F5F9",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Globe style={{ width: 16, height: 16, color: "#2563EB" }} />
-            </div>
-            <span
-              style={{
-                background: "#F0FDF4",
-                color: "#16A34A",
-                border: "1px solid #DCFCE7",
-                fontSize: 7.5,
-                fontWeight: 800,
-                padding: "2.5px 7px",
-                borderRadius: 9999,
-                display: "flex",
-                alignItems: "center",
-                gap: 3.5,
-              }}
-            >
-              <span style={{ width: 4.5, height: 4.5, borderRadius: "50%", background: "#22C55E" }} />
+            <Globe style={{ width: 16, height: 16, color: "#0396A6" }} />
+            <span style={{ color: "#475569", border: "1px solid #E2E8F0", fontSize: 8, fontWeight: 700, padding: "2px 6px", borderRadius: 4, display: "flex", alignItems: "center", gap: 3 }}>
+              <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#22C55E" }} />
               LIVE
             </span>
           </div>
 
           {/* Agent Info */}
           <div>
-            <div style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A" }}>Website Agent</div>
-            <div style={{ fontSize: 8.5, color: "#64748B", marginTop: 1, fontWeight: 500 }}>yourwebsite.com</div>
+            <div style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>Website Agent</div>
+            <div style={{ fontSize: 9.5, color: "#94A3B8", marginTop: 2, fontWeight: 500 }}>yourwebsite.com</div>
           </div>
 
-          {/* 2 Feature Rows */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-            <div
-              style={{
-                background: "#F8FAFC",
-                border: "1px solid #F1F5F9",
-                borderRadius: 10,
-                padding: "5.5px 8px",
-                display: "flex",
-                alignItems: "center",
-                gap: 5.5,
-                fontSize: 7.8,
-                fontWeight: 700,
-                color: "#1E293B",
-              }}
-            >
-              <Sparkles style={{ width: 11, height: 11, color: "#2563EB", flexShrink: 0 }} />
+          {/* Feature Rows */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 2 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 600, color: "#475569", display: "flex", alignItems: "center", gap: 4 }}>
+              <Check style={{ width: 11, height: 11, color: "#0396A6" }} />
               <span>Catalog &amp; Live Price Synced</span>
             </div>
-            <div
-              style={{
-                background: "#F8FAFC",
-                border: "1px solid #F1F5F9",
-                borderRadius: 10,
-                padding: "5.5px 8px",
-                display: "flex",
-                alignItems: "center",
-                gap: 5.5,
-                fontSize: 7.8,
-                fontWeight: 700,
-                color: "#1E293B",
-              }}
-            >
-              <ShoppingBag style={{ width: 11, height: 11, color: "#2563EB", flexShrink: 0 }} />
-              <span>Cart: ₹34,900 • Visitor #4c1a</span>
+            <div style={{ fontSize: 8.5, fontWeight: 600, color: "#475569", display: "flex", alignItems: "center", gap: 4 }}>
+              <Check style={{ width: 11, height: 11, color: "#0396A6" }} />
+              <span>Cart: ₹34,900 · Visitor #4c1a</span>
             </div>
           </div>
-
-          {/* Right Connection Port Dot */}
-          <div
-            style={{
-              position: "absolute",
-              right: -5,
-              top: "50%",
-              transform: "translateY(-50%)",
-              width: 10,
-              height: 10,
-              borderRadius: "50%",
-              background: "#2563EB",
-              border: "2px solid #FFFFFF",
-              boxShadow: "0 0 8px rgba(37,99,235,0.6)",
-              zIndex: 30,
-            }}
-          />
         </motion.div>
 
         {/* ── Left Connection Line ── */}
-        <div style={{ flex: "1 1 40px", height: 2, position: "relative", minWidth: 24, maxWidth: 75, overflow: "visible" }}>
-          <svg style={{ width: "100%", height: "100%", overflow: "visible" }}>
-            <line x1="0" y1="1" x2="100%" y2="1" stroke="#CBD5E1" strokeWidth="1.4" strokeDasharray="3 3" />
-            <circle r="3.5" fill="#2563EB">
-              <animateMotion dur="2.2s" repeatCount="indefinite" path="M 0 1 L 75 1" />
-            </circle>
-          </svg>
-        </div>
+        <div style={{ flex: "1 1 40px", height: 1, minWidth: 24, maxWidth: 75, borderTop: "1.5px dashed rgba(3,150,166,0.35)" }} />
 
-        {/* ── Center Hub: Frosty F Logo with Concentric Rings ── */}
+        {/* ── Center Hub: Logo from public folder ── */}
         <div
           style={{
             position: "relative",
-            width: 210,
-            height: 210,
+            width: 130,
+            height: 130,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
           }}
         >
-          {/* Ambient Soft Blue Radial Glow */}
-          <div
-            style={{
-              position: "absolute",
-              width: 180,
-              height: 180,
-              borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(59,130,246,0.16) 0%, rgba(124,58,237,0.06) 50%, transparent 70%)",
-              filter: "blur(20px)",
-              pointerEvents: "none",
-            }}
-          />
+          {/* Outer Ring */}
+          <div style={{ position: "absolute", width: 120, height: 120, borderRadius: "50%", border: "1px solid rgba(3,150,166,0.2)", pointerEvents: "none" }} />
 
-          {/* Outer Ring with Top/Bottom Accent Dots */}
-          <div
-            style={{
-              position: "absolute",
-              width: 190,
-              height: 190,
-              borderRadius: "50%",
-              border: "1.2px solid #E2E8F0",
-              pointerEvents: "none",
-            }}
-          >
-            {/* Top Dot */}
-            <div
-              style={{
-                position: "absolute",
-                top: -3,
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "#3B82F6",
-                boxShadow: "0 0 6px rgba(59,130,246,0.8)",
-              }}
-            />
-            {/* Bottom Dot */}
-            <div
-              style={{
-                position: "absolute",
-                bottom: -3,
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "#3B82F6",
-                boxShadow: "0 0 6px rgba(59,130,246,0.8)",
-              }}
-            />
-          </div>
-
-          {/* Middle Subtle Dashed Ring */}
+          {/* Inner Dashed Ring */}
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
-            style={{
-              position: "absolute",
-              width: 152,
-              height: 152,
-              borderRadius: "50%",
-              border: "1.2px dashed #CBD5E1",
-              pointerEvents: "none",
-            }}
+            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+            style={{ position: "absolute", width: 95, height: 95, borderRadius: "50%", border: "1px dashed rgba(3,150,166,0.25)", pointerEvents: "none" }}
           />
 
-          {/* Inner Glowing Ring */}
+          {/* Central Logo */}
           <div
             style={{
-              position: "absolute",
-              width: 122,
-              height: 122,
-              borderRadius: "50%",
-              border: "1.5px solid #DBEAFE",
-              boxShadow: "0 0 20px rgba(59,130,246,0.18)",
-              pointerEvents: "none",
-            }}
-          />
-
-          {/* Central Pure White Circular Disc Container */}
-          <motion.div
-            animate={{ scale: [1, 1.025, 1] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-            style={{
-              width: 98,
-              height: 98,
+              width: 72,
+              height: 72,
               borderRadius: "50%",
               background: "#FFFFFF",
-              border: "1.5px solid #E2E8F0",
-              boxShadow: "0 14px 36px rgba(37,99,235,0.14), 0 2px 10px rgba(0,0,0,0.03), inset 0 2px 4px rgba(255,255,255,1)",
+              border: "1px solid rgba(3,150,166,0.2)",
+              boxShadow: "0 2px 8px rgba(3,150,166,0.1)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               zIndex: 25,
-              position: "relative",
             }}
           >
-            <FrostyAgentMark size={36} ink="#0A1A2F" teal="#2563EB" />
-          </motion.div>
+            <img src="/logo-small.png" alt="Frosty" style={{ width: 44, height: 44, objectFit: "contain" }} />
+          </div>
         </div>
 
         {/* ── Right Connection Line ── */}
-        <div style={{ flex: "1 1 40px", height: 2, position: "relative", minWidth: 24, maxWidth: 75, overflow: "visible" }}>
-          <svg style={{ width: "100%", height: "100%", overflow: "visible" }}>
-            <line x1="0" y1="1" x2="100%" y2="1" stroke="#CBD5E1" strokeWidth="1.4" strokeDasharray="3 3" />
-            <circle r="3.5" fill="#16A34A">
-              <animateMotion dur="2.2s" repeatCount="indefinite" path="M 75 1 L 0 1" />
-            </circle>
-          </svg>
-        </div>
+        <div style={{ flex: "1 1 40px", height: 1, minWidth: 24, maxWidth: 75, borderTop: "1.5px dashed rgba(3,150,166,0.35)" }} />
 
         {/* ── Right Card: WhatsApp Agent ── */}
         <motion.div
@@ -2767,10 +2469,10 @@ function SharedBrainKnowledgeContent({ beat, phase }: { beat: number; phase: num
             flex: "0 0 178px",
             width: 178,
             background: "#FFFFFF",
-            borderRadius: 22,
-            border: "1.2px solid #E2E8F0",
+            borderRadius: 12,
+            border: "1px solid #E2E8F0",
             padding: "13px 13px",
-            boxShadow: "0 10px 30px -6px rgba(15,23,42,0.06), 0 2px 8px rgba(0,0,0,0.02)",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
             display: "flex",
             flexDirection: "column",
             gap: 9,
@@ -2778,114 +2480,45 @@ function SharedBrainKnowledgeContent({ beat, phase }: { beat: number; phase: num
             position: "relative",
           }}
         >
-          {/* Left Connection Port Dot */}
-          <div
-            style={{
-              position: "absolute",
-              left: -5,
-              top: "50%",
-              transform: "translateY(-50%)",
-              width: 10,
-              height: 10,
-              borderRadius: "50%",
-              background: "#16A34A",
-              border: "2px solid #FFFFFF",
-              boxShadow: "0 0 8px rgba(22,163,74,0.6)",
-              zIndex: 30,
-            }}
-          />
-
           {/* Top Header Row */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 10,
-                background: "#F0FDF4",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <MessageCircle style={{ width: 16, height: 16, color: "#16A34A" }} />
-            </div>
-            <span
-              style={{
-                background: "#F0FDF4",
-                color: "#16A34A",
-                border: "1px solid #DCFCE7",
-                fontSize: 7.5,
-                fontWeight: 800,
-                padding: "2.5px 7px",
-                borderRadius: 9999,
-                display: "flex",
-                alignItems: "center",
-                gap: 3.5,
-              }}
-            >
-              <span style={{ width: 4.5, height: 4.5, borderRadius: "50%", background: "#22C55E" }} />
+            <MessageCircle style={{ width: 16, height: 16, color: "#0396A6" }} />
+            <span style={{ color: "#475569", border: "1px solid #E2E8F0", fontSize: 8, fontWeight: 700, padding: "2px 6px", borderRadius: 4, display: "flex", alignItems: "center", gap: 3 }}>
+              <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#22C55E" }} />
               ACTIVE
             </span>
           </div>
 
           {/* Agent Info */}
           <div>
-            <div style={{ fontSize: 11.5, fontWeight: 800, color: "#0F172A" }}>WhatsApp Agent</div>
-            <div style={{ fontSize: 8.5, color: "#64748B", marginTop: 1, fontWeight: 500 }}>+91 98765 43210</div>
+            <div style={{ fontSize: 13, fontWeight: 800, color: "#0F172A" }}>WhatsApp Agent</div>
+            <div style={{ fontSize: 9.5, color: "#94A3B8", marginTop: 2, fontWeight: 500 }}>+91 98765 43210</div>
           </div>
 
-          {/* 2 Feature Rows */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-            <div
-              style={{
-                background: "#F0FDF4",
-                border: "1px solid #DCFCE7",
-                borderRadius: 10,
-                padding: "5.5px 8px",
-                display: "flex",
-                alignItems: "center",
-                gap: 5.5,
-                fontSize: 7.8,
-                fontWeight: 700,
-                color: "#15803D",
-              }}
-            >
-              <Users style={{ width: 11, height: 11, color: "#16A34A", flexShrink: 0 }} />
+          {/* Feature Rows */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 2 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 600, color: "#475569", display: "flex", alignItems: "center", gap: 4 }}>
+              <Check style={{ width: 11, height: 11, color: "#0396A6" }} />
               <span>Full History &amp; Deals Synced</span>
             </div>
-            <div
-              style={{
-                background: "#F0FDF4",
-                border: "1px solid #DCFCE7",
-                borderRadius: 10,
-                padding: "5.5px 8px",
-                display: "flex",
-                alignItems: "center",
-                gap: 5.5,
-                fontSize: 7.8,
-                fontWeight: 700,
-                color: "#15803D",
-              }}
-            >
-              <Users style={{ width: 11, height: 11, color: "#16A34A", flexShrink: 0 }} />
-              <span>Arjun Mehta (92% Intent) • 14% Off</span>
+            <div style={{ fontSize: 8.5, fontWeight: 600, color: "#475569", display: "flex", alignItems: "center", gap: 4 }}>
+              <Check style={{ width: 11, height: 11, color: "#0396A6" }} />
+              <span>Arjun Mehta (92% Intent) · 14% Off</span>
             </div>
           </div>
         </motion.div>
       </div>
 
-      {/* ── Bottom Metrics Container & Footer Pill ── */}
+      {/* ── Bottom Metrics ── */}
       <div style={{ width: "100%", maxWidth: 620, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, zIndex: 10 }}>
-        {/* Single Horizontal White Metrics Container */}
         <div
           style={{
             width: "100%",
             background: "#FFFFFF",
-            borderRadius: 18,
-            border: "1.2px solid #E2E8F0",
+            borderRadius: 12,
+            border: "1px solid #E2E8F0",
             padding: "8px 16px",
-            boxShadow: "0 8px 24px rgba(15,23,42,0.04)",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
             gap: 8,
@@ -2893,69 +2526,22 @@ function SharedBrainKnowledgeContent({ beat, phase }: { beat: number; phase: num
             boxSizing: "border-box",
           }}
         >
-          {/* Metric 1 */}
-          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 8, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Layers style={{ width: 14, height: 14, color: "#2563EB" }} />
+          {[
+            { label: "18M+", sub: "Stock Matched" },
+            { label: "14%", sub: "Bulk Tier Locked" },
+            { label: "Arjun Mehta", sub: "92% Intent Lead" },
+            { label: "5:30 PM", sub: "Google Meet" },
+          ].map((m, i) => (
+            <div key={i} style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              <div style={{ fontSize: 12, fontWeight: 900, color: "#0F172A", lineHeight: 1.2 }}>{m.label}</div>
+              <div style={{ fontSize: 8, color: "#94A3B8", fontWeight: 500 }}>{m.sub}</div>
             </div>
-            <div>
-              <div style={{ fontSize: 9.5, fontWeight: 900, color: "#0F172A", lineHeight: 1.2 }}>18M+</div>
-              <div style={{ fontSize: 7.2, color: "#64748B", fontWeight: 600 }}>Stock Matched</div>
-            </div>
-          </div>
-
-          {/* Metric 2 */}
-          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 8, background: "#F5F3FF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Layers style={{ width: 14, height: 14, color: "#7C3AED" }} />
-            </div>
-            <div>
-              <div style={{ fontSize: 9.5, fontWeight: 900, color: "#0F172A", lineHeight: 1.2 }}>14%</div>
-              <div style={{ fontSize: 7.2, color: "#64748B", fontWeight: 600 }}>Bulk Tier Locked</div>
-            </div>
-          </div>
-
-          {/* Metric 3 */}
-          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 8, background: "#FFF7ED", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Users style={{ width: 14, height: 14, color: "#EA580C" }} />
-            </div>
-            <div>
-              <div style={{ fontSize: 8.8, fontWeight: 900, color: "#C2410C", lineHeight: 1.2 }}>Arjun Mehta (92%)</div>
-              <div style={{ fontSize: 7.2, color: "#64748B", fontWeight: 600 }}>Lead</div>
-            </div>
-          </div>
-
-          {/* Metric 4 */}
-          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 8, background: "#F0FDF4", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Calendar style={{ width: 14, height: 14, color: "#16A34A" }} />
-            </div>
-            <div>
-              <div style={{ fontSize: 9.5, fontWeight: 900, color: "#16A34A", lineHeight: 1.2 }}>5:30 PM</div>
-              <div style={{ fontSize: 7.2, color: "#64748B", fontWeight: 600 }}>Google Meet</div>
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* Footer Pill */}
-        <div
-          style={{
-            background: "#FFFFFF",
-            border: "1px solid #E2E8F0",
-            borderRadius: 9999,
-            padding: "3.5px 13px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.02)",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            fontSize: 7.8,
-            fontWeight: 700,
-            color: "#475569",
-          }}
-        >
-          <ShieldCheck style={{ width: 11, height: 11, color: "#2563EB" }} />
-          <span>Unified Synaptic Matrix • Context Never Resets • 0.0ms Latency</span>
+        {/* Footer text */}
+        <div style={{ fontSize: 8.5, color: "#94A3B8", fontWeight: 500 }}>
+          Context never resets · 0.0ms latency
         </div>
       </div>
     </div>
@@ -2985,15 +2571,6 @@ function DashboardGroupContent({ beat, phase }: { beat: number; phase: number })
         style={{ position: "absolute", inset: 0, pointerEvents: beat === 10 ? "auto" : "none" }}
       >
         <AnalyticsDashboardBeat phase={beat === 10 ? phase : -1} />
-      </motion.div>
-
-      {/* Beat 11: Enterprise CRM Database (Deep Multi-Column Table) */}
-      <motion.div
-        animate={{ opacity: beat === 11 ? 1 : 0 }}
-        transition={{ duration: 0.35 }}
-        style={{ position: "absolute", inset: 0, pointerEvents: beat === 11 ? "auto" : "none" }}
-      >
-        <EnterpriseCRMDatabaseBeat phase={beat === 11 ? phase : -1} />
       </motion.div>
     </div>
   );
@@ -3178,16 +2755,10 @@ function CRMDashboardBeat({ phase }: { phase: number }) {
         </div>
         {/* Tab with smooth rounded top corners */}
         <div style={{ background: "#FFF", borderRadius: "10px 10px 0 0", padding: "4.5px 16px", fontSize: 9.5, fontWeight: 700, color: "#1E293B", display: "flex", alignItems: "center", gap: 6, border: "1px solid #E2E5E9", borderBottom: "1px solid #FFF", marginBottom: -1, zIndex: 1, boxShadow: "0 -1px 3px rgba(0,0,0,0.02)" }}>
-          <FrostyIcon size={12} glow={0.3} />
+          <img src="/logo-small.png" alt="Frosty" style={{ width: 12, height: 12, objectFit: "contain" }} />
           <span>Frosty — Merchant Console</span>
         </div>
-        {/* Right side live status pill */}
-        <div style={{ marginLeft: "auto", paddingBottom: 7 }}>
-          <span style={{ background: "#DCFCE7", color: "#15803D", fontSize: 7, fontWeight: 800, padding: "2px 7px", borderRadius: 99, display: "flex", alignItems: "center", gap: 3 }}>
-            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#16A34A", display: "inline-block" }} />
-            4 LIVE
-          </span>
-        </div>
+
       </div>
       {/* Address bar */}
       <div style={{ background: "#FFF", borderBottom: "1px solid #E9ECEF", padding: "6px 14px", display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
@@ -3231,7 +2802,7 @@ function CRMDashboardBeat({ phase }: { phase: number }) {
             {/* Header: Frosty Brand & Menu */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "2px 4px 8px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                <FrostyAgentMark size={16} ink="#0A1A2F" teal="#0396A6" />
+                <img src="/logo-small.png" alt="Frosty" style={{ width: 20, height: 20 }} />
                 <div>
                   <div style={{ fontSize: 10.5, fontWeight: 900, color: "#0F172A", lineHeight: 1.1 }}>Frosty</div>
                   <div style={{ fontSize: 5.8, color: "#64748B", fontWeight: 500 }}>Merchant Console</div>
@@ -3367,25 +2938,7 @@ function CRMDashboardBeat({ phase }: { phase: number }) {
                   >
                     Unified Assistant
                   </span>
-                  <span
-                    style={{
-                      fontSize: 6.2,
-                      fontWeight: 750,
-                      background: "#F0FDFA",
-                      color: "#0D9488",
-                      border: "1px solid #CCFBF1",
-                      padding: "1.5px 5.5px",
-                      borderRadius: 99,
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 3,
-                      whiteSpace: "nowrap",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <Zap style={{ width: 6.5, height: 6.5, color: "#0D9488" }} />
-                    <span>3 Channels Synced</span>
-                  </span>
+
                 </>
               ) : activeNavTab === "analytics" ? (
                 <>
@@ -3431,8 +2984,7 @@ function CRMDashboardBeat({ phase }: { phase: number }) {
                       flexShrink: 0,
                     }}
                   >
-                    <Sparkles style={{ width: 6.5, height: 6.5, color: "#0D9488" }} />
-                    <span>Live Telemetry</span>
+
                   </span>
                 </>
               ) : (
@@ -4008,7 +3560,7 @@ function CRMDashboardBeat({ phase }: { phase: number }) {
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: 4, borderBottom: "1px solid #E2E8F0", flexShrink: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                     <div style={{ width: 18, height: 18, borderRadius: 5, background: "linear-gradient(135deg, rgba(3,150,166,0.15), rgba(34,211,238,0.2))", border: "1px solid rgba(3,150,166,0.25)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <FrostyIcon size={10} glow={0.3} />
+                      <img src="/logo-small.png" alt="Frosty" style={{ width: 10, height: 10, objectFit: "contain" }} />
                     </div>
                     <div>
                       <div style={{ fontSize: 9.5, fontWeight: 800, color: "#0F172A", lineHeight: 1.1 }}>Performance &amp; Traffic Overview</div>
@@ -4192,256 +3744,256 @@ function CRMDashboardBeat({ phase }: { phase: number }) {
               <>
 
 
-            {/* Section 1: "Needs Attention" Action Bar */}
-            <div style={{ background: "#FFFBEB", border: "1.2px solid #FEF3C7", borderRadius: 10, padding: "5px 9px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, flexShrink: 0 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
-                <div style={{ width: 20, height: 20, borderRadius: 5, background: "#FEF3C7", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ fontSize: 10 }}>⚠️</span>
-                </div>
-                <div>
-                  <div style={{ fontSize: 7.5, fontWeight: 800, color: "#78350F" }}>Needs Attention</div>
-                  <div style={{ fontSize: 5.8, color: "#92400E" }}>3 items require your action</div>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: 4.5, flex: 1, justifyContent: "flex-end" }}>
-                <div style={{ background: "#FFFFFF", border: "1px solid #FEF3C7", borderRadius: 7, padding: "2.5px 6px", display: "flex", alignItems: "center", gap: 4, boxShadow: "0 1px 2px rgba(0,0,0,0.02)" }}>
-                  <span style={{ fontSize: 8 }}>🎧</span>
-                  <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>6 <span style={{ fontWeight: 500, fontSize: 6, color: "#64748B" }}>Handoffs waiting</span></div>
-                  <span style={{ fontSize: 6.5, color: "#92400E", fontWeight: 800 }}>➔</span>
-                </div>
-
-                <div style={{ background: "#FFFFFF", border: "1px solid #FEF3C7", borderRadius: 7, padding: "2.5px 6px", display: "flex", alignItems: "center", gap: 4, boxShadow: "0 1px 2px rgba(0,0,0,0.02)" }}>
-                  <span style={{ fontSize: 8 }}>📅</span>
-                  <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>4 <span style={{ fontWeight: 500, fontSize: 6, color: "#64748B" }}>Meetings need confirm</span></div>
-                  <span style={{ fontSize: 6.5, color: "#92400E", fontWeight: 800 }}>➔</span>
-                </div>
-
-                <div style={{ background: "#FFFFFF", border: "1px solid #FEF3C7", borderRadius: 7, padding: "2.5px 6px", display: "flex", alignItems: "center", gap: 4, boxShadow: "0 1px 2px rgba(0,0,0,0.02)" }}>
-                  <span style={{ fontSize: 8 }}>💬</span>
-                  <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>12 <span style={{ fontWeight: 500, fontSize: 6, color: "#64748B" }}>Open conversations</span></div>
-                  <span style={{ fontSize: 6.5, color: "#92400E", fontWeight: 800 }}>➔</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 2: Quick Action Buttons & Time Range Selector */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 99, padding: "2px 7px", fontSize: 6.5, fontWeight: 700, color: "#475569", display: "flex", alignItems: "center", gap: 3, cursor: "pointer" }}>
-                  <RefreshCw style={{ width: 7.5, height: 7.5, color: "#0396A6" }} />
-                  <span>Clear Cache</span>
-                </div>
-                <div style={{ background: "linear-gradient(135deg, #0396A6, #0284C7)", borderRadius: 99, padding: "2px 8px", fontSize: 6.5, fontWeight: 800, color: "#FFFFFF", display: "flex", alignItems: "center", gap: 3, cursor: "pointer", boxShadow: "0 2px 5px rgba(3,150,166,0.25)" }}>
-                  <span>Configure Bot</span>
-                  <span>➔</span>
-                </div>
-              </div>
-
-              {/* Time Range Pills */}
-              <div style={{ display: "flex", background: "#F1F5F9", padding: "1.5px", borderRadius: 99, gap: 1 }}>
-                {(["7d", "14d", "30d", "90d"] as const).map((key) => {
-                  const labelMap = { "7d": "7 Days", "14d": "14 Days", "30d": "30 Days", "90d": "90 Days" };
-                  const isAct = selectedTimeRange === key;
-                  return (
-                    <motion.span
-                      key={key}
-                      animate={{
-                        background: isAct ? "#0284C7" : "transparent",
-                        color: isAct ? "#FFFFFF" : "#64748B",
-                      }}
-                      style={{
-                        padding: "1.5px 6px",
-                        borderRadius: 99,
-                        fontSize: 6.2,
-                        fontWeight: isAct ? 800 : 600,
-                        cursor: "pointer",
-                      }}
-                    >
-                      {labelMap[key]}
-                    </motion.span>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Section 3: Radiant Hero Promo Banner with 3D Bot */}
-            <div
-              style={{
-                background: "linear-gradient(135deg, #08505E 0%, #0384A6 55%, #0284C7 100%)",
-                borderRadius: 10,
-                padding: "7px 11px",
-                color: "#FFFFFF",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                position: "relative",
-                overflow: "hidden",
-                flexShrink: 0,
-              }}
-            >
-              <div style={{ zIndex: 1, maxWidth: "68%" }}>
-                <div style={{ fontSize: 8.8, fontWeight: 900, letterSpacing: "-0.01em" }}>Unlock Unlimited AI Conversations &amp; Custom Bots</div>
-                <div style={{ fontSize: 6.2, opacity: 0.88, marginTop: 1.5, lineHeight: 1.3 }}>Upgrade to Growth tier today and receive 20% bonus conversation credits for your team.</div>
-                <div style={{ marginTop: 4, background: "rgba(255,255,255,0.18)", border: "1px solid rgba(255,255,255,0.35)", backdropFilter: "blur(6px)", borderRadius: 99, padding: "2px 8px", fontSize: 6, fontWeight: 800, color: "#FFFFFF", display: "inline-block" }}>
-                  Learn More
-                </div>
-              </div>
-
-              {/* 3D Cute AI Robot Visual */}
-              <div style={{ display: "flex", alignItems: "center", gap: 4, zIndex: 1 }}>
-                <div style={{ position: "relative" }}>
-                  <div style={{ background: "rgba(255,255,255,0.22)", backdropFilter: "blur(4px)", borderRadius: 5, padding: "1.5px 4px", fontSize: 5.5, color: "#FFFFFF", marginBottom: 2, display: "flex", alignItems: "center", gap: 2 }}>
-                    <span>💬</span>
-                    <span>Ready to assist!</span>
-                  </div>
-                  <div style={{ width: 36, height: 36, borderRadius: "50%", background: "radial-gradient(circle, #FFFFFF 0%, #E0F2FE 80%)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(0,0,0,0.25)" }}>
-                    <Bot style={{ width: 20, height: 20, color: "#0369A1" }} />
-                  </div>
-                </div>
-                <span style={{ position: "absolute", top: 5, right: 6, fontSize: 7, opacity: 0.6, cursor: "pointer" }}>✕</span>
-              </div>
-            </div>
-
-            {/* Section 4: 4 Modern Metric KPI Cards with Sparklines */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 5, flexShrink: 0 }}>
-              {/* KPI 1: Conversations */}
-              <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px 5px", display: "flex", flexDirection: "column", justifyContent: "space-between", borderBottom: "2.5px solid #0284C7" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ width: 16, height: 16, borderRadius: 4, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <MessageCircle style={{ width: 9, height: 9, color: "#2563EB" }} />
-                  </div>
-                  <svg width="34" height="12" viewBox="0 0 40 14" fill="none">
-                    <path d="M 0 10 Q 10 12, 18 6 T 30 4 T 40 8" stroke="#0284C7" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                  </svg>
-                </div>
-                <div style={{ fontSize: 13, fontWeight: 900, color: "#0F172A", marginTop: 2 }}>21</div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 1 }}>
-                  <span style={{ fontSize: 5.5, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.04em" }}>CONVERSATIONS</span>
-                  <span style={{ fontSize: 5.5, fontWeight: 800, color: "#16A34A" }}>+1 today</span>
-                </div>
-              </div>
-
-              {/* KPI 2: Messages */}
-              <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px 5px", display: "flex", flexDirection: "column", justifyContent: "space-between", borderBottom: "2.5px solid #7C3AED" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ width: 16, height: 16, borderRadius: 4, background: "#F5F3FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Bot style={{ width: 9, height: 9, color: "#7C3AED" }} />
-                  </div>
-                  <svg width="34" height="12" viewBox="0 0 40 14" fill="none">
-                    <path d="M 0 12 Q 10 11, 20 5 T 30 7 T 40 11" stroke="#7C3AED" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                  </svg>
-                </div>
-                <div style={{ fontSize: 13, fontWeight: 900, color: "#0F172A", marginTop: 2 }}>275</div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 1 }}>
-                  <span style={{ fontSize: 5.5, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.04em" }}>MESSAGES</span>
-                  <span style={{ fontSize: 5.5, fontWeight: 600, color: "#64748B" }}>275 grounded</span>
-                </div>
-              </div>
-
-              {/* KPI 3: Leads Captured */}
-              <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px 5px", display: "flex", flexDirection: "column", justifyContent: "space-between", borderBottom: "2.5px solid #16A34A" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ width: 16, height: 16, borderRadius: 4, background: "#F0FDF4", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Users style={{ width: 9, height: 9, color: "#16A34A" }} />
-                  </div>
-                  <svg width="34" height="12" viewBox="0 0 40 14" fill="none">
-                    <path d="M 0 11 Q 12 11, 20 4 T 30 6 T 40 11" stroke="#16A34A" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                  </svg>
-                </div>
-                <div style={{ fontSize: 13, fontWeight: 900, color: "#0F172A", marginTop: 2 }}>15</div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 1 }}>
-                  <span style={{ fontSize: 5.5, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.04em" }}>LEADS CAPTURED</span>
-                  <span style={{ fontSize: 5.5, fontWeight: 600, color: "#64748B" }}>42 in 30d</span>
-                </div>
-              </div>
-
-              {/* KPI 4: Credits Left */}
-              <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px 5px", display: "flex", flexDirection: "column", justifyContent: "space-between", borderBottom: "2.5px solid #EA580C" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ width: 16, height: 16, borderRadius: 4, background: "#FFF7ED", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Zap style={{ width: 9, height: 9, color: "#EA580C" }} />
-                  </div>
-                  <svg width="34" height="12" viewBox="0 0 40 14" fill="none">
-                    <path d="M 0 4 Q 10 5, 20 8 T 32 10 T 40 12" stroke="#EA580C" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-                  </svg>
-                </div>
-                <div style={{ fontSize: 13, fontWeight: 900, color: "#0F172A", marginTop: 2 }}>5,237</div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 1 }}>
-                  <span style={{ fontSize: 5.5, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.04em" }}>CREDITS LEFT</span>
-                  <span style={{ fontSize: 5.5, fontWeight: 600, color: "#64748B" }}>2020 used</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 5: 3-Column Bottom Overview Cards */}
-            <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr 1fr", gap: 5, flexShrink: 0 }}>
-              {/* Column 1: Recent Conversations */}
-              <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px", display: "flex", flexDirection: "column", gap: 3 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: 7.2, fontWeight: 800, color: "#0F172A" }}>Recent Conversations</span>
-                  <span style={{ fontSize: 5.8, fontWeight: 700, color: "#0396A6", cursor: "pointer" }}>View all</span>
-                </div>
-                <div style={{ background: "#F8FAFC", border: "1px solid #F1F5F9", borderRadius: 6, padding: "3.5px 5px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                    <div style={{ width: 15, height: 15, borderRadius: "50%", background: "#DCFCE7", color: "#16A34A", fontSize: 6, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>AM</div>
-                    <div>
-                      <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>Arjun Mehta</div>
-                      <div style={{ fontSize: 5.5, color: "#64748B" }}>Bulk order for Sony WH-1000XM5</div>
-                    </div>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: 5.2, color: "#94A3B8" }}>03:42 PM</div>
-                    <span style={{ display: "inline-block", width: 3.5, height: 3.5, borderRadius: "50%", background: "#22C55E", marginTop: 1 }} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Column 2: Upcoming Meetings */}
-              <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px", display: "flex", flexDirection: "column", gap: 3 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: 7.2, fontWeight: 800, color: "#0F172A" }}>Upcoming Meetings</span>
-                  <span style={{ fontSize: 5.8, fontWeight: 700, color: "#0396A6", cursor: "pointer" }}>View all</span>
-                </div>
-                <div style={{ background: "#F8FAFC", border: "1px solid #F1F5F9", borderRadius: 6, padding: "3.5px 5px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                    <div style={{ width: 15, height: 15, borderRadius: 4, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Calendar style={{ width: 8, height: 8, color: "#2563EB" }} />
+                {/* Section 1: "Needs Attention" Action Bar */}
+                <div style={{ background: "#FFFBEB", border: "1.2px solid #FEF3C7", borderRadius: 10, padding: "5px 9px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, flexShrink: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
+                    <div style={{ width: 20, height: 20, borderRadius: 5, background: "#FEF3C7", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <span style={{ fontSize: 10 }}>⚠️</span>
                     </div>
                     <div>
-                      <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>Team Sync Meeting</div>
-                      <div style={{ fontSize: 5.5, color: "#64748B" }}>Today • 5:30 PM • Google Meet</div>
+                      <div style={{ fontSize: 7.5, fontWeight: 800, color: "#78350F" }}>Needs Attention</div>
+                      <div style={{ fontSize: 5.8, color: "#92400E" }}>3 items require your action</div>
                     </div>
                   </div>
-                  <span style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 4, padding: "1.5px 4.5px", fontSize: 5.8, fontWeight: 800, color: "#0F172A" }}>Join</span>
-                </div>
-              </div>
 
-              {/* Column 3: Top Agents */}
-              <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px", display: "flex", flexDirection: "column", gap: 3 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: 7.2, fontWeight: 800, color: "#0F172A" }}>Top Agents</span>
-                  <span style={{ fontSize: 5.8, fontWeight: 700, color: "#0396A6", cursor: "pointer" }}>View all</span>
-                </div>
-                <div style={{ background: "#F8FAFC", border: "1px solid #F1F5F9", borderRadius: 6, padding: "3.5px 5px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 4, flex: 1 }}>
-                    <div style={{ width: 15, height: 15, borderRadius: 4, background: "#F0FDFA", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Globe style={{ width: 8, height: 8, color: "#0D9488" }} />
+                  <div style={{ display: "flex", alignItems: "center", gap: 4.5, flex: 1, justifyContent: "flex-end" }}>
+                    <div style={{ background: "#FFFFFF", border: "1px solid #FEF3C7", borderRadius: 7, padding: "2.5px 6px", display: "flex", alignItems: "center", gap: 4, boxShadow: "0 1px 2px rgba(0,0,0,0.02)" }}>
+                      <span style={{ fontSize: 8 }}>🎧</span>
+                      <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>6 <span style={{ fontWeight: 500, fontSize: 6, color: "#64748B" }}>Handoffs waiting</span></div>
+                      <span style={{ fontSize: 6.5, color: "#92400E", fontWeight: 800 }}>➔</span>
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <span style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>Website Agent</span>
-                        <span style={{ fontSize: 5.8, fontWeight: 800, color: "#0D9488" }}>92%</span>
+
+                    <div style={{ background: "#FFFFFF", border: "1px solid #FEF3C7", borderRadius: 7, padding: "2.5px 6px", display: "flex", alignItems: "center", gap: 4, boxShadow: "0 1px 2px rgba(0,0,0,0.02)" }}>
+                      <span style={{ fontSize: 8 }}>📅</span>
+                      <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>4 <span style={{ fontWeight: 500, fontSize: 6, color: "#64748B" }}>Meetings need confirm</span></div>
+                      <span style={{ fontSize: 6.5, color: "#92400E", fontWeight: 800 }}>➔</span>
+                    </div>
+
+                    <div style={{ background: "#FFFFFF", border: "1px solid #FEF3C7", borderRadius: 7, padding: "2.5px 6px", display: "flex", alignItems: "center", gap: 4, boxShadow: "0 1px 2px rgba(0,0,0,0.02)" }}>
+                      <span style={{ fontSize: 8 }}>💬</span>
+                      <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>12 <span style={{ fontWeight: 500, fontSize: 6, color: "#64748B" }}>Open conversations</span></div>
+                      <span style={{ fontSize: 6.5, color: "#92400E", fontWeight: 800 }}>➔</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 2: Quick Action Buttons & Time Range Selector */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 99, padding: "2px 7px", fontSize: 6.5, fontWeight: 700, color: "#475569", display: "flex", alignItems: "center", gap: 3, cursor: "pointer" }}>
+                      <RefreshCw style={{ width: 7.5, height: 7.5, color: "#0396A6" }} />
+                      <span>Clear Cache</span>
+                    </div>
+                    <div style={{ background: "linear-gradient(135deg, #0396A6, #0284C7)", borderRadius: 99, padding: "2px 8px", fontSize: 6.5, fontWeight: 800, color: "#FFFFFF", display: "flex", alignItems: "center", gap: 3, cursor: "pointer", boxShadow: "0 2px 5px rgba(3,150,166,0.25)" }}>
+                      <span>Configure Bot</span>
+                      <span>➔</span>
+                    </div>
+                  </div>
+
+                  {/* Time Range Pills */}
+                  <div style={{ display: "flex", background: "#F1F5F9", padding: "1.5px", borderRadius: 99, gap: 1 }}>
+                    {(["7d", "14d", "30d", "90d"] as const).map((key) => {
+                      const labelMap = { "7d": "7 Days", "14d": "14 Days", "30d": "30 Days", "90d": "90 Days" };
+                      const isAct = selectedTimeRange === key;
+                      return (
+                        <motion.span
+                          key={key}
+                          animate={{
+                            background: isAct ? "#0284C7" : "transparent",
+                            color: isAct ? "#FFFFFF" : "#64748B",
+                          }}
+                          style={{
+                            padding: "1.5px 6px",
+                            borderRadius: 99,
+                            fontSize: 6.2,
+                            fontWeight: isAct ? 800 : 600,
+                            cursor: "pointer",
+                          }}
+                        >
+                          {labelMap[key]}
+                        </motion.span>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Section 3: Radiant Hero Promo Banner with 3D Bot */}
+                <div
+                  style={{
+                    background: "linear-gradient(135deg, #08505E 0%, #0384A6 55%, #0284C7 100%)",
+                    borderRadius: 10,
+                    padding: "7px 11px",
+                    color: "#FFFFFF",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    position: "relative",
+                    overflow: "hidden",
+                    flexShrink: 0,
+                  }}
+                >
+                  <div style={{ zIndex: 1, maxWidth: "68%" }}>
+                    <div style={{ fontSize: 8.8, fontWeight: 900, letterSpacing: "-0.01em" }}>Unlock Unlimited AI Conversations &amp; Custom Bots</div>
+                    <div style={{ fontSize: 6.2, opacity: 0.88, marginTop: 1.5, lineHeight: 1.3 }}>Upgrade to Growth tier today and receive 20% bonus conversation credits for your team.</div>
+                    <div style={{ marginTop: 4, background: "rgba(255,255,255,0.18)", border: "1px solid rgba(255,255,255,0.35)", backdropFilter: "blur(6px)", borderRadius: 99, padding: "2px 8px", fontSize: 6, fontWeight: 800, color: "#FFFFFF", display: "inline-block" }}>
+                      Learn More
+                    </div>
+                  </div>
+
+                  {/* 3D Cute AI Robot Visual */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 4, zIndex: 1 }}>
+                    <div style={{ position: "relative" }}>
+                      <div style={{ background: "rgba(255,255,255,0.22)", backdropFilter: "blur(4px)", borderRadius: 5, padding: "1.5px 4px", fontSize: 5.5, color: "#FFFFFF", marginBottom: 2, display: "flex", alignItems: "center", gap: 2 }}>
+                        <span>💬</span>
+                        <span>Ready to assist!</span>
                       </div>
-                      <div style={{ width: "100%", height: 2.5, background: "#E2E8F0", borderRadius: 99, marginTop: 2, overflow: "hidden" }}>
-                        <div style={{ width: "92%", height: "100%", background: "#0D9488", borderRadius: 99 }} />
+                      <div style={{ width: 36, height: 36, borderRadius: "50%", background: "radial-gradient(circle, #FFFFFF 0%, #E0F2FE 80%)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(0,0,0,0.25)" }}>
+                        <Bot style={{ width: 20, height: 20, color: "#0369A1" }} />
+                      </div>
+                    </div>
+                    <span style={{ position: "absolute", top: 5, right: 6, fontSize: 7, opacity: 0.6, cursor: "pointer" }}>✕</span>
+                  </div>
+                </div>
+
+                {/* Section 4: 4 Modern Metric KPI Cards with Sparklines */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 5, flexShrink: 0 }}>
+                  {/* KPI 1: Conversations */}
+                  <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px 5px", display: "flex", flexDirection: "column", justifyContent: "space-between", borderBottom: "2.5px solid #0284C7" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div style={{ width: 16, height: 16, borderRadius: 4, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <MessageCircle style={{ width: 9, height: 9, color: "#2563EB" }} />
+                      </div>
+                      <svg width="34" height="12" viewBox="0 0 40 14" fill="none">
+                        <path d="M 0 10 Q 10 12, 18 6 T 30 4 T 40 8" stroke="#0284C7" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                      </svg>
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 900, color: "#0F172A", marginTop: 2 }}>21</div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 1 }}>
+                      <span style={{ fontSize: 5.5, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.04em" }}>CONVERSATIONS</span>
+                      <span style={{ fontSize: 5.5, fontWeight: 800, color: "#16A34A" }}>+1 today</span>
+                    </div>
+                  </div>
+
+                  {/* KPI 2: Messages */}
+                  <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px 5px", display: "flex", flexDirection: "column", justifyContent: "space-between", borderBottom: "2.5px solid #7C3AED" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div style={{ width: 16, height: 16, borderRadius: 4, background: "#F5F3FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <Bot style={{ width: 9, height: 9, color: "#7C3AED" }} />
+                      </div>
+                      <svg width="34" height="12" viewBox="0 0 40 14" fill="none">
+                        <path d="M 0 12 Q 10 11, 20 5 T 30 7 T 40 11" stroke="#7C3AED" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                      </svg>
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 900, color: "#0F172A", marginTop: 2 }}>275</div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 1 }}>
+                      <span style={{ fontSize: 5.5, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.04em" }}>MESSAGES</span>
+                      <span style={{ fontSize: 5.5, fontWeight: 600, color: "#64748B" }}>275 grounded</span>
+                    </div>
+                  </div>
+
+                  {/* KPI 3: Leads Captured */}
+                  <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px 5px", display: "flex", flexDirection: "column", justifyContent: "space-between", borderBottom: "2.5px solid #16A34A" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div style={{ width: 16, height: 16, borderRadius: 4, background: "#F0FDF4", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <Users style={{ width: 9, height: 9, color: "#16A34A" }} />
+                      </div>
+                      <svg width="34" height="12" viewBox="0 0 40 14" fill="none">
+                        <path d="M 0 11 Q 12 11, 20 4 T 30 6 T 40 11" stroke="#16A34A" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                      </svg>
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 900, color: "#0F172A", marginTop: 2 }}>15</div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 1 }}>
+                      <span style={{ fontSize: 5.5, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.04em" }}>LEADS CAPTURED</span>
+                      <span style={{ fontSize: 5.5, fontWeight: 600, color: "#64748B" }}>42 in 30d</span>
+                    </div>
+                  </div>
+
+                  {/* KPI 4: Credits Left */}
+                  <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px 5px", display: "flex", flexDirection: "column", justifyContent: "space-between", borderBottom: "2.5px solid #EA580C" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div style={{ width: 16, height: 16, borderRadius: 4, background: "#FFF7ED", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <Zap style={{ width: 9, height: 9, color: "#EA580C" }} />
+                      </div>
+                      <svg width="34" height="12" viewBox="0 0 40 14" fill="none">
+                        <path d="M 0 4 Q 10 5, 20 8 T 32 10 T 40 12" stroke="#EA580C" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+                      </svg>
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 900, color: "#0F172A", marginTop: 2 }}>5,237</div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 1 }}>
+                      <span style={{ fontSize: 5.5, fontWeight: 800, color: "#94A3B8", letterSpacing: "0.04em" }}>CREDITS LEFT</span>
+                      <span style={{ fontSize: 5.5, fontWeight: 600, color: "#64748B" }}>2020 used</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 5: 3-Column Bottom Overview Cards */}
+                <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr 1fr", gap: 5, flexShrink: 0 }}>
+                  {/* Column 1: Recent Conversations */}
+                  <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px", display: "flex", flexDirection: "column", gap: 3 }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <span style={{ fontSize: 7.2, fontWeight: 800, color: "#0F172A" }}>Recent Conversations</span>
+                      <span style={{ fontSize: 5.8, fontWeight: 700, color: "#0396A6", cursor: "pointer" }}>View all</span>
+                    </div>
+                    <div style={{ background: "#F8FAFC", border: "1px solid #F1F5F9", borderRadius: 6, padding: "3.5px 5px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                        <div style={{ width: 15, height: 15, borderRadius: "50%", background: "#DCFCE7", color: "#16A34A", fontSize: 6, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>AM</div>
+                        <div>
+                          <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>Arjun Mehta</div>
+                          <div style={{ fontSize: 5.5, color: "#64748B" }}>Bulk order for Sony WH-1000XM5</div>
+                        </div>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <div style={{ fontSize: 5.2, color: "#94A3B8" }}>03:42 PM</div>
+                        <span style={{ display: "inline-block", width: 3.5, height: 3.5, borderRadius: "50%", background: "#22C55E", marginTop: 1 }} />
                       </div>
                     </div>
                   </div>
+
+                  {/* Column 2: Upcoming Meetings */}
+                  <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px", display: "flex", flexDirection: "column", gap: 3 }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <span style={{ fontSize: 7.2, fontWeight: 800, color: "#0F172A" }}>Upcoming Meetings</span>
+                      <span style={{ fontSize: 5.8, fontWeight: 700, color: "#0396A6", cursor: "pointer" }}>View all</span>
+                    </div>
+                    <div style={{ background: "#F8FAFC", border: "1px solid #F1F5F9", borderRadius: 6, padding: "3.5px 5px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                        <div style={{ width: 15, height: 15, borderRadius: 4, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <Calendar style={{ width: 8, height: 8, color: "#2563EB" }} />
+                        </div>
+                        <div>
+                          <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>Team Sync Meeting</div>
+                          <div style={{ fontSize: 5.5, color: "#64748B" }}>Today • 5:30 PM • Google Meet</div>
+                        </div>
+                      </div>
+                      <span style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 4, padding: "1.5px 4.5px", fontSize: 5.8, fontWeight: 800, color: "#0F172A" }}>Join</span>
+                    </div>
+                  </div>
+
+                  {/* Column 3: Top Agents */}
+                  <div style={{ background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 7px", display: "flex", flexDirection: "column", gap: 3 }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <span style={{ fontSize: 7.2, fontWeight: 800, color: "#0F172A" }}>Top Agents</span>
+                      <span style={{ fontSize: 5.8, fontWeight: 700, color: "#0396A6", cursor: "pointer" }}>View all</span>
+                    </div>
+                    <div style={{ background: "#F8FAFC", border: "1px solid #F1F5F9", borderRadius: 6, padding: "3.5px 5px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 4, flex: 1 }}>
+                        <div style={{ width: 15, height: 15, borderRadius: 4, background: "#F0FDFA", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <Globe style={{ width: 8, height: 8, color: "#0D9488" }} />
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                            <span style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A" }}>Website Agent</span>
+                            <span style={{ fontSize: 5.8, fontWeight: 800, color: "#0D9488" }}>92%</span>
+                          </div>
+                          <div style={{ width: "100%", height: 2.5, background: "#E2E8F0", borderRadius: 99, marginTop: 2, overflow: "hidden" }}>
+                            <div style={{ width: "92%", height: "100%", background: "#0D9488", borderRadius: 99 }} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            </>
+              </>
             )}
           </div>
         </div>
@@ -4587,406 +4139,7 @@ const CRM_DATABASE_ROWS = [
   },
 ];
 
-function EnterpriseCRMDatabaseBeat({ phase }: { phase: number }) {
-  const tableRef = useRef<HTMLDivElement>(null);
-  const sched = useMemo(() => getDynamicSchedule(), []);
 
-  const dynamicCrmRows = useMemo(() => {
-    return CRM_DATABASE_ROWS.map((r) => {
-      if (r.id === "lead-1") {
-        return { ...r, meeting: sched.selectedSlot.crmMeetingTag, summary: sched.selectedSlot.crmSummary };
-      }
-      return r;
-    });
-  }, [sched]);
-
-  useEffect(() => {
-    if (!tableRef.current) return;
-    if (phase === 0) tableRef.current.scrollTo({ left: 0, behavior: "smooth" });
-    else if (phase === 1) tableRef.current.scrollTo({ left: 240, behavior: "smooth" });
-    else if (phase === 2) tableRef.current.scrollTo({ left: 480, behavior: "smooth" });
-    else if (phase === 3) tableRef.current.scrollTo({ left: 160, behavior: "smooth" });
-  }, [phase]);
-
-  return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        minHeight: 490,
-        padding: 0,
-        display: "flex",
-        flexDirection: "column",
-        background: "#F1F3F5",
-        position: "relative",
-        borderRadius: 16,
-        overflow: "hidden",
-      }}
-    >
-      {/* ── Browser Chrome ── */}
-      {/* Tab bar */}
-      <div style={{ background: "#F1F3F5", borderBottom: "1px solid #E2E5E9", padding: "7px 14px 0", display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-        {/* Traffic lights */}
-        <div style={{ display: "flex", gap: 5, paddingBottom: 7 }}>
-          <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#FF5F56" }} />
-          <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#FFBD2E" }} />
-          <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#27C93F" }} />
-        </div>
-        {/* Tab with smooth rounded top corners */}
-        <div style={{ background: "#FFF", borderRadius: "10px 10px 0 0", padding: "4.5px 16px", fontSize: 9.5, fontWeight: 700, color: "#1E293B", display: "flex", alignItems: "center", gap: 6, border: "1px solid #E2E5E9", borderBottom: "1px solid #FFF", marginBottom: -1, zIndex: 1, boxShadow: "0 -1px 3px rgba(0,0,0,0.02)" }}>
-          <FrostyIcon size={12} glow={0.3} />
-          <span>Leads — Frosty CRM</span>
-        </div>
-        {/* Right side live status pill */}
-        <div style={{ marginLeft: "auto", paddingBottom: 7 }}>
-          <span style={{ background: "#DCFCE7", color: "#15803D", fontSize: 7, fontWeight: 800, padding: "2px 7px", borderRadius: 99, display: "flex", alignItems: "center", gap: 3 }}>
-            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#16A34A", display: "inline-block" }} />
-            96 LEADS AUTO-SYNCED
-          </span>
-        </div>
-      </div>
-      {/* Address bar */}
-      <div style={{ background: "#FFF", borderBottom: "1px solid #E9ECEF", padding: "6px 14px", display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-        <div style={{ display: "flex", gap: 5, opacity: 0.35 }}>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2.2"><path d="M15 18l-6-6 6-6" /></svg>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2.2"><path d="M9 18l6-6-6-6" /></svg>
-        </div>
-        <div style={{ flex: 1, background: "#F4F4F6", borderRadius: 8, padding: "4px 12px", fontSize: 10, color: "#475569", display: "flex", alignItems: "center", gap: 6, border: "1px solid #E2E8F0" }}>
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-          <span style={{ fontWeight: 600, fontSize: 10 }}>frostyagent.com/leads</span>
-        </div>
-      </div>
-
-
-
-      {/* ── Enterprise CRM Big Data Console ── */}
-      <div
-        style={{
-          flex: 1,
-          background: "#FFFFFF",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-        }}
-      >
-        {/* Top Control Bar */}
-        <div
-          style={{
-            height: 32,
-            minHeight: 32,
-            padding: "0 10px",
-            borderBottom: "1px solid #F1F5F9",
-            background: "#FFFFFF",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 8,
-            flexShrink: 0,
-            boxShadow: "0 1px 2px rgba(0,0,0,0.01)",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
-            <div
-              style={{
-                width: 17,
-                height: 17,
-                borderRadius: 4.5,
-                background: "linear-gradient(135deg, rgba(3,150,166,0.12), rgba(34,211,238,0.18))",
-                border: "1px solid rgba(3,150,166,0.25)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              <FrostyIcon size={10} glow={0.4} />
-            </div>
-            <span style={{ fontSize: 9.5, fontWeight: 800, color: DARK, whiteSpace: "nowrap", letterSpacing: "-0.01em" }}>
-              Enterprise CRM Database
-            </span>
-            <span
-              style={{
-                fontSize: 6.2,
-                fontWeight: 750,
-                background: "#DCFCE7",
-                color: "#15803D",
-                border: "1px solid #BBF7D0",
-                padding: "1.5px 5.5px",
-                borderRadius: 99,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 3,
-                whiteSpace: "nowrap",
-                flexShrink: 0,
-              }}
-            >
-              <span style={{ width: 3.5, height: 3.5, borderRadius: "50%", background: "#16A34A", display: "inline-block" }} />
-              96 LEADS AUTO-SYNCED
-            </span>
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: 3.5, flexShrink: 0, overflowX: "auto" }}>
-            <span style={{ fontSize: 6.5, fontWeight: 700, background: "#0284C7", color: "#FFFFFF", padding: "1.5px 5.5px", borderRadius: 4, whiteSpace: "nowrap" }}>
-              All (96)
-            </span>
-            <span style={{ fontSize: 6.5, fontWeight: 600, background: "#F8FAFC", color: "#64748B", border: "1px solid #E2E8F0", padding: "1.5px 5.5px", borderRadius: 4, whiteSpace: "nowrap" }}>
-              🔥 Hot Leads (28)
-            </span>
-            <span style={{ fontSize: 6.5, fontWeight: 600, background: "#F8FAFC", color: "#64748B", border: "1px solid #E2E8F0", padding: "1.5px 5.5px", borderRadius: 4, whiteSpace: "nowrap" }}>
-              💬 WhatsApp (54)
-            </span>
-            <span style={{ fontSize: 6.5, fontWeight: 600, background: "#F8FAFC", color: "#64748B", border: "1px solid #E2E8F0", padding: "1.5px 5.5px", borderRadius: 4, whiteSpace: "nowrap" }}>
-              🌐 Web Store (42)
-            </span>
-            <span style={{ fontSize: 6.5, fontWeight: 700, background: "#F0FDFA", color: TEAL, border: "1px solid #CCFBF1", padding: "1.5px 5.5px", borderRadius: 4, display: "inline-flex", alignItems: "center", gap: 3, whiteSpace: "nowrap" }}>
-              ⚡ Auto-Enrich ON
-            </span>
-          </div>
-        </div>
-
-        {/* Scrollable Horizontal Data Table */}
-        <div
-          ref={tableRef}
-          style={{
-            flex: 1,
-            overflowX: "auto",
-            overflowY: "hidden",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <div style={{ minWidth: 960, display: "flex", flexDirection: "column" }}>
-            {/* Table Header */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "170px 85px 85px 95px 230px 140px 105px 125px 95px 100px 70px",
-                background: "#F8FAFC",
-                borderBottom: "1px solid #E2E8F0",
-                padding: "5px 10px",
-                fontSize: 6.8,
-                fontWeight: 800,
-                color: "#64748B",
-                letterSpacing: "0.04em",
-                textTransform: "uppercase",
-              }}
-            >
-              <div>Contact / Account</div>
-              <div>Source</div>
-              <div>Intent Score</div>
-              <div>Deal Value</div>
-              <div>AI Chat Summary</div>
-              <div>Email</div>
-              <div>Phone</div>
-              <div>Meeting / Action</div>
-              <div>Stage</div>
-              <div>Follow-Up</div>
-              <div>Active</div>
-            </div>
-
-            {/* Table Rows */}
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              {CRM_DATABASE_ROWS.map((row, idx) => {
-                const isHighlightPhase = phase === 3;
-                return (
-                  <motion.div
-                    key={row.id}
-                    animate={{
-                      background: isHighlightPhase && idx < 2 ? "rgba(240, 253, 244, 0.7)" : idx % 2 === 0 ? "#FFFFFF" : "#FAFAFA",
-                      borderColor: isHighlightPhase && idx < 2 ? "#86EFAC" : "#F1F5F9",
-                    }}
-                    transition={{ duration: 0.3 }}
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "170px 85px 85px 95px 230px 140px 105px 125px 95px 100px 70px",
-                      padding: "6px 10px",
-                      borderBottom: "1px solid #F1F5F9",
-                      alignItems: "center",
-                      fontSize: 7.2,
-                    }}
-                  >
-                    {/* Contact & Company */}
-                    <div style={{ display: "flex", alignItems: "center", gap: 5, minWidth: 0, paddingRight: 6 }}>
-                      <div
-                        style={{
-                          width: 20,
-                          height: 20,
-                          borderRadius: "50%",
-                          background: row.avatarBg,
-                          color: row.avatarFg,
-                          fontSize: 7.5,
-                          fontWeight: 800,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexShrink: 0,
-                        }}
-                      >
-                        {row.avatar}
-                      </div>
-                      <div style={{ minWidth: 0 }}>
-                        <div style={{ fontWeight: 800, color: DARK, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                          {row.name}
-                        </div>
-                        <div style={{ fontSize: 6, color: "#94A3B8", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                          {row.company}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Source */}
-                    <div>
-                      <span
-                        style={{
-                          fontSize: 6.2,
-                          fontWeight: 700,
-                          padding: "1.5px 4.5px",
-                          borderRadius: 4,
-                          background: row.channelType === "whatsapp" ? "#DCFCE7" : "#E0F2FE",
-                          color: row.channelType === "whatsapp" ? "#15803D" : "#0284C7",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 2.5,
-                        }}
-                      >
-                        {row.channelType === "whatsapp" ? "💬 WhatsApp" : "🌐 Website"}
-                      </span>
-                    </div>
-
-                    {/* Intent Score */}
-                    <div>
-                      <span
-                        style={{
-                          fontSize: 6.2,
-                          fontWeight: 800,
-                          padding: "1.5px 5px",
-                          borderRadius: 10,
-                          background: row.intentBg,
-                          color: row.intentColor,
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 2,
-                        }}
-                      >
-                        {row.intent} {row.intentLabel}
-                      </span>
-                    </div>
-
-                    {/* Deal Value */}
-                    <div>
-                      <div style={{ fontWeight: 800, color: TEAL, fontSize: 7.6 }}>{row.dealValue}</div>
-                      <div style={{ fontSize: 5.8, color: "#94A3B8", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{row.dealDetail}</div>
-                    </div>
-
-                    {/* AI Chat Summary */}
-                    <div style={{ paddingRight: 8 }}>
-                      <div
-                        style={{
-                          fontSize: 6.5,
-                          color: "#334155",
-                          background: "#F8FAFC",
-                          padding: "2.5px 5px",
-                          borderRadius: 4,
-                          border: "1px solid #E2E8F0",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                        title={row.summary}
-                      >
-                        ✨ {row.summary}
-                      </div>
-                    </div>
-
-                    {/* Email */}
-                    <div style={{ fontSize: 6.5, color: "#475569", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", display: "flex", alignItems: "center", gap: 3 }}>
-                      <span>{row.email}</span>
-                      {row.emailVerified && <span style={{ color: "#16A34A", fontSize: 6.5, fontWeight: 800 }}>✓</span>}
-                    </div>
-
-                    {/* Phone */}
-                    <div style={{ fontSize: 6.5, color: "#64748B", fontFamily: "monospace" }}>
-                      {row.phone}
-                    </div>
-
-                    {/* Meeting / Action */}
-                    <div>
-                      <span
-                        style={{
-                          fontSize: 6.2,
-                          fontWeight: 700,
-                          padding: "1.5px 4.5px",
-                          borderRadius: 4,
-                          background: "#F0FDF4",
-                          color: "#166534",
-                          border: "1px solid #BBF7D0",
-                          display: "inline-block",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {row.meeting}
-                      </span>
-                    </div>
-
-                    {/* Pipeline Stage */}
-                    <div>
-                      <span
-                        style={{
-                          fontSize: 6.2,
-                          fontWeight: 800,
-                          padding: "1.5px 5px",
-                          borderRadius: 4,
-                          background: row.stageBg,
-                          color: row.stageColor,
-                          display: "inline-block",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {row.stage}
-                      </span>
-                    </div>
-
-                    {/* Auto Follow-Up */}
-                    <div style={{ fontSize: 6.2, color: "#0369A1", fontWeight: 700, whiteSpace: "nowrap" }}>
-                      {row.followup}
-                    </div>
-
-                    {/* Last Active */}
-                    <div style={{ fontSize: 6, color: "#94A3B8" }}>
-                      {row.lastActive}
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Status Footer */}
-        <div
-          style={{
-            padding: "5px 12px",
-            borderTop: "1px solid #F1F5F9",
-            background: "#FAFAFA",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            fontSize: 6.5,
-            color: "#64748B",
-          }}
-        >
-          <div>
-            Showing 5 of 96 total leads · <b style={{ color: DARK }}>Auto-categorized by Frosty Neural Engine</b>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#22C55E" }} />
-            <b style={{ color: TEAL }}>Live 2-Way Sync: HubSpot · Shopify · Salesforce · Notion · Stripe</b>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════════════════
    Beat 11: Real SaaS Analytics Dashboard & Complete Customization Workflow
@@ -6527,16 +5680,10 @@ function AnalyticsDashboardBeat({ phase }: { phase: number }) {
         </div>
         {/* Tab with smooth rounded top corners */}
         <div style={{ background: "#FFF", borderRadius: "10px 10px 0 0", padding: "4.5px 16px", fontSize: 9.5, fontWeight: 700, color: "#1E293B", display: "flex", alignItems: "center", gap: 6, border: "1px solid #E2E5E9", borderBottom: "1px solid #FFF", marginBottom: -1, zIndex: 1, boxShadow: "0 -1px 3px rgba(0,0,0,0.02)" }}>
-          <FrostyIcon size={12} glow={0.3} />
+          <img src="/logo-small.png" alt="Frosty" style={{ width: 12, height: 12, objectFit: "contain" }} />
           <span>Frosty — Merchant Console</span>
         </div>
-        {/* Right side live status pill */}
-        <div style={{ marginLeft: "auto", paddingBottom: 7 }}>
-          <span style={{ background: "#DCFCE7", color: "#15803D", fontSize: 7, fontWeight: 800, padding: "2px 7px", borderRadius: 99, display: "flex", alignItems: "center", gap: 3 }}>
-            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#16A34A", display: "inline-block" }} />
-            4 LIVE
-          </span>
-        </div>
+
       </div>
 
       {/* Address bar */}
@@ -6638,7 +5785,7 @@ function AnalyticsDashboardBeat({ phase }: { phase: number }) {
             {/* Header: Frosty Brand & Menu */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "2px 4px 8px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                <FrostyAgentMark size={16} ink="#0A1A2F" teal="#0396A6" />
+                <img src="/logo-small.png" alt="Frosty" style={{ width: 16, height: 16, objectFit: "contain" }} />
                 <div>
                   <div style={{ fontSize: 10.5, fontWeight: 900, color: "#0F172A", lineHeight: 1.1 }}>Frosty</div>
                   <div style={{ fontSize: 5.8, color: "#64748B", fontWeight: 500 }}>Merchant Console</div>
@@ -6864,7 +6011,7 @@ function AnalyticsDashboardBeat({ phase }: { phase: number }) {
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: 4, borderBottom: "1px solid #E2E8F0", flexShrink: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                   <div style={{ width: 18, height: 18, borderRadius: 5, background: "linear-gradient(135deg, rgba(3,150,166,0.15), rgba(34,211,238,0.2))", border: "1px solid rgba(3,150,166,0.25)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <FrostyIcon size={10} glow={0.3} />
+                    <img src="/logo-small.png" alt="Frosty" style={{ width: 10, height: 10, objectFit: "contain" }} />
                   </div>
                   <div>
                     <div style={{ fontSize: 9.5, fontWeight: 800, color: "#0F172A", lineHeight: 1.1 }}>Performance &amp; Traffic Overview</div>
@@ -6882,13 +6029,13 @@ function AnalyticsDashboardBeat({ phase }: { phase: number }) {
                     animate={
                       phase === 1 && !isModalOpen
                         ? {
-                            scale: [1, 1.05, 1],
-                            boxShadow: [
-                              "0 0 0 0 rgba(3,150,166,0)",
-                              "0 0 0 6px rgba(3,150,166,0.2)",
-                              "0 0 0 0 rgba(3,150,166,0)",
-                            ],
-                          }
+                          scale: [1, 1.05, 1],
+                          boxShadow: [
+                            "0 0 0 0 rgba(3,150,166,0)",
+                            "0 0 0 6px rgba(3,150,166,0.2)",
+                            "0 0 0 0 rgba(3,150,166,0)",
+                          ],
+                        }
                         : {}
                     }
                     transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
@@ -7074,81 +6221,62 @@ function ClosingVerdictContent({ beat, phase }: { beat: number; phase: number })
         width: "100%",
         height: "100%",
         minHeight: 490,
-        padding: "26px 24px 18px 24px",
+        padding: "40px 40px 30px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "space-between",
-        background: "radial-gradient(ellipse at 50% 30%, rgba(3, 150, 166, 0.08) 0%, #FFFFFF 75%)",
+        justifyContent: "center",
+        background: "#FFFFFF",
         position: "relative",
         textAlign: "center",
       }}
     >
-      {/* Top Floating Frosty Emblem */}
-      <motion.div
-        animate={{ scale: [1, 1.06, 1], y: [0, -3, 0] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-        style={{ display: "flex", alignItems: "center", gap: 7, marginTop: 2 }}
-      >
-        <FrostyIcon size={26} glow={1.2} />
-        <span style={{ fontSize: 12, fontWeight: 800, color: DARK, letterSpacing: "-0.02em" }}>Frosty AI</span>
-      </motion.div>
+      {/* Top Logo */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 32 }}>
+        <img src="/logo-small.png" alt="Frosty" style={{ width: 32, height: 32, objectFit: "contain" }} />
+        <span style={{ fontSize: 22, fontWeight: 800, color: "#0F172A", letterSpacing: "-0.02em" }}>Frosty</span>
+      </div>
 
-      {/* Kinetic Typography Central Flow */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5, maxWidth: 540 }}>
+      {/* Main Messaging - Clean Typography */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, maxWidth: 540 }}>
         <AnimatePresence mode="wait">
           {phase === 0 ? (
             <motion.div
-              key="close-p0"
-              initial={{ opacity: 0, y: 8 }}
+              key="p0"
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3 }}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4 }}
+              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}
             >
-              <KineticBadge text="✦ THE CROSSROADS · THE CHOICE IS YOURS" variant="error" delay={0.05} />
-              <KineticWordHeadline
-                fontSize="clamp(21px, 2.5vw, 26px)"
-                delay={0.12}
-                words={[
-                  { text: "Stay" },
-                  { text: "Trapped" },
-                  { text: "In", breakAfter: true },
-                  { text: "Tool", highlight: true },
-                  { text: "Chaos.", highlight: true, breakAfter: true },
-                  { text: "Or" },
-                  { text: "Scale", highlight: true },
-                  { text: "With", highlight: true },
-                  { text: "Frosty.", highlight: true },
-                ]}
-              />
-              <KineticDescription delay={0.25} text="Lost 3 AM leads, manual copy-pasting, and disconnected tools — or one unified autonomous AI." />
+              <div style={{ fontSize: 10, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                The Crossroads
+              </div>
+              <h2 style={{ fontSize: 32, fontWeight: 800, color: "#0F172A", lineHeight: 1.2, margin: 0, letterSpacing: "-0.02em" }}>
+                Stay trapped in tool chaos.<br />Or scale with Frosty.
+              </h2>
+              <p style={{ fontSize: 14, color: "#475569", margin: 0, maxWidth: 400, lineHeight: 1.5 }}>
+                Lost 3 AM leads, manual copy-pasting, and disconnected tools — or one unified autonomous AI.
+              </p>
             </motion.div>
           ) : phase === 1 ? (
             <motion.div
-              key="close-p1"
-              initial={{ opacity: 0, y: 8 }}
+              key="p1"
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3 }}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4 }}
+              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}
             >
-              <KineticBadge text="✦ THE OLD REALITY VS. THE FROSTY WAY" variant="amber" delay={0.05} />
-              <KineticWordHeadline
-                fontSize="clamp(21px, 2.5vw, 26px)"
-                delay={0.12}
-                words={[
-                  { text: "1" },
-                  { text: "Unified" },
-                  { text: "Brain.", breakAfter: true, highlight: true },
-                  { text: "Zero", highlight: true },
-                  { text: "Context", highlight: true },
-                  { text: "Lost.", highlight: true, breakAfter: true },
-                  { text: "24/7", highlight: true },
-                  { text: "Revenue.", highlight: true },
-                ]}
-              />
-              <KineticDescription delay={0.25} text="Your entire storefront, WhatsApp, calendar, and CRM connected in real-time." />
+              <div style={{ fontSize: 10, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                The Old Reality vs. The Frosty Way
+              </div>
+              <h2 style={{ fontSize: 32, fontWeight: 800, color: "#0F172A", lineHeight: 1.2, margin: 0, letterSpacing: "-0.02em" }}>
+                1 unified brain. Zero context lost.<br />24/7 revenue.
+              </h2>
+              <p style={{ fontSize: 14, color: "#475569", margin: 0, maxWidth: 400, lineHeight: 1.5 }}>
+                Your entire storefront, WhatsApp, calendar, and CRM connected in real-time.
+              </p>
             </motion.div>
           ) : (
             <motion.div
@@ -7209,7 +6337,7 @@ function ClosingVerdictContent({ beat, phase }: { beat: number; phase: number })
             </div>
           </div>
           <div style={{ marginTop: 8, paddingTop: 6, borderTop: "1px solid #FEE2E2", fontSize: 7.2, color: "#991B1B", fontWeight: 700 }}>
-            ⚠️ High merchant burnout &amp; lost deals
+            High merchant burnout &amp; lost deals
           </div>
         </motion.div>
 
@@ -7232,7 +6360,7 @@ function ClosingVerdictContent({ beat, phase }: { beat: number; phase: number })
         >
           <div>
             <div style={{ fontSize: 11, fontWeight: 800, color: TEAL, marginBottom: 8, display: "flex", alignItems: "center", gap: 5 }}>
-              <span style={{ fontSize: 13 }}>✨</span> The Frosty Way
+              The Frosty Way
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 5.5, fontSize: 8.8, color: "#0F766E", fontWeight: 700, lineHeight: 1.35 }}>
               <div>• 1 Autonomous Shared Brain</div>
@@ -7242,32 +6370,29 @@ function ClosingVerdictContent({ beat, phase }: { beat: number; phase: number })
             </div>
           </div>
           <div style={{ marginTop: 8, paddingTop: 6, borderTop: "1px solid #CCFBF1", fontSize: 7.2, color: "#0D9488", fontWeight: 800 }}>
-            ⚡ 100% Pipeline auto-generated in real time
+            100% Pipeline auto-generated in real time
           </div>
         </motion.div>
       </div>
+    </div>
+  );
+}
 
-      {/* Bottom CTA Button (Large & Prominent) */}
-      <motion.div
-        animate={{ scale: [1, 1.03, 1] }}
-        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          background: "linear-gradient(135deg, #0396A6 0%, #0284C7 100%)",
-          color: "#FFFFFF",
-          padding: "9px 22px",
-          borderRadius: 9,
-          fontSize: 9.8,
-          fontWeight: 800,
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 6,
-          boxShadow: "0 8px 24px rgba(3,150,166,0.35)",
-          marginTop: 6,
-          cursor: "pointer",
-        }}
-      >
-        <Sparkles style={{ width: 13, height: 13 }} />
-        <span>Deploy Your Frosty Agent Now ➔</span>
+/* ═══════════════════════════════════════════════════════════════════
+   CONTENT GROUP: SPLASH SCREEN (Beat 4)
+   ═══════════════════════════════════════════════════════════════════ */
+function SplashGroupContent() {
+  return (
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#FFFFFF", padding: 40, textAlign: "center" }}>
+      <motion.div initial={{ opacity: 0, scale: 0.9, y: 15 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <h2 style={{ fontSize: 26, fontWeight: 900, color: "#111B21", lineHeight: 1.3, marginBottom: 28, letterSpacing: "-0.5px" }}>
+          Our system scans linked calendar<br />and books appointment for suitable time
+        </h2>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
+          <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0 }} style={{ width: 14, height: 14, borderRadius: "50%", background: "#0396A6", boxShadow: "0 4px 12px rgba(3,150,166,0.3)" }} />
+          <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0.2 }} style={{ width: 14, height: 14, borderRadius: "50%", background: "#111B21", boxShadow: "0 4px 12px rgba(17,27,33,0.3)" }} />
+          <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0.4 }} style={{ width: 14, height: 14, borderRadius: "50%", background: "#F97316", boxShadow: "0 4px 12px rgba(249,115,22,0.3)" }} />
+        </div>
       </motion.div>
     </div>
   );
@@ -7277,8 +6402,8 @@ function ClosingVerdictContent({ beat, phase }: { beat: number; phase: number })
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════════════════ */
 export default function LiveProductTour() {
-  const [beat, setBeat] = useState(0); 
-  const [phase, setPhase] = useState(0); 
+  const [beat, setBeat] = useState(0);
+  const [phase, setPhase] = useState(0);
   const [paused, setPaused] = useState(false);
   const [looping, setLooping] = useState(false);
 
@@ -7369,15 +6494,17 @@ export default function LiveProductTour() {
       ? "browser"
       : beat === 2 || beat === 3 || beat === 5
         ? "whatsapp"
-        : beat === 4 || beat === 6
-          ? "meeting"
-          : beat === 7
-            ? "transition"
-            : beat === 8
-              ? "knowledge"
-              : beat <= 11
-                ? "dashboard"
-                : "closing";
+        : beat === 4
+          ? "splash"
+          : beat === 6
+            ? "meeting"
+            : beat === 7
+              ? "transition"
+              : beat === 8
+                ? "knowledge"
+                : beat <= 10
+                  ? "dashboard"
+                  : "closing";
   const cursor = reducedMotion ? { x: 50, y: 50, clicking: false, visible: false } : getCursorState(beat, phase);
 
   /* Transition config */
@@ -7424,6 +6551,7 @@ export default function LiveProductTour() {
           >
             {contentKey === "browser" && <BrowserGroupContent beat={beat} phase={phase} />}
             {contentKey === "whatsapp" && <WhatsAppGroupContent beat={beat} phase={phase} />}
+            {contentKey === "splash" && <SplashGroupContent />}
             {contentKey === "meeting" && <MeetingGroupContent beat={beat} phase={phase} />}
             {contentKey === "transition" && <MerchantChaosTransitionContent beat={beat} phase={phase} />}
             {contentKey === "knowledge" && <SharedBrainKnowledgeContent beat={beat} phase={phase} />}

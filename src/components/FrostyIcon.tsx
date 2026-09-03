@@ -35,14 +35,20 @@ export default function FrostyIcon({
       className={`relative flex items-center justify-center ${className}`}
       style={{
         height: size,
+        width: size,
         opacity: alpha,
         transform: rotation ? `rotate(${rotation}rad)` : undefined,
         filter: filters || undefined,
       }}
     >
-      <FrostyAgentMark
-        size={size}
-        monochrome={invert ? "#FFFFFF" : undefined}
+      <img
+        src="/logo-small.png"
+        alt="Frosty Logo"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+        }}
       />
     </div>
   );

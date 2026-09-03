@@ -1070,7 +1070,7 @@ function FrostyIsolatedChat({
                   fontWeight: 500,
                 }}
               >
-                Hi! 👋 I'm Frosty. Ask me anything about {store.brand}!
+                Hi! I'm Frosty. Ask me anything about {store.brand}!
               </motion.div>
 
               {/* User Question */}
