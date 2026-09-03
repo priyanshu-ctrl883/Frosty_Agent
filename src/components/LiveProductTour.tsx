@@ -118,7 +118,7 @@ interface BeatDef {
   id: string;
   label: string;
   heading: string;
-  frameGroup: "browser" | "whatsapp" | "splash" | "meeting" | "transition" | "knowledge" | "dashboard" | "closing";
+  frameGroup: "browser" | "whatsapp" | "splash" | "merchantConsole" | "meeting" | "transition" | "knowledge" | "dashboard" | "closing";
   phases: number[];
 }
 
@@ -128,13 +128,14 @@ const BEATS: BeatDef[] = [
   /* Beat 2 */ { id: "channel-switch", label: "WHATSAPP AGENT", heading: "Same thread, now on WhatsApp", frameGroup: "whatsapp", phases: [2200, 1600] },
   /* Beat 3 */ { id: "human-handoff", label: "HUMAN HANDOFF", heading: "A real person steps in", frameGroup: "whatsapp", phases: [3000, 1000, 1100, 1400, 1800, 1400, 1100] },
   /* Beat 4 */ { id: "handoff-splash", label: "SEAMLESS TRANSITION", heading: "Seamlessly transition from AI to Human", frameGroup: "splash", phases: [3000, 1000] },
-  /* Beat 5 */ { id: "whatsapp-booking", label: "SLOT SELECTION", heading: "Pick time directly in WhatsApp", frameGroup: "whatsapp", phases: [800, 1000, 600, 1400, 1100] },
-  /* Beat 6 */ { id: "meeting-confirmed", label: "MEETING LOCKED", heading: "Instant Google Meet & CRM sync", frameGroup: "meeting", phases: [3000, 800, 1500, 1800, 1400] },
-  /* Beat 7 */ { id: "merchant-chaos", label: "TOO MANY TOOLS", heading: "Fragmented tools vs. One unified AI", frameGroup: "transition", phases: [2000, 3200, 1800, 450] },
-  /* Beat 8 */ { id: "shared-brain", label: "SHARED MEMORY", heading: "One brain across website & WhatsApp", frameGroup: "knowledge", phases: [1800, 2600, 2200] },
-  /* Beat 9 */ { id: "crm-dashboard", label: "MERCHANT INBOX", heading: "Unified multi-channel command", frameGroup: "dashboard", phases: [1600, 1400, 1400, 1500, 3000, 2400] },
-  /* Beat 10 */ { id: "analytics", label: "ANALYTICS", heading: "Turn every conversation into actionable insights", frameGroup: "dashboard", phases: [2200, 2200, 3400, 2600, 4400] },
-  /* Beat 11 */ { id: "closing-verdict", label: "THE CHOICE", heading: "Stay fragmented. Or scale with Frosty.", frameGroup: "closing", phases: [2400, 2600, 2600, 2400] },
+  /* Beat 5 */ { id: "dashboard-takeover", label: "MERCHANT TAKEOVER", heading: "Priya confirms the meeting from the console", frameGroup: "merchantConsole", phases: [1600, 1400, 2800, 1200] },
+  /* Beat 6 */ { id: "whatsapp-booking", label: "SLOT SELECTION", heading: "Pick time directly in WhatsApp", frameGroup: "whatsapp", phases: [800, 1000, 600, 1400, 1100] },
+  /* Beat 7 */ { id: "meeting-confirmed", label: "MEETING LOCKED", heading: "Instant Google Meet & CRM sync", frameGroup: "meeting", phases: [3000, 800, 1500, 1800, 1400] },
+  /* Beat 8 */ { id: "merchant-chaos", label: "TOO MANY TOOLS", heading: "Fragmented tools vs. One unified AI", frameGroup: "transition", phases: [2000, 3200, 1800, 450] },
+  /* Beat 9 */ { id: "shared-brain", label: "SHARED MEMORY", heading: "One brain across website & WhatsApp", frameGroup: "knowledge", phases: [1800, 2600, 2200] },
+  /* Beat 10 */ { id: "crm-dashboard", label: "MERCHANT INBOX", heading: "Unified multi-channel command", frameGroup: "dashboard", phases: [1600, 1400, 1400, 1500, 3000, 2400] },
+  /* Beat 11 */ { id: "analytics", label: "ANALYTICS", heading: "Turn every conversation into actionable insights", frameGroup: "dashboard", phases: [2200, 2200, 3400, 2600, 4400] },
+  /* Beat 12 */ { id: "closing-verdict", label: "THE CHOICE", heading: "Stay fragmented. Or scale with Frosty.", frameGroup: "closing", phases: [2400, 2600, 2600, 2400] },
 ];
 
 const TOTAL_BEATS = BEATS.length;
@@ -439,20 +440,24 @@ function getCursorState(beat: number, phase: number): { x: number; y: number; cl
     if (phase === 4) return { x: 70, y: 78, clicking: true, visible: true }; // Tap [View plan]
     return { x: 50, y: 50, clicking: false, visible: false };
   }
-  // Beat 5: Selecting 5:30 PM slot in WhatsApp
+  // Beat 5: Merchant Console Takeover (cursor managed locally inside the component)
   if (beat === 5) {
+    return { x: 50, y: 50, clicking: false, visible: false };
+  }
+  // Beat 6: Selecting 5:30 PM slot in WhatsApp
+  if (beat === 6) {
     if (phase === 0) return { x: 74, y: 73, clicking: false, visible: true };
     if (phase === 1) return { x: 74, y: 73, clicking: false, visible: true }; // Hover on 5:30 PM slot
     if (phase === 2) return { x: 74, y: 73, clicking: true, visible: true }; // Clicks 5:30 PM slot!
     return { x: 74, y: 73, clicking: false, visible: false };
   }
-  // Beat 7: Shifting / dragging the scattered whiteboard canvas
-  if (beat === 7) {
+  // Beat 8: Shifting / dragging the scattered whiteboard canvas
+  if (beat === 8) {
     if (phase === 1) return { x: 52, y: 56, clicking: true, visible: true }; // Dragging canvas to reveal right tools
     return { x: 50, y: 50, clicking: false, visible: false };
   }
-  // Beats 9, 10, 11: Managed by local precision-synced cursor in respective beats
-  if (beat >= 9) {
+  // Beats 10, 11, 12: Managed by local precision-synced cursor in respective beats
+  if (beat >= 10) {
     return { x: 50, y: 50, clicking: false, visible: false };
   }
   return { x: 50, y: 50, clicking: false, visible: false };
@@ -850,9 +855,9 @@ function BrowserGroupContent({ beat, phase }: { beat: number; phase: number }) {
 
         {/* Frosty widget button */}
         {siteVisible && !chatOpen && (
-          <motion.div animate={{ boxShadow: [`0 4px 18px ${TEAL}35, 0 0 0 0px ${TEAL}20`, `0 4px 18px ${TEAL}35, 0 0 0 7px ${TEAL}06`, `0 4px 18px ${TEAL}35, 0 0 0 0px ${TEAL}20`] }} transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            style={{ position: "absolute", bottom: 12, right: 12, width: 38, height: 38, borderRadius: "50%", background: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 95, boxShadow: `0 4px 18px ${TEAL}35`, border: "1px solid rgba(0,0,0,0.04)" }}>
-            <img src="/logo-small.png" alt="Chat" style={{ width: 22, height: 22, objectFit: "contain" }} />
+          <motion.div
+            style={{ position: "absolute", bottom: 12, right: 12, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", zIndex: 95 }}>
+            <img src="/logo-small.png" alt="Chat" style={{ width: 44, height: 44, objectFit: "contain" }} />
           </motion.div>
         )}
 
@@ -877,13 +882,13 @@ function BrowserGroupContent({ beat, phase }: { beat: number; phase: number }) {
                 boxShadow: `0 20px 50px ${TEAL}22, 0 6px 20px rgba(0,0,0,0.08)`,
               }}>
               {/* Chat header */}
-              <div style={{ background: `linear-gradient(135deg, ${TEAL}, #0284C7)`, color: "#FFF", padding: "10px 14px", display: "flex", alignItems: "center", gap: 8, fontSize: 11, fontWeight: 700, flexShrink: 0 }}>
-                <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <img src="/logo-small.png" alt="Frosty Agent" style={{ width: 14, height: 14, objectFit: "contain" }} />
+              <div style={{ background: "#DFE1E5", color: "#1E293B", padding: "10px 14px", display: "flex", alignItems: "center", gap: 8, fontSize: 11, fontWeight: 800, flexShrink: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <img src="/logo-small.png" alt="Frosty Agent" style={{ width: 25, height: 25, objectFit: "contain" }} />
                 </div>
                 <span>Frosty Agent</span>
-                <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 4, fontSize: 8, color: "#A7F3D0", fontWeight: 700 }}>
-                  <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#34D399" }} /> Online
+                <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 4, fontSize: 8, color: "#059669", fontWeight: 700 }}>
+                  <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#10B981" }} /> Online
                 </span>
               </div>
               {/* Chat body */}
@@ -1159,7 +1164,7 @@ function WhatsAppAgentBeat({ phase }: { phase: number }) {
    ═══════════════════════════════════════════════════════════════════ */
 function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number }) {
   const b3 = beat === 3;
-  const b5 = beat === 5;
+  const b5 = beat === 6;
 
   const sched = useMemo(() => getDynamicSchedule(), []);
 
@@ -1235,15 +1240,11 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
                   fontSize="clamp(32px, 4.5vw, 44px)"
                   centered={true}
                   words={[
-                    { text: "Smart" },
-                    { text: "Human" },
-                    { text: "Handoff.", breakAfter: true },
-                    { text: "Priya", highlight: true },
-                    { text: "steps", highlight: true },
-                    { text: "in", highlight: true },
-                    { text: "&", highlight: true },
-                    { text: "customizes", highlight: true },
-                    { text: "terms.", highlight: true },
+                    { text: "Chat" },
+                    // { text: "Human" },
+                    { text: "Continues", breakAfter: true },
+                    { text: "On", highlight: true },
+                    { text: "Whatsapp", highlight: true },
                   ]}
                 />
                 <div style={{ marginTop: 8 }}>
@@ -1338,9 +1339,9 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, cursor: "pointer" }}>
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
-            {/* Frosty Logo without background color */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <FrostyIcon size={20} color="#FFFFFF" glow={0} />
+            {/* Frosty Logo with white circular background */}
+            <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#DFE1E5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
+              <img src="/logo-small.png" alt="Frosty Agent" style={{ width: 24, height: 24, objectFit: "contain" }} />
             </div>
             {/* Contact Name & Status */}
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -1412,7 +1413,7 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
                 {showHumanReply && (
                   <div style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "6px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)" }}>
                     <div style={{ fontSize: 7, fontWeight: 800, color: "#0ea5e9", marginBottom: 2 }}>
-                      Priya (Sales Lead)
+                      Frosty Agent
                     </div>
                     Hi! For 50 units I can offer ₹21,500/unit — 14% off. Shall I send a formal quote?
                     <div style={{ fontSize: 6.5, color: "#667781", textAlign: "right", marginTop: 2 }}>{sched.msgTime2}</div>
@@ -1432,7 +1433,7 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
                 {showPriyaCallReply && (
                   <div style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "6px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)" }}>
                     <div style={{ fontSize: 7, fontWeight: 800, color: "#0ea5e9", marginBottom: 2 }}>
-                      Priya (Sales Lead)
+                      Frosty Agent
                     </div>
                     Let me check our VIP sales calendar for an open slot with me {sched.isTomorrow ? "tomorrow" : "today"}…
                     <div style={{ fontSize: 6.5, color: "#667781", textAlign: "right", marginTop: 2 }}>{sched.msgTime3}</div>
@@ -1446,9 +1447,9 @@ function WhatsAppConversationBeat({ beat, phase }: { beat: number; phase: number
                   <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
                     style={{ alignSelf: "flex-start", maxWidth: "86%", background: "#FFFFFF", borderRadius: "8px 8px 8px 2px", padding: "6px 8px", color: DARK, fontSize: 9, lineHeight: 1.35, boxShadow: "0 1px 1.5px rgba(11,20,26,0.12)" }}>
                     <div style={{ fontSize: 7, fontWeight: 800, color: TEAL, marginBottom: 2 }}>
-                      Priya (Sales Lead)
+                      Frosty Agent
                     </div>
-                    Your meeting has been booked for 5:30 pm....
+                    Hi! This is Priya. Your meeting has been booked for 5:30 pm...
                     <div style={{ fontSize: 6.5, color: "#667781", textAlign: "right", marginTop: 2 }}>{sched.msgTime3}</div>
                   </motion.div>
                 )}
@@ -1504,12 +1505,440 @@ function WhatsAppGroupContent({ beat, phase }: { beat: number; phase: number }) 
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   CONTENT GROUP: MERCHANT CONSOLE TAKEOVER (Beat 5)
+   Priya takes over the dashboard, toggles to Human mode,
+   and sends the meeting booking confirmation.
+   ═══════════════════════════════════════════════════════════════════ */
+function MerchantConsoleTakeoverContent({ beat, phase }: { beat: number; phase: number }) {
+  const [humanMode, setHumanMode] = useState(false);
+  const [messageSent, setMessageSent] = useState(false);
+
+  const [cursor, setCursor] = useState<{ x: number; y: number; clicking: boolean; visible: boolean }>({
+    x: 48, y: 52, clicking: false, visible: true,
+  });
+
+  const typedMessage = useTypingText("Hi! This is Priya. Your meeting has been booked for 5:30 pm...", phase === 2, 28);
+
+  useEffect(() => {
+    if (phase === 0) {
+      // Dashboard opens with Sneha Kapoor selected
+      setHumanMode(false);
+      setMessageSent(false);
+      setCursor({ x: 48, y: 52, clicking: false, visible: true });
+    } else if (phase === 1) {
+      // Cursor moves to AI/HUMAN toggle and clicks
+      setCursor({ x: 88, y: 13, clicking: false, visible: true });
+      const t1 = setTimeout(() => {
+        setCursor({ x: 88, y: 13, clicking: true, visible: true });
+      }, 550);
+      const t2 = setTimeout(() => {
+        setHumanMode(true);
+        setCursor({ x: 88, y: 13, clicking: false, visible: true });
+      }, 650);
+      return () => { clearTimeout(t1); clearTimeout(t2); };
+    } else if (phase === 2) {
+      // Cursor moves to chat input, typing starts
+      setHumanMode(true);
+      setCursor({ x: 65, y: 92, clicking: false, visible: true });
+    } else if (phase === 3) {
+      // Cursor moves to send button and clicks
+      setHumanMode(true);
+      setCursor({ x: 95.5, y: 92, clicking: false, visible: true });
+      const t1 = setTimeout(() => {
+        setCursor({ x: 95.5, y: 92, clicking: true, visible: true });
+      }, 400);
+      const t2 = setTimeout(() => {
+        setMessageSent(true);
+        setCursor({ x: 95.5, y: 92, clicking: false, visible: true });
+      }, 500);
+      return () => { clearTimeout(t1); clearTimeout(t2); };
+    }
+  }, [phase]);
+
+  const sidebarNav = [
+    { id: "overview", label: "Overview", icon: LayoutGrid },
+    { id: "web", label: "Web Agent", icon: Globe, hasChevron: true },
+    { id: "whatsapp", label: "WhatsApp Agent", icon: MessageCircle, hasChevron: true },
+    { id: "unified", label: "Unified Assistant", icon: Inbox, badge: "LIVE" },
+    { id: "email", label: "Email Agent", icon: Mail },
+    { id: "analytics", label: "Analytics", icon: BarChart3 },
+  ];
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        minHeight: 490,
+        padding: 0,
+        display: "flex",
+        flexDirection: "column",
+        background: "#F1F3F5",
+        position: "relative",
+        borderRadius: 16,
+        overflow: "hidden",
+      }}
+    >
+      {/* ── Browser Chrome ── */}
+      <div style={{ background: "#F1F3F5", borderBottom: "1px solid #E2E5E9", padding: "7px 14px 0", display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+        <div style={{ display: "flex", gap: 5, paddingBottom: 7 }}>
+          <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#FF5F56" }} />
+          <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#FFBD2E" }} />
+          <div style={{ width: 9, height: 9, borderRadius: "50%", background: "#27C93F" }} />
+        </div>
+        <div style={{ background: "#FFF", borderRadius: "10px 10px 0 0", padding: "4.5px 16px", fontSize: 9.5, fontWeight: 700, color: "#1E293B", display: "flex", alignItems: "center", gap: 6, border: "1px solid #E2E5E9", borderBottom: "1px solid #FFF", marginBottom: -1, zIndex: 1, boxShadow: "0 -1px 3px rgba(0,0,0,0.02)" }}>
+          <img src="/logo-small.png" alt="Frosty" style={{ width: 12, height: 12, objectFit: "contain" }} />
+          <span>Frosty — Merchant Console</span>
+        </div>
+      </div>
+      {/* Address bar */}
+      <div style={{ background: "#FFF", borderBottom: "1px solid #E9ECEF", padding: "6px 14px", display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+        <div style={{ display: "flex", gap: 5, opacity: 0.35 }}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2.2"><path d="M15 18l-6-6 6-6" /></svg>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2.2"><path d="M9 18l6-6-6-6" /></svg>
+        </div>
+        <div style={{ flex: 1, background: "#F4F4F6", borderRadius: 8, padding: "4px 12px", fontSize: 10, color: "#475569", display: "flex", alignItems: "center", gap: 6, border: "1px solid #E2E8F0" }}>
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+          <span style={{ fontWeight: 600, fontSize: 10 }}>app.frostyagent.com/console</span>
+        </div>
+      </div>
+
+      {/* ── Main Console Layout ── */}
+      <div
+        style={{
+          flex: 1,
+          background: "#FFFFFF",
+          display: "grid",
+          gridTemplateColumns: "135px 1fr",
+          overflow: "hidden",
+          position: "relative",
+        }}
+      >
+        {/* Local Precision-Synced Cursor */}
+        <SimCursor {...cursor} />
+
+        {/* ── Left Sidebar ── */}
+        <aside style={{ borderRight: "1px solid #F1F5F9", background: "#FFFFFF", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden" }}>
+          <div style={{ overflowY: "auto", overflowX: "hidden", padding: "8px 6px 4px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "2px 4px 8px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                <img src="/logo-small.png" alt="Frosty" style={{ width: 20, height: 20 }} />
+                <div>
+                  <div style={{ fontSize: 10.5, fontWeight: 900, color: "#0F172A", lineHeight: 1.1 }}>Frosty</div>
+                  <div style={{ fontSize: 5.8, color: "#64748B", fontWeight: 500 }}>Merchant Console</div>
+                </div>
+              </div>
+              <div style={{ width: 17, height: 17, borderRadius: "50%", background: "#F8FAFC", border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontSize: 8, color: "#475569", lineHeight: 1 }}>☰</span>
+              </div>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 1.5, marginTop: 4 }}>
+              {sidebarNav.map((item) => {
+                const IconComponent = item.icon;
+                const isAct = item.id === "unified";
+                return (
+                  <div
+                    key={item.id}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between",
+                      padding: "3.5px 6px", borderRadius: 6, fontSize: 7.2,
+                      fontWeight: isAct ? 800 : 500,
+                      color: isAct ? "#0D9488" : "#64748B",
+                      background: isAct ? "#F0FDFA" : "transparent",
+                      border: isAct ? "1px solid #CCFBF1" : "1px solid transparent",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                      <IconComponent style={{ width: 10, height: 10, color: isAct ? "#0D9488" : "#94A3B8" }} />
+                      <span>{item.label}</span>
+                    </div>
+                    {item.badge ? (
+                      <span style={{ fontSize: 5.5, fontWeight: 900, background: "#DCFCE7", color: "#16A34A", padding: "1px 3.5px", borderRadius: 3 }}>{item.badge}</span>
+                    ) : item.hasChevron ? (
+                      <ChevronRight style={{ width: 8, height: 8, color: "#CBD5E1" }} />
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Bottom: Growth Plan */}
+          <div style={{ padding: "4px 6px 6px", background: "#FFFFFF", borderTop: "1px solid #F1F5F9" }}>
+            <div style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 8, padding: "5px 6px", marginBottom: 4 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <span style={{ fontSize: 7, fontWeight: 800, color: "#0F172A" }}>Growth Plan</span>
+                <span style={{ fontSize: 7.5 }}>👑</span>
+              </div>
+              <div style={{ fontSize: 5.8, color: "#64748B", marginTop: 1 }}>76% of limit used</div>
+              <div style={{ width: "100%", height: 3, background: "#E2E8F0", borderRadius: 99, marginTop: 3, overflow: "hidden" }}>
+                <div style={{ width: "76%", height: "100%", background: "linear-gradient(90deg, #0396A6, #22D3EE)", borderRadius: 99 }} />
+              </div>
+              <div style={{ marginTop: 4, background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 5, padding: "2px 4px", fontSize: 6, fontWeight: 800, color: "#0F172A", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 2 }}>
+                <span>Upgrade Plan</span><span>➔</span>
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "2px 3px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <div style={{ width: 15, height: 15, borderRadius: "50%", background: "#F1F5F9", fontSize: 6.5, fontWeight: 800, color: "#0F172A", display: "flex", alignItems: "center", justifyContent: "center" }}>YT</div>
+                <div>
+                  <div style={{ fontSize: 7, fontWeight: 800, color: "#0F172A", lineHeight: 1 }}>Your team</div>
+                  <div style={{ fontSize: 5.5, color: "#94A3B8" }}>Super Admin</div>
+                </div>
+              </div>
+              <span style={{ fontSize: 6.5, color: "#94A3B8" }}>▾</span>
+            </div>
+          </div>
+        </aside>
+
+        {/* ── Main Workspace ── */}
+        <div style={{ display: "flex", flexDirection: "column", height: "100%", background: "#FAFAFC", overflow: "hidden", position: "relative" }}>
+          {/* Top Header */}
+          <div style={{ height: 32, minHeight: 32, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px", borderBottom: "1px solid #F1F5F9", background: "#FFFFFF", flexShrink: 0, gap: 8, boxShadow: "0 1px 2px rgba(0,0,0,0.01)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0, flexShrink: 0 }}>
+              <div style={{ width: 17, height: 17, borderRadius: 4.5, background: "linear-gradient(135deg, rgba(3,150,166,0.12), rgba(34,211,238,0.18))", border: "1px solid rgba(3,150,166,0.25)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <Inbox style={{ width: 9.5, height: 9.5, color: "#0396A6" }} />
+              </div>
+              <span style={{ fontSize: 9.5, fontWeight: 800, color: "#0F172A", whiteSpace: "nowrap", letterSpacing: "-0.01em" }}>Unified Assistant</span>
+            </div>
+            <div style={{ flex: "0 1 140px", minWidth: 80, height: 19, background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 5, padding: "0 6px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4, flexShrink: 1 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 3.5, minWidth: 0, overflow: "hidden" }}>
+                <Search style={{ width: 7.5, height: 7.5, color: "#94A3B8", flexShrink: 0 }} />
+                <span style={{ fontSize: 6.5, color: "#94A3B8", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Search anything...</span>
+              </div>
+              <kbd style={{ fontSize: 5.5, fontWeight: 700, color: "#64748B", background: "#FFFFFF", border: "1px solid #CBD5E1", borderRadius: 3, padding: "0.5px 3px", lineHeight: 1, flexShrink: 0, fontFamily: "inherit" }}>⌘K</kbd>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 4.5, flexShrink: 0 }}>
+              <div style={{ position: "relative", width: 19, height: 19, borderRadius: "50%", background: "#F8FAFC", border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <Bell style={{ width: 8.5, height: 8.5, color: "#475569" }} />
+                <span style={{ position: "absolute", top: -2, right: -2, minWidth: 8.5, height: 8.5, borderRadius: 99, background: "#EF4444", color: "#FFF", fontSize: 5, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 1.5px", border: "1px solid #FFFFFF", lineHeight: 1 }}>3</span>
+              </div>
+              <span style={{ background: "#F0FDF4", color: "#16A34A", border: "1px solid #BBF7D0", fontSize: 6.2, fontWeight: 800, padding: "1.5px 5.5px", borderRadius: 99, display: "inline-flex", alignItems: "center", gap: 3, whiteSpace: "nowrap", flexShrink: 0 }}>
+                <span style={{ width: 3.5, height: 3.5, borderRadius: "50%", background: "#22C55E", boxShadow: "0 0 3px #22C55E", display: "inline-block" }} />
+                <span>Live</span>
+              </span>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 3, background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 5, padding: "1.5px 4.5px", whiteSpace: "nowrap", flexShrink: 0 }}>
+                <div style={{ width: 11, height: 11, borderRadius: "50%", background: "#0F172A", fontSize: 5.2, fontWeight: 800, color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>YT</div>
+                <span style={{ fontSize: 6.2, fontWeight: 700, color: "#0F172A", whiteSpace: "nowrap" }}>Your team</span>
+                <span style={{ fontSize: 5, color: "#94A3B8", marginLeft: -0.5 }}>▾</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Conversations Grid */}
+          <div style={{ flex: 1, padding: "7px 10px", display: "flex", flexDirection: "column", gap: 6, overflowY: "auto" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "205px 1fr", height: "100%", background: "#FFFFFF", borderRadius: 8, border: "1px solid #E2E8F0", overflow: "hidden" }}>
+
+              {/* ── Left: CONVERSATIONS List ── */}
+              <div style={{ borderRight: "1px solid #E2E8F0", background: "#FFFFFF", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                <div style={{ padding: "7px 9px 5px", borderBottom: "1px solid #F1F5F9", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <MessageCircle style={{ width: 10, height: 10, color: "#0396A6" }} />
+                    <span style={{ fontSize: 7.8, fontWeight: 900, color: "#0F172A", letterSpacing: "0.04em" }}>CONVERSATIONS</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <RefreshCw style={{ width: 8, height: 8, color: "#64748B" }} />
+                    <span style={{ fontSize: 8, color: "#64748B", lineHeight: 1 }}>✕</span>
+                  </div>
+                </div>
+
+                <div style={{ padding: "4px 8px", display: "flex", gap: 3, background: "#F8FAFC", borderBottom: "1px solid #F1F5F9" }}>
+                  <span style={{ fontSize: 6.2, fontWeight: 800, background: "#FFFFFF", color: "#0F172A", border: "1px solid #E2E8F0", padding: "2px 6px", borderRadius: 99, boxShadow: "0 1px 2px rgba(0,0,0,0.03)" }}>All (50)</span>
+                  <span style={{ fontSize: 6.2, fontWeight: 600, color: "#64748B", padding: "2px 5px", borderRadius: 99 }}>🌐 Web (36)</span>
+                  <span style={{ fontSize: 6.2, fontWeight: 600, color: "#64748B", padding: "2px 5px", borderRadius: 99 }}>📱 WA (14)</span>
+                </div>
+
+                <div style={{ padding: "4px 8px", display: "flex", alignItems: "center", gap: 3, borderBottom: "1px solid #F1F5F9" }}>
+                  <div style={{ flex: 1, background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 99, padding: "2.5px 7px", display: "flex", alignItems: "center", gap: 4 }}>
+                    <Search style={{ width: 7.5, height: 7.5, color: "#94A3B8" }} />
+                    <span style={{ fontSize: 6.2, color: "#94A3B8" }}>Search name, message, ID...</span>
+                  </div>
+                  <div style={{ width: 17, height: 17, borderRadius: 5, border: "1px solid #E2E8F0", background: "#F8FAFC", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Filter style={{ width: 8, height: 8, color: "#64748B" }} />
+                  </div>
+                </div>
+
+                <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column" }}>
+                  {/* Sneha Kapoor (Selected) */}
+                  <div style={{ padding: "5px 8px", background: "#F0FDFA", borderLeft: "3px solid #0396A6", borderBottom: "1px solid #CCFBF1", display: "flex", gap: 5, alignItems: "flex-start" }}>
+                    <div style={{ position: "relative", flexShrink: 0, marginTop: 1 }}>
+                      <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#CCFBF1", color: "#0F766E", fontSize: 6.8, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center" }}>SK</div>
+                      <span style={{ position: "absolute", bottom: -1, right: -1, width: 4.5, height: 4.5, borderRadius: "50%", background: "#0396A6", border: "1px solid #FFF" }} />
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <span style={{ fontSize: 7.2, fontWeight: 900, color: "#0F172A" }}>Sneha Kapoor</span>
+                        <span style={{ fontSize: 5.5, color: "#64748B", fontWeight: 600 }}>NOW</span>
+                      </div>
+                      <div style={{ fontSize: 6.2, color: "#475569", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Let me check our VIP sales calendar...</div>
+                      <div style={{ marginTop: 2 }}>
+                        <span style={{ fontSize: 5.5, fontWeight: 800, background: "#CCFBF1", color: "#0F766E", padding: "1px 4px", borderRadius: 3 }}>📱 WA AGENT</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* #WEB-132762 */}
+                  <div style={{ padding: "5px 8px", borderBottom: "1px solid #F1F5F9", display: "flex", gap: 5, alignItems: "flex-start", opacity: 0.85 }}>
+                    <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#E0F2FE", color: "#0284C7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                      <UserIcon style={{ width: 9, height: 9 }} />
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <span style={{ fontSize: 7, fontWeight: 800, color: "#0F172A" }}>#WEB-132762</span>
+                        <span style={{ fontSize: 5.5, color: "#94A3B8" }}>5 HOURS AGO</span>
+                      </div>
+                      <div style={{ fontSize: 6.2, color: "#64748B", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>hi</div>
+                      <div style={{ marginTop: 2 }}>
+                        <span style={{ fontSize: 5.5, fontWeight: 800, background: "#F0FDFA", color: "#0D9488", border: "1px solid #CCFBF1", padding: "1px 4px", borderRadius: 3 }}>🌐 WEB AGENT</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Dr. Meenakshi Sundaram */}
+                  <div style={{ padding: "5px 8px", borderBottom: "1px solid #F1F5F9", display: "flex", gap: 5, alignItems: "flex-start", opacity: 0.85 }}>
+                    <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#DCFCE7", color: "#16A34A", fontSize: 6.8, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>DS</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <span style={{ fontSize: 7, fontWeight: 800, color: "#0F172A" }}>Dr. Meenakshi Sundaram</span>
+                        <span style={{ fontSize: 5.5, color: "#94A3B8" }}>YESTERDAY</span>
+                      </div>
+                      <div style={{ fontSize: 6.2, color: "#64748B", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>We support full data isolation,...</div>
+                      <div style={{ marginTop: 2 }}>
+                        <span style={{ fontSize: 5.5, fontWeight: 800, background: "#F0FDF4", color: "#16A34A", border: "1px solid #BBF7D0", padding: "1px 4px", borderRadius: 3 }}>📱 WA AGENT</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ── Right: Active Conversation Feed (Sneha Kapoor - WhatsApp messages from Beats 2-3) ── */}
+              <div style={{ background: "#FAF8F5", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                {/* Chat Header */}
+                <div style={{ padding: "6px 12px", background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ position: "relative" }}>
+                      <div style={{ width: 22, height: 22, borderRadius: "50%", background: "#CCFBF1", color: "#0F766E", fontSize: 7.8, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center" }}>SK</div>
+                      <span style={{ position: "absolute", bottom: -1, right: -1, width: 5, height: 5, borderRadius: "50%", background: "#0396A6", border: "1px solid #FFF" }} />
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                      <span style={{ fontSize: 8.8, fontWeight: 900, color: "#0F172A" }}>Sneha Kapoor</span>
+                      <span style={{ fontSize: 5.8, fontWeight: 700, background: "#FEF3C7", color: "#92400E", border: "1px solid #FCD34D", padding: "1px 4px", borderRadius: 3 }}>ACTIVE</span>
+                    </div>
+                  </div>
+
+                  {/* AI / HUMAN Toggle */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                      <span style={{ fontSize: 6.2, fontWeight: 800, color: humanMode ? "#64748B" : "#0D9488" }}>AI</span>
+                      <div style={{ width: 26, height: 14, borderRadius: 99, background: humanMode ? "#F59E0B" : "#0396A6", padding: 1.5, display: "flex", alignItems: "center", cursor: "pointer", transition: "background 0.25s ease" }}>
+                        <motion.div
+                          animate={{ x: humanMode ? 12 : 0 }}
+                          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                          style={{ width: 11, height: 11, borderRadius: "50%", background: "#FFFFFF", boxShadow: "0 1px 3px rgba(0,0,0,0.2)" }}
+                        />
+                      </div>
+                      <span style={{ fontSize: 6.2, fontWeight: 800, color: humanMode ? "#B45309" : "#64748B" }}>HUMAN</span>
+                    </div>
+                    <div style={{ width: 17, height: 17, borderRadius: "50%", background: "#F8FAFC", border: "1px solid #E2E8F0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <UserIcon style={{ width: 9, height: 9, color: "#64748B" }} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Messages Feed — WhatsApp conversation from Beats 2-3 */}
+                <div style={{ flex: 1, padding: "10px 14px", display: "flex", flexDirection: "column", gap: 8, overflowY: "auto" }}>
+                  {/* 1. Customer: Bulk order request */}
+                  <div style={{ alignSelf: "flex-start", maxWidth: "80%", background: "#FFFFFF", border: "1px solid #E2E8F0", padding: "6px 9px", borderRadius: "10px 10px 10px 2px", boxShadow: "0 1px 3px rgba(0,0,0,0.02)" }}>
+                    <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A", marginBottom: 2 }}>Sneha Kapoor</div>
+                    <div style={{ fontSize: 7.2, color: "#1E293B", lineHeight: 1.4 }}>I want to negotiate a bulk order — 50 units. Can someone help with custom pricing?</div>
+                    <div style={{ textAlign: "right", fontSize: 5.5, color: "#94A3B8", marginTop: 3 }}>11:42 AM</div>
+                  </div>
+
+                  {/* 2. Priya: 14% offer */}
+                  <div style={{ alignSelf: "flex-end", maxWidth: "82%", background: "#FFFFFF", border: "1px solid #E2E8F0", padding: "6px 9px", borderRadius: "10px 10px 2px 10px", boxShadow: "0 1px 3px rgba(0,0,0,0.02)" }}>
+                    <div style={{ fontSize: 6.8, fontWeight: 900, color: "#0ea5e9", marginBottom: 2 }}>Priya (Sales Lead)</div>
+                    <div style={{ fontSize: 7.2, color: "#1E293B", lineHeight: 1.4 }}>Hi! For 50 units I can offer ₹21,500/unit — 14% off. Shall I send a formal quote?</div>
+                    <div style={{ textAlign: "right", fontSize: 5.5, color: "#0396A6", marginTop: 3, fontWeight: 600 }}>11:42 AM <span style={{ color: "#0284C7" }}>✓✓</span></div>
+                  </div>
+
+                  {/* 3. Customer: 20% counter */}
+                  <div style={{ alignSelf: "flex-start", maxWidth: "80%", background: "#FFFFFF", border: "1px solid #E2E8F0", padding: "6px 9px", borderRadius: "10px 10px 10px 2px", boxShadow: "0 1px 3px rgba(0,0,0,0.02)" }}>
+                    <div style={{ fontSize: 6.8, fontWeight: 800, color: "#0F172A", marginBottom: 2 }}>Sneha Kapoor</div>
+                    <div style={{ fontSize: 7.2, color: "#1E293B", lineHeight: 1.4 }}>We&apos;re looking for 20% off (₹20,000/unit) for immediate procurement. Can we schedule a quick call today to finalize?</div>
+                    <div style={{ textAlign: "right", fontSize: 5.5, color: "#94A3B8", marginTop: 3 }}>11:43 AM</div>
+                  </div>
+
+                  {/* 4. Priya: VIP calendar */}
+                  <div style={{ alignSelf: "flex-end", maxWidth: "82%", background: "#FFFFFF", border: "1px solid #E2E8F0", padding: "6px 9px", borderRadius: "10px 10px 2px 10px", boxShadow: "0 1px 3px rgba(0,0,0,0.02)" }}>
+                    <div style={{ fontSize: 6.8, fontWeight: 900, color: "#0ea5e9", marginBottom: 2 }}>Priya (Sales Lead)</div>
+                    <div style={{ fontSize: 7.2, color: "#1E293B", lineHeight: 1.4 }}>Let me check our VIP sales calendar for an open slot with me today…</div>
+                    <div style={{ textAlign: "right", fontSize: 5.5, color: "#0396A6", marginTop: 3, fontWeight: 600 }}>11:43 AM <span style={{ color: "#0284C7" }}>✓✓</span></div>
+                  </div>
+
+                  {/* 5. Priya: Meeting booked (appears after send) */}
+                  {messageSent && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.94, y: 5 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      style={{
+                        alignSelf: "flex-end",
+                        maxWidth: "85%",
+                        background: "#FEF3C7",
+                        color: "#78350F",
+                        border: "1px solid #FCD34D",
+                        padding: "6px 9px",
+                        borderRadius: "10px 10px 2px 10px",
+                        boxShadow: "0 2px 6px rgba(245,158,11,0.1)",
+                      }}
+                    >
+                      <div style={{ fontSize: 6.2, fontWeight: 900, color: "#B45309", marginBottom: 1, display: "flex", alignItems: "center", gap: 3 }}>
+                        <span>👨‍💼</span>
+                        <span>Priya S. (Human Takeover)</span>
+                      </div>
+                      <div style={{ fontSize: 7.2, lineHeight: 1.4 }}>Hi! This is Priya. Your meeting has been booked for 5:30 pm...</div>
+                      <div style={{ textAlign: "right", fontSize: 5.5, color: "#B45309", marginTop: 2 }}>Just now ✓✓</div>
+                    </motion.div>
+                  )}
+                </div>
+
+                {/* Input Footer */}
+                <div style={{ padding: "5px 12px 7px", background: "#FFFFFF", borderTop: "1px solid #F1F5F9" }}>
+                  <div style={{ fontSize: 5.8, color: humanMode ? "#B45309" : "#0D9488", fontWeight: 700, marginBottom: 4, display: "flex", alignItems: "center", gap: 3 }}>
+                    <span style={{ width: 4, height: 4, borderRadius: "50%", background: humanMode ? "#F59E0B" : "#0D9488" }} />
+                    <span>{humanMode ? "Human Co-Pilot active — toggle off to return to AI" : "AI auto-reply is active — toggle off to type"}</span>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                    <div style={{ flex: 1, background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 99, padding: "4px 10px", fontSize: 6.8, color: humanMode ? "#0F172A" : "#94A3B8", minHeight: 14 }}>
+                      {humanMode ? (typedMessage || <span style={{ color: "#94A3B8" }}>Type reply as merchant...</span>) : "Turn off AI auto-reply to type..."}
+                      {humanMode && <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity }} style={{ borderRight: "1.5px solid #0396A6", marginLeft: 1 }} />}
+                    </div>
+                    <div style={{ width: 22, height: 22, borderRadius: "50%", background: humanMode ? "#0396A6" : "#2DD4BF", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", boxShadow: "0 2px 5px rgba(3,150,166,0.3)", flexShrink: 0 }}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    CONTENT GROUP: MEETING & CALENDAR (Beats 4 & 6)
    Left Side: Calendar & Slot Matching Engine
    Right Side: Kinetic Storytelling Typography
    ═══════════════════════════════════════════════════════════════════ */
 function MeetingGroupContent({ beat, phase }: { beat: number; phase: number }) {
-  const b6 = beat === 6;
+  const b6 = beat === 7;
   const sched = useMemo(() => getDynamicSchedule(), []);
 
   const showEvents = b6;
@@ -1555,28 +1984,28 @@ function MeetingGroupContent({ beat, phase }: { beat: number; phase: number }) {
               key="text-meeting-locked"
               style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, maxWidth: 500 }}
             >
-                <>
-                  <KineticWordHeadline
-                    delay={0.15}
-                    fontSize="clamp(32px, 4.5vw, 44px)"
-                    centered={true}
-                    words={[
-                      { text: "Lead" },
-                      { text: "Conversion.", breakAfter: true },
-                      { text: "From", highlight: true },
-                      { text: "WhatsApp", highlight: true },
-                      { text: "to", highlight: true },
-                      { text: "calendar", highlight: true },
-                      { text: "invite.", highlight: true },
-                    ]}
+              <>
+                <KineticWordHeadline
+                  delay={0.15}
+                  fontSize="clamp(32px, 4.5vw, 44px)"
+                  centered={true}
+                  words={[
+                    { text: "Lead" },
+                    { text: "Conversion.", breakAfter: true },
+                    { text: "From", highlight: true },
+                    { text: "WhatsApp", highlight: true },
+                    { text: "to", highlight: true },
+                    { text: "calendar", highlight: true },
+                    { text: "invite.", highlight: true },
+                  ]}
+                />
+                <div style={{ marginTop: 8 }}>
+                  <KineticDescription
+                    delay={0.32}
+                    text="Meeting locked in 10 seconds. Automated Google Meet links generated, calendar invites dispatched, and CRM pipeline updated."
                   />
-                  <div style={{ marginTop: 8 }}>
-                    <KineticDescription
-                      delay={0.32}
-                      text="Meeting locked in 10 seconds. Automated Google Meet links generated, calendar invites dispatched, and CRM pipeline updated."
-                    />
-                  </div>
-                </>
+                </div>
+              </>
             </motion.div>
           </motion.div>
         )}
@@ -2472,28 +2901,28 @@ function SharedBrainKnowledgeContent({ beat, phase }: { beat: number; phase: num
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   CONTENT GROUP: DASHBOARD (Beats 9–10)
+   CONTENT GROUP: DASHBOARD (Beats 10–11)
    CRM dashboard → Analytics dashboard
    ═══════════════════════════════════════════════════════════════════ */
 function DashboardGroupContent({ beat, phase }: { beat: number; phase: number }) {
   return (
     <div style={{ height: "100%", position: "relative" }}>
-      {/* Beat 9: Merchant Live Console */}
-      <motion.div
-        animate={{ opacity: beat === 9 ? 1 : 0 }}
-        transition={{ duration: 0.35 }}
-        style={{ position: "absolute", inset: 0, pointerEvents: beat === 9 ? "auto" : "none" }}
-      >
-        <CRMDashboardBeat phase={beat === 9 ? phase : -1} />
-      </motion.div>
-
-      {/* Beat 10: Analytics Dashboard */}
+      {/* Beat 10: Merchant Live Console */}
       <motion.div
         animate={{ opacity: beat === 10 ? 1 : 0 }}
         transition={{ duration: 0.35 }}
         style={{ position: "absolute", inset: 0, pointerEvents: beat === 10 ? "auto" : "none" }}
       >
-        <AnalyticsDashboardBeat phase={beat === 10 ? phase : -1} />
+        <CRMDashboardBeat phase={beat === 10 ? phase : -1} />
+      </motion.div>
+
+      {/* Beat 11: Analytics Dashboard */}
+      <motion.div
+        animate={{ opacity: beat === 11 ? 1 : 0 }}
+        transition={{ duration: 0.35 }}
+        style={{ position: "absolute", inset: 0, pointerEvents: beat === 11 ? "auto" : "none" }}
+      >
+        <AnalyticsDashboardBeat phase={beat === 11 ? phase : -1} />
       </motion.div>
     </div>
   );
@@ -2639,7 +3068,7 @@ function CRMDashboardBeat({ phase }: { phase: number }) {
     { id: "overview", label: "Overview", icon: LayoutGrid },
     { id: "web", label: "Web Agent", icon: Globe, hasChevron: true },
     { id: "whatsapp", label: "WhatsApp Agent", icon: MessageCircle, hasChevron: true },
-    { id: "unified", label: "Unified Assistant", icon: Sparkles, badge: "LIVE" },
+    { id: "unified", label: "Unified Assistant", icon: Inbox, badge: "LIVE" },
     { id: "email", label: "Email Agent", icon: Mail },
     { id: "analytics", label: "Analytics", icon: BarChart3 },
     { id: "kb", label: "Knowledge Base", icon: BookOpen },
@@ -2848,7 +3277,7 @@ function CRMDashboardBeat({ phase }: { phase: number }) {
                       flexShrink: 0,
                     }}
                   >
-                    <Sparkles style={{ width: 9.5, height: 9.5, color: "#0396A6" }} />
+                    <Inbox style={{ width: 9.5, height: 9.5, color: "#0396A6" }} />
                   </div>
                   <span
                     style={{
@@ -3482,9 +3911,6 @@ function CRMDashboardBeat({ phase }: { phase: number }) {
                 {/* Analytics Header & Quick Controls */}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: 4, borderBottom: "1px solid #E2E8F0", flexShrink: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                    <div style={{ width: 18, height: 18, borderRadius: 5, background: "linear-gradient(135deg, rgba(3,150,166,0.15), rgba(34,211,238,0.2))", border: "1px solid rgba(3,150,166,0.25)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <img src="/logo-small.png" alt="Frosty" style={{ width: 10, height: 10, objectFit: "contain" }} />
-                    </div>
                     <div>
                       <div style={{ fontSize: 9.5, fontWeight: 800, color: "#0F172A", lineHeight: 1.1 }}>Performance &amp; Traffic Overview</div>
                       <div style={{ fontSize: 6, color: "#64748B", fontWeight: 500 }}>Updated 10:04 AM · cached ≤5m</div>
@@ -5444,7 +5870,7 @@ function AnalyticsDashboardBeat({ phase }: { phase: number }) {
     { id: "overview", label: "Overview", icon: LayoutGrid },
     { id: "web", label: "Web Agent", icon: Globe, hasChevron: true },
     { id: "whatsapp", label: "WhatsApp Agent", icon: MessageCircle, hasChevron: true },
-    { id: "unified", label: "Unified Assistant", icon: Sparkles, badge: "LIVE" },
+    { id: "unified", label: "Unified Assistant", icon: Inbox, badge: "LIVE" },
     { id: "email", label: "Email Agent", icon: Mail },
     { id: "analytics", label: "Analytics", icon: BarChart3 },
     { id: "kb", label: "Knowledge Base", icon: BookOpen },
@@ -6414,19 +6840,21 @@ export default function LiveProductTour() {
   const contentKey =
     beat <= 1
       ? "browser"
-      : beat === 2 || beat === 3 || beat === 5
+      : beat === 2 || beat === 3 || beat === 6
         ? "whatsapp"
         : beat === 4
           ? "splash"
-          : beat === 6
-            ? "meeting"
+          : beat === 5
+            ? "merchantConsole"
             : beat === 7
-              ? "transition"
+              ? "meeting"
               : beat === 8
-                ? "knowledge"
-                : beat <= 10
-                  ? "dashboard"
-                  : "closing";
+                ? "transition"
+                : beat === 9
+                  ? "knowledge"
+                  : beat <= 11
+                    ? "dashboard"
+                    : "closing";
   const cursor = reducedMotion ? { x: 50, y: 50, clicking: false, visible: false } : getCursorState(beat, phase);
 
   /* Transition config */
@@ -6474,6 +6902,7 @@ export default function LiveProductTour() {
             {contentKey === "browser" && <BrowserGroupContent beat={beat} phase={phase} />}
             {contentKey === "whatsapp" && <WhatsAppGroupContent beat={beat} phase={phase} />}
             {contentKey === "splash" && <SplashGroupContent />}
+            {contentKey === "merchantConsole" && <MerchantConsoleTakeoverContent beat={beat} phase={phase} />}
             {contentKey === "meeting" && <MeetingGroupContent beat={beat} phase={phase} />}
             {contentKey === "transition" && <MerchantChaosTransitionContent beat={beat} phase={phase} />}
             {contentKey === "knowledge" && <SharedBrainKnowledgeContent beat={beat} phase={phase} />}
